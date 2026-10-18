@@ -2290,6 +2290,11 @@ function triggerEmergencyShortcut(emergencyType) {
   }, 100);
 }
 
+function goToHome() {
+  switchMasterTab('tab-home');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function switchMasterTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
@@ -2299,6 +2304,8 @@ function switchMasterTab(tabId) {
 
   if (activeBtn) activeBtn.classList.add('active');
   if (activePanel) activePanel.classList.add('active');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // Trigger relevant updates
   if (tabId === 'tab-home') {
@@ -2369,8 +2376,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=1.5.0').then((reg) => {
-      console.log('Tosun Paşa SW v1.5.0 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=1.5.1').then((reg) => {
+      console.log('Tosun Paşa SW v1.5.1 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {

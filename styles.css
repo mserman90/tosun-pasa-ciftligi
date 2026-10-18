@@ -79,6 +79,24 @@ html, body {
   display: flex;
   align-items: center;
   gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  padding: 4px 6px;
+  border-radius: 4px;
+}
+
+.header-brand:hover {
+  opacity: 0.92;
+}
+
+.header-brand:active {
+  transform: scale(0.98);
+}
+
+.header-brand:focus-visible {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
 }
 
 .header-avatar {

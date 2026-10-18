@@ -19,13 +19,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1.5.0">
+  <link rel="stylesheet" href="styles.css?v=1.5.1">
 </head>
 <body>
 
   <!-- App Header -->
   <header class="app-header">
-    <div class="header-brand">
+    <div class="header-brand" onclick="goToHome()" role="button" tabindex="0" title="Ana Sayfa (Giriş Paneli)" onkeydown="if(event.key==='Enter'||event.key===' ') goToHome()">
       <div class="header-avatar">
         <img src="noto-ox.svg" alt="Tosun Paşa Logosu" width="38" height="38">
       </div>
@@ -1338,7 +1338,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=1.5.0"></script>
+  <script src="app.js?v=1.5.1"></script>
 
   <script>
     // Initialize default dates in modals
