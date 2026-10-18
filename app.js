@@ -539,72 +539,6 @@ function runCobanDoctorDiagnosis() {
   resultsContainer.innerHTML = html;
 }
 
-// Rektal Derece Kontrol Motoru
-function checkAnimalTemperature() {
-  const species = document.getElementById('temp-species').value;
-  const tempVal = parseFloat(document.getElementById('temp-input').value);
-  const resultBox = document.getElementById('temp-result');
-
-  if (isNaN(tempVal) || tempVal < 32 || tempVal > 45) {
-    resultBox.innerHTML = `
-      <div class="alert alert-warning">
-        ⚠️ Lütfen 34.0°C ile 44.0°C arasında geçerli bir rektal derece giriniz.
-      </div>
-    `;
-    return;
-  }
-
-  let status = "";
-  let color = "";
-  let message = "";
-
-  // Referans aralıkları
-  let refMin = 38.0;
-  let refMax = 39.0;
-  if (species === 'buzagi' || species === 'koyun') {
-    refMin = 38.5;
-    refMax = 39.5;
-  } else if (species === 'kuzu') {
-    refMin = 39.0;
-    refMax = 40.0;
-  }
-
-  if (tempVal < 37.5) {
-    status = "HİPOTERMİ (Düşük Derece / Şok)";
-    color = "var(--danger)";
-    message = "Vücut sıcaklığı hayati sınırın altında! Hipokalsemi (Doğum Felci), ileri dehidrasyon, septik şok veya donma belirtisi. Hayvanı hemen ısıtın ve ılık serum başlatın.";
-  } else if (tempVal < refMin) {
-    status = "SUB-NORMAL (Hafif Düşük)";
-    color = "var(--warning)";
-    message = "Fizyolojik aralığın biraz altında. Sindirim durgunluğu, yatma veya metabolik düşüş olabilir. Yakın takip gerekir.";
-  } else if (tempVal <= refMax) {
-    status = "NORMAL (Fizyolojik Sağlıklı)";
-    color = "var(--primary-light)";
-    message = `Vücut ısısı bu hayvan türü için ideal sağlıklı aralıktadır (${refMin}°C - ${refMax}°C).`;
-  } else if (tempVal <= refMax + 1.0) {
-    status = "SUBFEBRİL (Hafif Ateş)";
-    color = "var(--warning)";
-    message = "Hafif ateş yükselmesi. Erken solunum yolu veya meme enfeksiyonu başlangıcı olabilir. 4 saat sonra tekrar ölçün.";
-  } else if (tempVal <= refMax + 2.0) {
-    status = "YÜKSEK ATEŞ (Yangı / Enfeksiyon)";
-    color = "var(--danger)";
-    message = "Akut bakteriyel veya viral enfeksiyon (Bronkopnömoni, Şap, Toksik Mastitis). Ateş düşürücü ve veteriner kontrolünde antibiyotik tedavisi gerekir.";
-  } else {
-    status = "KRİTİK HİPERTERMİ (Hayati Tehlike)";
-    color = "var(--danger)";
-    message = "41°C+ Derece beyin hasarı ve ölüm tehlikesi taşır! Sıcak çarpması veya toksik şok. Başına ve vücuduna hemen soğuk su dökün, gölgeye çekin!";
-  }
-
-  resultBox.innerHTML = `
-    <div class="metric-box" style="border-left: 6px solid ${color};">
-      <div style="font-size: 1.1rem; font-weight: 800; color: ${color};">${status}</div>
-      <div class="metric-val num" style="margin: 8px 0;">${tempVal.toFixed(1)} °C</div>
-      <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 6px;">Bu tür için normal aralık: ${refMin.toFixed(1)}°C - ${refMax.toFixed(1)}°C</div>
-      <p style="font-size: 0.88rem; color: var(--text);">${message}</p>
-    </div>
-  `;
-}
-
 // Canlı İKAS Arınma Süresi Geri Sayım Motoru
 let ikasInterval = null;
 
@@ -2435,8 +2369,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=1.3.0').then((reg) => {
-      console.log('Tosun Paşa SW v1.3.0 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=1.4.0').then((reg) => {
+      console.log('Tosun Paşa SW v1.4.0 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {

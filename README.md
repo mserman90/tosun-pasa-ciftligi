@@ -22,7 +22,6 @@ Tosun Paşa Çiftliği; yaylada, merada, dağda veya bodrum ahırında hücresel
 
 ### 1. 🩺 Sağlık Rehberi (Saha Ön Teşhis & Triyaj)
 - **Saha Karar Ağacı Motoru:** Sığır, buzağı, koyun ve kuzu için sindirim, solunum, meme ve sinirsel/ayak semptomlarını ağırlıklı puanlama algoritmasıyla analiz ederek en olası 3 ön teşhisi yüzdesel olasılıkla listeler.
-- **Hızlı Ateş / Rektal Derece Kontrolü:** Tür bazında (sığır 38.0–39.0°C, buzağı 38.5–39.5°C, koyun 38.5–39.5°C, kuzu 39.0–40.0°C) vücut ısısını analiz eder.
 - **Canlı İKAS Süt & Et Arınma Süresi Kilidi:** Saniye saniye geri sayan kilit sayacı ile yasal arınma süresi dolana kadar süt tankı ve kesim yasağını kırmızı güvenlik banner'ıyla engeller.
 - **Sıvı & Kolostrum Hesaplayıcı:** Dehidrasyon yüzdesi (%5-%12) ve yaşama payı (50-80 ml/kg) ile 24 saatlik damla hızı hesabı; Brix refraktometre kalite skalası.
 - **Acil Altın Protokoller:** Akut Timpani (trokar/sonda), Rumen Asidozu (bikarbonat), Çelerme ve Hipokalsemi (yavaş damar içi kalsiyum).

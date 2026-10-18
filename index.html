@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1.3.0">
+  <link rel="stylesheet" href="styles.css?v=1.4.0">
 </head>
 <body>
 
@@ -257,7 +257,7 @@
             </p>
             <ul class="hero-module-features">
               <li>✅ Soru-cevaplı karar ağacı & olasılık skoru</li>
-              <li>✅ Rektal derece analizi (sığır/koyun/kuzu)</li>
+              <li>✅ Acil ilk yardım altın protokolleri</li>
               <li>✅ Canlı İKAS süt & et arınma süresi kilidi</li>
               <li>✅ Sıvı sağaltımı & Brix kolostrum testi</li>
             </ul>
@@ -354,7 +354,6 @@
       <!-- Sub-Nav -->
       <div class="sub-nav">
         <button type="button" class="sub-nav-btn active" data-section="sub-doc-diag" onclick="switchSubNav('tab-doctor', 'sub-doc-diag')">🎯 Saha Ön Teşhisi</button>
-        <button type="button" class="sub-nav-btn" data-section="sub-doc-temp" onclick="switchSubNav('tab-doctor', 'sub-doc-temp')">🌡️ Ateş / Derece</button>
         <button type="button" class="sub-nav-btn" data-section="sub-doc-ikas" onclick="switchSubNav('tab-doctor', 'sub-doc-ikas')">⏱️ Canlı İKAS Kilidi</button>
         <button type="button" class="sub-nav-btn" data-section="sub-doc-fluid" onclick="switchSubNav('tab-doctor', 'sub-doc-fluid')">💧 Sıvı & Kolostrum</button>
         <button type="button" class="sub-nav-btn" data-section="sub-doc-firstaid" onclick="switchSubNav('tab-doctor', 'sub-doc-firstaid')">🚨 Acil Protokoller</button>
@@ -466,40 +465,7 @@
         </div>
       </div>
 
-      <!-- 2. Rektal Derece Kontrolü Section -->
-      <div id="sub-doc-temp" class="sub-section" style="display:none;">
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">🌡️ Hızlı Ateş & Rektal Derece Analizörü</span>
-            <span class="badge badge-info">Fizyolojik Aralık Skalası</span>
-          </div>
-          <p class="card-desc">Dijital derece ile rektumdan ölçülen vücut sıcaklığını girerek hayvanın fizyolojik ve yangısal durumunu anında değerlendiriniz.</p>
-
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="temp-species">Hayvan Kategorisi:</label>
-              <select id="temp-species">
-                <option value="sigir">Yetişkin Sığır (Normal: 38.0°C – 39.0°C)</option>
-                <option value="buzagi">Buzağı (Normal: 38.5°C – 39.5°C)</option>
-                <option value="koyun">Koyun / Koç (Normal: 38.5°C – 39.5°C)</option>
-                <option value="kuzu">Kuzu (Normal: 39.0°C – 40.0°C)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="temp-input">Ölçülen Rektal Derece (°C):</label>
-              <input type="number" id="temp-input" step="0.1" value="38.6" placeholder="Örn: 38.8" class="tabular-nums">
-            </div>
-          </div>
-
-          <button type="button" class="btn btn-primary" onclick="checkAnimalTemperature()">
-            📊 Dereceyi Değerlendir
-          </button>
-
-          <div id="temp-result" style="margin-top: 16px;"></div>
-        </div>
-      </div>
-
-      <!-- 3. Canlı İKAS Kilidi Section -->
+      <!-- 2. Canlı İKAS Kilidi Section -->
       <div id="sub-doc-ikas" class="sub-section" style="display:none;">
         <div class="card">
           <div class="card-header">
@@ -1372,7 +1338,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=1.3.0"></script>
+  <script src="app.js?v=1.4.0"></script>
 
   <script>
     // Initialize default dates in modals

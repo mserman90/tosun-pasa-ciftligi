@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 1.3.0 - Network-First for HTML, Stale-While-Revalidate for Assets
-const CACHE_NAME = 'tosun-pasa-v1.3.0';
+// Sürüm 1.4.0 - Network-First for HTML, Stale-While-Revalidate for Assets
+const CACHE_NAME = 'tosun-pasa-v1.4.0';
 
 const ASSETS_TO_CACHE = [
   './',
