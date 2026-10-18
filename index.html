@@ -59,7 +59,10 @@
   <!-- Master Navigation Tabs -->
   <nav class="master-tabs-container">
     <div class="master-tabs">
-      <button type="button" class="tab-btn active" data-tab="tab-doctor" onclick="switchMasterTab('tab-doctor')">
+      <button type="button" class="tab-btn active" data-tab="tab-home" onclick="switchMasterTab('tab-home')">
+        🏠 Giriş & Panel
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-doctor" onclick="switchMasterTab('tab-doctor')">
         🩺 Çoban Doktor
       </button>
       <button type="button" class="tab-btn" data-tab="tab-ration" onclick="switchMasterTab('tab-ration')">
@@ -78,9 +81,201 @@
   <main class="main-content">
 
     <!-- =======================================================================
+         HERO GİRİŞ EKRANI & MERKEZİ ÇİFTLİK PANELİ (TAB-HOME)
+         ======================================================================= -->
+    <section id="tab-home" class="tab-panel active">
+      
+      <!-- Big Hero Banner -->
+      <div class="hero-banner">
+        <div class="hero-header-flex">
+          <div class="hero-avatar-large">
+            <img src="noto-ox.svg" alt="Tosun Paşa Logosu" width="68" height="68">
+          </div>
+          <div class="hero-title-group">
+            <h2>Tosun Paşa Çiftliği</h2>
+            <p>Bütünleşik Çiftlik & Hayvancılık Yönetim Sistemi • Saha Karar Destek Portalı</p>
+          </div>
+        </div>
+
+        <!-- Badges -->
+        <div class="hero-badges-row">
+          <span class="hero-badge-pill">📶 %100 Çevrimdışı Çalışır (Offline-First)</span>
+          <span class="hero-badge-pill">🔒 Sıfır Harici Sunucu (Yerel Güvenli Hafıza)</span>
+          <span class="hero-badge-pill">🔬 NASEM & NRC 2021 Bilimsel Standartları</span>
+          <span class="hero-badge-pill">⚡ Sahada Acil Veteriner Triyajı</span>
+          <span class="hero-badge-pill">📱 Mobil PWA Kurulabilir</span>
+        </div>
+
+        <p style="font-size: 0.92rem; line-height: 1.6; margin-bottom: 20px; max-width: 860px; color: rgba(255, 255, 255, 0.95);">
+          Yaylada, dağda, merada veya bodrum ahırında internet bağlantısına ihtiyaç duymadan; veteriner hekimlik ve zootekni bilimiyle sürünüzü yönetin. Rasyon maliyetini düşürün, döl verimini maksimize edin ve acil durumlarda doğru müdahaleyi anında yapın.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="hero-actions-row">
+          <button type="button" class="btn btn-primary" style="background:var(--primary-light); color:#064e3b; font-weight:800;" onclick="jumpToDoctor('sub-doc-diag')">
+            🩺 Çoban Doktor ile Başla
+          </button>
+          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.4); color:#ffffff;" onclick="jumpToRation('sub-ration-optimizer')">
+            🌾 Rasyon Hesapla (LP Simplex)
+          </button>
+          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.4); color:#ffffff;" onclick="jumpToRepro('sub-repro-ledger')">
+            🍼 Döl Takvimi
+          </button>
+          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.15); border-color:rgba(255,255,255,0.4); color:#ffffff;" onclick="openModal('modal-data-center')">
+            💾 Veri Merkezi
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Emergency Bar -->
+      <div class="hero-emergency-bar">
+        <div class="emergency-bar-header">
+          🚨 Acil Saha İlk Yardım Kısayolları (Hızlı Triyaj)
+        </div>
+        <div class="emergency-shortcuts">
+          <button type="button" class="btn-emergency-shortcut" onclick="triggerEmergencyShortcut('timpani')">
+            ⚡ İnek Şişti (Akut Timpani)
+          </button>
+          <button type="button" class="btn-emergency-shortcut" onclick="triggerEmergencyShortcut('asidoz')">
+            ⚠️ Yem Çarpması (Rumen Asidozu)
+          </button>
+          <button type="button" class="btn-emergency-shortcut" onclick="triggerEmergencyShortcut('hipokalsemi')">
+            💉 Yattı Kalkmıyor (Doğum Felci)
+          </button>
+          <button type="button" class="btn-emergency-shortcut" onclick="triggerEmergencyShortcut('mastitis')">
+            🩸 Akut Meme İltihabı (Mastitis)
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" style="margin-left:auto;" onclick="jumpToDoctor('sub-doc-firstaid')">
+            Tüm Acil Protokoller ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Farm Status Summary -->
+      <div class="card-header" style="border-bottom:none; margin-bottom:8px; padding-bottom:0;">
+        <span class="card-title">📊 Çiftlik Genel Durum & Canlı İstatistikler</span>
+        <span style="font-size:0.8rem; color:var(--text-muted);">Cihaz Hafızasından Canlı</span>
+      </div>
+      <div id="hero-stats-container" class="farm-stats-grid">
+        <!-- Loaded dynamically by updateHeroDashboardStats() -->
+      </div>
+
+      <!-- 4 Master Modules Launch Cards -->
+      <div class="card-header" style="border-bottom:none; margin-top:10px; margin-bottom:8px; padding-bottom:0;">
+        <span class="card-title">🚀 Uzmanlık Modülleri & Saha Araçları</span>
+        <span style="font-size:0.8rem; color:var(--text-muted);">4 Temel Modül</span>
+      </div>
+
+      <div class="hero-modules-grid">
+        
+        <!-- Modül 1 Card -->
+        <div class="hero-module-card" onclick="jumpToDoctor('sub-doc-diag')">
+          <div>
+            <div class="hero-module-header">
+              <span class="mod-icon">🩺</span>
+              <div>
+                <h3>Çoban Doktor</h3>
+                <span class="badge badge-danger">Saha Triyajı</span>
+              </div>
+            </div>
+            <p class="hero-module-desc">
+              Veteriner hekim sahaya ulaşana kadar acil ilk yardım, semptom bazlı ön teşhis karar ağacı ve canlı İKAS kilit sayacı.
+            </p>
+            <ul class="hero-module-features">
+              <li>✅ Soru-cevaplı karar ağacı & olasılık skoru</li>
+              <li>✅ Rektal derece analizi (sığır/koyun/kuzu)</li>
+              <li>✅ Canlı İKAS süt & et arınma süresi kilidi</li>
+              <li>✅ Sıvı sağaltımı & Brix kolostrum testi</li>
+            </ul>
+          </div>
+          <button type="button" class="btn btn-primary btn-block btn-sm">
+            Çoban Doktor'u Aç ➔
+          </button>
+        </div>
+
+        <!-- Modül 2 Card -->
+        <div class="hero-module-card" style="border-top-color: var(--primary-light);" onclick="jumpToRation('sub-ration-optimizer')">
+          <div>
+            <div class="hero-module-header">
+              <span class="mod-icon">🌾</span>
+              <div>
+                <h3>Rasyon Rehberi</h3>
+                <span class="badge badge-success">LP Simplex Robotu</span>
+              </div>
+            </div>
+            <p class="hero-module-desc">
+              NASEM ve NRC 2021 standartlarında süt ve besi hayvanlarının ihtiyaçlarını en düşük maliyetle karşılayan bilimsel rasyon çözücüsü.
+            </p>
+            <ul class="hero-module-features">
+              <li>✅ Doğrusal Programlama (Simplex) algoritması</li>
+              <li>✅ 45+ bilimsel yem ambarı & özel yem ekleme</li>
+              <li>✅ TMR Mikser Vagon Kantarı & dara sıfırlama</li>
+              <li>✅ Pearson Karesi ve Canlı Ağırlık (CAAG) hesabı</li>
+            </ul>
+          </div>
+          <button type="button" class="btn btn-primary btn-block btn-sm" style="background:var(--primary-dark);">
+            Rasyon Rehberi'ni Aç ➔
+          </button>
+        </div>
+
+        <!-- Modül 3 Card -->
+        <div class="hero-module-card" style="border-top-color: var(--warning);" onclick="jumpToRepro('sub-repro-ledger')">
+          <div>
+            <div class="hero-module-header">
+              <span class="mod-icon">🍼</span>
+              <div>
+                <h3>Üretim Rehberi</h3>
+                <span class="badge badge-warning">Biyolojik Takvimler</span>
+              </div>
+            </div>
+            <p class="hero-module-desc">
+              283 günlük büyükbaş ve 150 günlük küçükbaş reprodüktif döngülerini hatasız yönetin; aşı, kuruya alma ve doğum tarihlerini kaçırmayın.
+            </p>
+            <ul class="hero-module-features">
+              <li>✅ 283 Günlük Büyükbaş İnek Çarkı & ilerleme barı</li>
+              <li>✅ 150 Günlük Küçükbaş Koç Katımı & İkizlik Takvimi</li>
+              <li>✅ Sabah-Akşam (AM-PM) tohumlama saati kuralı</li>
+              <li>✅ Damızlık olgunluk eşiği ve döl defteri</li>
+            </ul>
+          </div>
+          <button type="button" class="btn btn-primary btn-block btn-sm">
+            Üretim Rehberi'ni Aç ➔
+          </button>
+        </div>
+
+        <!-- Modül 4 Card -->
+        <div class="hero-module-card" style="border-top-color: #0369a1;" onclick="jumpToForage('sub-forage-crops')">
+          <div>
+            <div class="hero-module-header">
+              <span class="mod-icon">🌱</span>
+              <div>
+                <h3>Yem Bitkileri</h3>
+                <span class="badge badge-info">Agronomi & Silaj</span>
+              </div>
+            </div>
+            <p class="hero-module-desc">
+              Kaba yem üretiminde tohum seçimi, baklagil-buğdaygil karışımları, mikrodalgada silaj nem testi ve silo tonaj hesaplamaları.
+            </p>
+            <ul class="hero-module-features">
+              <li>✅ 15+ zengin yem bitkisi yetiştiricilik kartı</li>
+              <li>✅ İdeal Tohumluk Karışım & Torba Robotu</li>
+              <li>✅ Mikrodalgada hızlı silaj kuru madde testi</li>
+              <li>✅ Kelepçe/Hendek silo hacim ve tonaj hesabı</li>
+            </ul>
+          </div>
+          <button type="button" class="btn btn-primary btn-block btn-sm" style="background:#0284c7;">
+            Yem Bitkileri'ni Aç ➔
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =======================================================================
          MODÜL 1: ÇOBAN DOKTOR (SAHA ÖN TEŞHİS & TRİYAJ)
          ======================================================================= -->
-    <section id="tab-doctor" class="tab-panel active">
+    <section id="tab-doctor" class="tab-panel">
       
       <!-- Sub-Nav -->
       <div class="sub-nav">

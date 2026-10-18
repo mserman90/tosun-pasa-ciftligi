@@ -794,3 +794,254 @@ body.dark-mode .metric-val {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   Hero Landing Screen Styles
+   ========================================================================== */
+.hero-banner {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, #053b35 100%);
+  color: #ffffff;
+  border-radius: 4px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 28px 24px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(37, 211, 102, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-header-flex {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.hero-avatar-large {
+  width: 76px;
+  height: 76px;
+  min-width: 76px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.8);
+}
+
+.hero-avatar-large img, .hero-avatar-large svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hero-title-group h2 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.hero-title-group p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.hero-badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.hero-badge-pill {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 4px !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hero-actions-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Quick Farm Live Status bar */
+.farm-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.farm-stat-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px !important;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.farm-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.stat-icon-wrap {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 4px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+/* Fast Module Cards Grid */
+.hero-modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.hero-module-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px !important;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border-top: 4px solid var(--primary);
+}
+
+.hero-module-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.hero-module-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.hero-module-header .mod-icon {
+  font-size: 1.8rem;
+}
+
+.hero-module-header h3 {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+body.dark-mode .hero-module-header h3 {
+  color: var(--primary);
+}
+
+.hero-module-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 14px;
+  flex: 1;
+}
+
+.hero-module-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 16px;
+  font-size: 0.81rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.hero-module-features li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Emergency Shortcuts Bar */
+.hero-emergency-bar {
+  background-color: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  border-radius: 4px !important;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+
+.emergency-bar-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: var(--danger);
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.emergency-shortcuts {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-emergency-shortcut {
+  background: var(--card-bg);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  border-radius: 4px !important;
+  min-height: 40px;
+  padding: 6px 14px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-emergency-shortcut:hover {
+  background: var(--danger);
+  color: #ffffff;
+}

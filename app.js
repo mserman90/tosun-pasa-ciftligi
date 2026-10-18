@@ -2226,6 +2226,136 @@ function closeModal(modalId) {
   }
 }
 
+function updateHeroDashboardStats() {
+  const statsContainer = document.getElementById('hero-stats-container');
+  if (!statsContainer) return;
+
+  const docRecords = (DB.doctor && DB.doctor.earTagRecords) ? DB.doctor.earTagRecords : [];
+  const reproRecords = (DB.reproduction && DB.reproduction.records) ? DB.reproduction.records : [];
+  const rationRecipes = (DB.ration && DB.ration.savedRecipes) ? DB.ration.savedRecipes : [];
+  const fieldRecords = (DB.forage && DB.forage.fieldRecords) ? DB.forage.fieldRecords : [];
+
+  const now = Date.now();
+  let activeIkasCount = 0;
+  docRecords.forEach(r => {
+    const treatTime = new Date(r.treatmentDate).getTime();
+    const milkLockMs = (r.milkLockHours || 0) * 3600 * 1000;
+    const meatLockMs = (r.meatLockDays || 0) * 24 * 3600 * 1000;
+    if ((treatTime + milkLockMs > now) || (treatTime + meatLockMs > now)) {
+      activeIkasCount++;
+    }
+  });
+
+  const pregnantCount = reproRecords.filter(r => r.status === 'gebe' || r.status === 'kuru_donem' || r.status === 'dogumu_yakin').length;
+  const totalFieldArea = fieldRecords.reduce((sum, f) => sum + (parseFloat(f.areaDa) || 0), 0);
+
+  statsContainer.innerHTML = `
+    <div class="farm-stat-card" onclick="jumpToDoctor('sub-doc-ikas')">
+      <div class="stat-icon-wrap" style="background: rgba(220, 38, 38, 0.12); color: var(--danger);">⏱️</div>
+      <div>
+        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: ${activeIkasCount > 0 ? 'var(--danger)' : 'var(--primary-dark)'};">
+          ${activeIkasCount} <span style="font-size:0.8rem; font-weight:600;">Baş</span>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Aktif İKAS İlaç Kilidi</div>
+      </div>
+    </div>
+
+    <div class="farm-stat-card" onclick="jumpToRepro('sub-repro-ledger')">
+      <div class="stat-icon-wrap" style="background: rgba(18, 140, 126, 0.12); color: var(--primary);">🍼</div>
+      <div>
+        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: var(--primary-dark);">
+          ${pregnantCount} <span style="font-size:0.8rem; font-weight:600;">Baş</span>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Gebe & Döl Takibi</div>
+      </div>
+    </div>
+
+    <div class="farm-stat-card" onclick="jumpToRation('sub-ration-saved')">
+      <div class="stat-icon-wrap" style="background: rgba(245, 158, 11, 0.12); color: var(--warning);">🌾</div>
+      <div>
+        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: var(--primary-dark);">
+          ${rationRecipes.length} <span style="font-size:0.8rem; font-weight:600;">Reçete</span>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Kayıtlı Rasyon Ambarı</div>
+      </div>
+    </div>
+
+    <div class="farm-stat-card" onclick="jumpToForage('sub-forage-ledger')">
+      <div class="stat-icon-wrap" style="background: rgba(37, 211, 102, 0.12); color: var(--primary-light);">🚜</div>
+      <div>
+        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: var(--primary-dark);">
+          ${totalFieldArea.toFixed(0)} <span style="font-size:0.8rem; font-weight:600;">Dekar</span>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Kayıtlı Ekili Tarla Alanı</div>
+      </div>
+    </div>
+  `;
+}
+
+function jumpToDoctor(subSectionId) {
+  switchMasterTab('tab-doctor');
+  if (subSectionId) switchSubNav('tab-doctor', subSectionId);
+}
+
+function jumpToRation(subSectionId) {
+  switchMasterTab('tab-ration');
+  if (subSectionId) switchSubNav('tab-ration', subSectionId);
+}
+
+function jumpToRepro(subSectionId) {
+  switchMasterTab('tab-repro');
+  if (subSectionId) switchSubNav('tab-repro', subSectionId);
+}
+
+function jumpToForage(subSectionId) {
+  switchMasterTab('tab-forage');
+  if (subSectionId) switchSubNav('tab-forage', subSectionId);
+}
+
+function triggerEmergencyShortcut(emergencyType) {
+  jumpToDoctor('sub-doc-diag');
+  setTimeout(() => {
+    // Clear all checked symptoms
+    document.querySelectorAll('.symptom-cb').forEach(cb => cb.checked = false);
+
+    if (emergencyType === 'timpani') {
+      const el1 = document.querySelector('.symptom-cb[value="sisme_gaz"]');
+      const el2 = document.querySelector('.symptom-cb[value="hizli_nefes"]');
+      if (el1) el1.checked = true;
+      if (el2) el2.checked = true;
+      showToast("🚨 Acil Durum: Akut Şişme belirtileri seçildi, analiz üretiliyor...", "toast-warning");
+    } else if (emergencyType === 'asidoz') {
+      const el1 = document.querySelector('.symptom-cb[value="ishal"]');
+      const el2 = document.querySelector('.symptom-cb[value="istahsizlik"]');
+      const el3 = document.querySelector('.symptom-cb[value="yatma_kalkamama"]');
+      if (el1) el1.checked = true;
+      if (el2) el2.checked = true;
+      if (el3) el3.checked = true;
+      showToast("🚨 Acil Durum: Rumen Asidozu belirtileri seçildi...", "toast-warning");
+    } else if (emergencyType === 'hipokalsemi') {
+      const el1 = document.querySelector('.symptom-cb[value="yatma_kalkamama"]');
+      const el2 = document.querySelector('.symptom-cb[value="titreme"]');
+      const el3 = document.querySelector('.symptom-cb[value="dusuk_derece"]');
+      if (el1) el1.checked = true;
+      if (el2) el2.checked = true;
+      if (el3) el3.checked = true;
+      showToast("🚨 Acil Durum: Doğum Felci (Hipokalsemi) belirtileri seçildi...", "toast-warning");
+    } else if (emergencyType === 'mastitis') {
+      const el1 = document.querySelector('.symptom-cb[value="meme_sislik"]');
+      const el2 = document.querySelector('.symptom-cb[value="bozuk_sut"]');
+      const el3 = document.querySelector('.symptom-cb[value="ates"]');
+      if (el1) el1.checked = true;
+      if (el2) el2.checked = true;
+      if (el3) el3.checked = true;
+      showToast("🚨 Acil Durum: Toksik / Akut Mastitis belirtileri seçildi...", "toast-warning");
+    }
+
+    runCobanDoctorDiagnosis();
+    const resEl = document.getElementById('diag-results');
+    if (resEl) resEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
 function switchMasterTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
@@ -2237,7 +2367,9 @@ function switchMasterTab(tabId) {
   if (activePanel) activePanel.classList.add('active');
 
   // Trigger relevant updates
-  if (tabId === 'tab-doctor') {
+  if (tabId === 'tab-home') {
+    updateHeroDashboardStats();
+  } else if (tabId === 'tab-doctor') {
     updateIkasDisplay();
   } else if (tabId === 'tab-ration') {
     renderSavedRecipesList();
@@ -2365,7 +2497,8 @@ document.addEventListener('DOMContentLoaded', () => {
   startIkasCountdown();
 
   // Initial tab render
-  switchMasterTab('tab-doctor');
+  switchMasterTab('tab-home');
+  updateHeroDashboardStats();
 
   // Request Web Notifications permission gently
   if ('Notification' in window && Notification.permission === 'default') {
