@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=1.3.0">
 </head>
 <body>
 
@@ -36,6 +36,9 @@
     </div>
 
     <div class="header-actions">
+      <button type="button" class="btn-header" onclick="forceAppUpdate()" title="Yeni Sürümü Yükle ve Önbelleği Temizle">
+        🔄 <span class="btn-label">Tazele</span>
+      </button>
       <button type="button" class="btn-header" onclick="openModal('modal-data-center')">
         💾 <span class="btn-label">Veri Merkezi</span>
       </button>
@@ -1176,11 +1179,16 @@
         </div>
 
         <div class="card" style="border: 1px dashed var(--danger);">
-          <h4 style="font-weight:700; color:var(--danger); margin-bottom:6px;">⚠️ Sıfırlama & Fabrika Ayarları</h4>
-          <p style="font-size:0.82rem; margin-bottom:10px;">Cihazdaki kayıtları temizleyip ilk kurulan zengin örnek çiftlik verilerini tekrar yükler.</p>
-          <button type="button" class="btn btn-danger btn-sm" onclick="restoreSampleData()">
-            🔄 Fabrika Örnek Verilerini Tekrar Yükle
-          </button>
+          <h4 style="font-weight:700; color:var(--danger); margin-bottom:6px;">⚠️ Sıfırlama & Sürüm Güncelleme</h4>
+          <p style="font-size:0.82rem; margin-bottom:10px;">Yeni bir güncelleme yapıldığında cihazınızın tarayıcı önbelleğini temizleyip en güncel kodları yükler.</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-warning btn-sm" onclick="forceAppUpdate()">
+              🔄 En Son Sürümü Yükle & Önbelleği Temizle
+            </button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="restoreSampleData()">
+              ♻️ Fabrika Örnek Verilerini Yükle
+            </button>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
@@ -1364,7 +1372,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js"></script>
+  <script src="app.js?v=1.3.0"></script>
 
   <script>
     // Initialize default dates in modals

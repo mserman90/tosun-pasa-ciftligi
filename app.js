@@ -2432,15 +2432,50 @@ function installPWA() {
   }
 }
 
-// Servis Çalışanı Kaydı
+// Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').then((reg) => {
-      console.log('Tosun Paşa SW başarıyla devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=1.3.0').then((reg) => {
+      console.log('Tosun Paşa SW v1.3.0 devrede:', reg.scope);
+      // Yeni sürüm kontrolünü tetikle
+      reg.update();
     }).catch((err) => {
       console.log('SW kaydı başarısız:', err);
     });
   });
+
+  // Yeni servis çalışanı devraldığında otomatik tazele
+  let isRefreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!isRefreshing) {
+      isRefreshing = true;
+      window.location.reload();
+    }
+  });
+}
+
+function forceAppUpdate() {
+  showToast("Önbellek temizleniyor ve en son sürüm yükleniyor...", "toast-info");
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((regs) => {
+      for (const reg of regs) {
+        reg.unregister();
+      }
+    });
+  }
+  if ('caches' in window) {
+    caches.keys().then((names) => {
+      return Promise.all(names.map(name => caches.delete(name)));
+    }).then(() => {
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 400);
+    });
+  } else {
+    setTimeout(() => {
+      window.location.reload(true);
+    }, 400);
+  }
 }
 
 // Çevrimdışı / Çevrimiçi Dinleyicisi
@@ -2458,6 +2493,10 @@ window.addEventListener('online', () => {
 
 // INITIAL DOM READY
 document.addEventListener('DOMContentLoaded', () => {
+  // DOM Sağlık Rehberi İsim Güvencesi
+  document.querySelectorAll('[data-tab="tab-doctor"]').forEach(el => {
+    el.innerHTML = '🩺 Sağlık Rehberi';
+  });
   // Theme check
   if (localStorage.getItem('tosun_dark_mode') === '1') {
     document.body.classList.add('dark-mode');

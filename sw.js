@@ -1,5 +1,7 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-const CACHE_NAME = 'tosun-pasa-v1.0.0';
+// Sürüm 1.3.0 - Network-First for HTML, Stale-While-Revalidate for Assets
+const CACHE_NAME = 'tosun-pasa-v1.3.0';
+
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -11,45 +13,53 @@ const ASSETS_TO_CACHE = [
   './icon-512.png'
 ];
 
-// Install Event: Pre-cache static assets
+// Install Event: Cache assets and force activate
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW] Önbellek yükleniyor:', CACHE_NAME);
+      console.log('[SW v1.3.0] Yeni önbellek yükleniyor:', CACHE_NAME);
       return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 
-// Activate Event: Clean up outdated caches
+// Activate Event: Delete ALL old caches immediately and claim clients
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log('[SW] Eski önbellek siliniyor:', cache);
+            console.log('[SW] Eski önbellek temizleniyor:', cache);
             return caches.delete(cache);
           }
         })
       );
-    }).then(() => self.clients.claim())
+    }).then(() => {
+      console.log('[SW v1.3.0] Kontrol devralındı.');
+      return self.clients.claim();
+    })
   );
 });
 
-// Fetch Event: Cache-first, network fallback
+// Fetch Event:
+// HTML & Navigations: NETWORK-FIRST (Always get latest version if online, fallback to cache if offline)
+// Static Assets: STALE-WHILE-REVALIDATE (Serve fast, update in background)
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests
   if (event.request.method !== 'GET') return;
 
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-      return fetch(event.request).then((networkResponse) => {
-        // Cache new local responses dynamically
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+  const url = new URL(event.request.url);
+  const isHtml = event.request.mode === 'navigate' || 
+                 (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html')) ||
+                 url.pathname.endsWith('index.html') ||
+                 url.pathname.endsWith('/');
+
+  if (isHtml) {
+    // Network-First for HTML to ensure user gets latest updates immediately
+    event.respondWith(
+      fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseToCache);
@@ -57,28 +67,40 @@ self.addEventListener('fetch', (event) => {
         }
         return networkResponse;
       }).catch(() => {
-        // If offline and request is HTML, fallback to index.html
-        if (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html')) {
-          return caches.match('./index.html');
-        }
-      });
-    })
-  );
+        // Offline: Serve cached HTML
+        return caches.match('./index.html').then((cached) => {
+          return cached || caches.match(event.request);
+        });
+      })
+    );
+  } else {
+    // Stale-While-Revalidate for CSS, JS, Images
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        const fetchPromise = fetch(event.request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+          }
+          return networkResponse;
+        }).catch(() => {
+          // Network fail, return nothing (cachedResponse handled below)
+        });
+
+        return cachedResponse || fetchPromise;
+      })
+    );
+  }
 });
 
-// Push notification / Periodic sync listener
-self.addEventListener('notificationclick', (event) => {
-  event.notification.close();
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
-      for (const client of clientList) {
-        if (client.url.includes('index.html') && 'focus' in client) {
-          return client.focus();
-        }
-      }
-      if (clients.openWindow) {
-        return clients.openWindow('./index.html');
-      }
-    })
-  );
+// Message listener for manual cache purge / skip waiting
+self.addEventListener('message', (event) => {
+  if (event.data === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+  if (event.data === 'CLEAR_CACHE') {
+    caches.keys().then((names) => Promise.all(names.map((n) => caches.delete(n))));
+  }
 });
