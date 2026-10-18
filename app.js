@@ -283,7 +283,7 @@ function getAllFeeds() {
 }
 
 // =============================================================================
-// 4. MODÜL 1: ÇOBAN DOKTOR ENGINE & VERİLERİ
+// 4. MODÜL 1: SAĞLIK REHBERİ ENGINE & VERİLERİ
 // =============================================================================
 
 // Hastalık Matrisi & Korelasyon Veritabanı
