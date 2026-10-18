@@ -1,12 +1,14 @@
 {
   "name": "Tosun Paşa Çiftliği",
   "short_name": "TosunPaşa",
-  "description": "Bütünleşik Çiftlik & Hayvancılık Yönetim Sistemi - Çoban Doktor, Rasyon, Üretim, Yem Bitkileri",
+  "description": "Bütünleşik Çiftlik & Hayvancılık Yönetim Sistemi - Sağlık Rehberi, Rasyon, Üretim, Yem Bitkileri",
   "start_url": "./index.html",
+  "scope": "./",
+  "id": "tosun-pasa-ciftligi-pwa",
   "display": "standalone",
   "background_color": "#075e54",
   "theme_color": "#075e54",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "icons": [
     {
       "src": "icon-192.png",
@@ -19,6 +21,11 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "noto-ox.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ]
 }

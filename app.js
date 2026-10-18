@@ -2369,15 +2369,20 @@ function installPWA() {
       deferredPrompt = null;
     });
   } else {
-    showToast("Tarayıcınızın menüsünden 'Ana Ekrana Ekle' / 'Uygulamayı Yükle' seçeneğini kullanabilirsiniz.", "toast-info");
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS) {
+      showToast("📲 iPhone/iPad için: Safari alt çubuğundaki 'Paylaş' simgesine dokunup 'Ana Ekrana Ekle'yi seçiniz.", "toast-info");
+    } else {
+      showToast("📲 Çevrimdışı PWA: Tarayıcınızın menüsünden (üç nokta) 'Uygulamayı Yükle' veya 'Ana Ekrana Ekle' seçeneğini seçebilirsiniz.", "toast-info");
+    }
   }
 }
 
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=1.5.1').then((reg) => {
-      console.log('Tosun Paşa SW v1.5.1 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=1.6.0').then((reg) => {
+      console.log('Tosun Paşa SW v1.6.0 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {

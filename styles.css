@@ -795,27 +795,245 @@ body.dark-mode .metric-val {
   to { opacity: 1; transform: translateX(0); }
 }
 
-/* Mobile Responsiveness */
+/* ==========================================================================
+   Kapsamlı Mobil Uyumluluk & Dokunmatik Saha Standartları (PWA Responsive)
+   ========================================================================== */
+
+/* Mobil Buton & Dokunmatik İyileştirmeleri */
+button, .btn, .sub-nav-btn, .tab-btn {
+  touch-action: manipulation;
+}
+
 @media (max-width: 768px) {
+  /* Üst Header */
+  .app-header {
+    padding: 8px 12px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .header-brand {
+    gap: 8px;
+    padding: 2px 4px;
+  }
+  .header-avatar {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+  }
+  .header-titles h1 {
+    font-size: 1.05rem;
+  }
+  .header-titles p {
+    font-size: 0.72rem;
+  }
+  .header-actions {
+    gap: 6px;
+  }
+  .header-actions .btn-header {
+    min-height: 38px;
+    padding: 6px 8px;
+    font-size: 0.85rem;
+  }
   .header-actions .btn-header span.btn-label {
     display: none;
   }
-  .header-actions .btn-header {
-    padding: 6px 9px;
-  }
-  .main-content {
-    padding: 10px;
-  }
+
+  /* Ana Sekmeler */
   .master-tabs {
     justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
   }
   .tab-btn {
-    min-width: 110px;
+    min-width: 105px;
+    min-height: 44px;
+    font-size: 0.84rem;
+    padding: 8px 10px;
+    white-space: nowrap;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  /* Alt Navigasyon Sekmeleri */
+  .sub-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .sub-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .sub-nav-btn {
+    flex-shrink: 0;
+    min-height: 42px;
+    padding: 8px 12px;
+    font-size: 0.84rem;
+  }
+
+  /* Sayfa Düzeni & Kartlar */
+  .main-content {
+    padding: 10px 8px 80px 8px;
+  }
+  .card {
+    padding: 14px 12px;
+    margin-bottom: 12px;
+  }
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .card-title {
+    font-size: 0.98rem;
+  }
+
+  /* Izgaralar - Mobilde Tam Genişlik */
+  .grid-2, .grid-3, .grid-4,
+  .form-grid, .form-grid-3,
+  .farm-stats-grid, .hero-modules-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  /* Form Kontrolleri (iOS Safari Otomatik Zoom Engelleme: 16px) */
+  input, select, textarea {
+    font-size: 16px !important;
+    min-height: 44px;
+  }
+
+  /* Hero Banner */
+  .hero-banner {
+    padding: 18px 14px;
+    margin-bottom: 14px;
+  }
+  .hero-golden-badge {
+    font-size: 0.68rem;
+    padding: 4px 8px;
+    white-space: normal;
+    line-height: 1.3;
+  }
+  .hero-header-flex {
+    gap: 12px;
+  }
+  .hero-avatar-large {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+  }
+  .hero-title-group h2 {
+    font-size: 1.4rem;
+    line-height: 1.2;
+  }
+  .hero-title-group p {
+    font-size: 0.88rem;
+  }
+  .hero-badges-row {
+    gap: 6px;
+  }
+  .hero-badge-pill {
+    font-size: 0.74rem;
+    padding: 4px 8px;
+  }
+  .hero-actions-row {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-actions-row .btn {
+    width: 100%;
+  }
+  .hero-ticker-wrap {
+    padding: 6px 10px;
+    font-size: 0.76rem;
+    gap: 10px;
+  }
+
+  /* Hazırlık Radarı */
+  .hero-readiness-card {
+    grid-template-columns: 1fr !important;
+    padding: 14px 12px;
+    gap: 14px;
+  }
+  .readiness-score-num {
+    font-size: 2.1rem;
+  }
+
+  /* Acil Triyaj Butonları */
+  .hero-emergency-bar {
+    padding: 12px 10px;
+  }
+  .emergency-shortcuts {
+    flex-direction: column;
+  }
+  .btn-emergency-shortcut {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Modallar - Mobilde Alttan Açılan Sheet Görünümü */
+  .modal-overlay {
+    padding: 6px;
+    align-items: flex-end;
+  }
+  .modal-content {
+    max-height: 94vh;
+    border-radius: 4px 4px 0 0 !important;
+  }
+  .modal-header {
+    padding: 10px 14px;
+  }
+  .btn-close-modal {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-body {
+    padding: 14px 12px;
+  }
+  .modal-footer {
+    padding: 10px 14px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .modal-footer .btn {
+    width: 100%;
+  }
+
+  /* Tablolar */
+  .table-responsive {
+    margin-top: 8px;
+  }
+  table {
     font-size: 0.82rem;
+    min-width: 480px;
+  }
+  th, td {
     padding: 8px 8px;
   }
-  .grid-2, .grid-3, .grid-4 {
-    grid-template-columns: 1fr;
+
+  /* İKAS Kartları & Geri Sayım */
+  .countdown-display {
+    gap: 6px;
+  }
+  .countdown-segment {
+    min-width: 50px;
+    padding: 6px 6px;
+  }
+  .countdown-num {
+    font-size: 1.3rem;
+  }
+  .countdown-lbl {
+    font-size: 0.62rem;
+  }
+
+  /* TMR Mikser */
+  .tmr-scale-banner .num {
+    font-size: 2.4rem !important;
   }
 }
 
