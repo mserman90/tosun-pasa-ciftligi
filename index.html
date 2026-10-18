@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1.4.0">
+  <link rel="stylesheet" href="styles.css?v=1.5.0">
 </head>
 <body>
 
@@ -155,7 +155,7 @@
         <div class="readiness-gauge-box">
           <div class="readiness-score-num num">%98.4</div>
           <div class="readiness-score-label">Çiftlik Performans & Hazırlık İndeksi</div>
-          <div style="font-size:0.75rem; color:var(--primary-dark); font-weight:700; margin-top:6px;">● SÜRÜ KONTROLÜ AKTİF</div>
+          <div style="font-size:0.75rem; color:var(--primary); font-weight:700; margin-top:6px;">● SÜRÜ KONTROLÜ AKTİF</div>
         </div>
 
         <div class="readiness-bars-list">
@@ -287,7 +287,7 @@
               <li>✅ Pearson Karesi ve Canlı Ağırlık (CAAG) hesabı</li>
             </ul>
           </div>
-          <button type="button" class="btn btn-primary btn-block btn-sm" style="background:var(--primary-dark);">
+          <button type="button" class="btn btn-primary btn-block btn-sm">
             Rasyon Rehberi'ni Aç ➔
           </button>
         </div>
@@ -382,7 +382,7 @@
           <div class="grid-4" style="margin-top: 6px;">
             <!-- Sindirim -->
             <div style="background: rgba(0,0,0,0.02); padding: 10px; border-radius: 4px; border: 1px solid var(--border);">
-              <strong style="color:var(--primary-dark); font-size: 0.85rem; display:block; margin-bottom: 6px;">🌾 Sindirim Sistemi</strong>
+              <strong class="symptom-group-title">🌾 Sindirim Sistemi</strong>
               <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
                 <input type="checkbox" class="symptom-cb" value="sisme_gaz" style="width:auto; min-height:auto;"> Şişme / Gaz (Sol Açlık Çukuru)
               </label>
@@ -402,7 +402,7 @@
 
             <!-- Solunum -->
             <div style="background: rgba(0,0,0,0.02); padding: 10px; border-radius: 4px; border: 1px solid var(--border);">
-              <strong style="color:var(--primary-dark); font-size: 0.85rem; display:block; margin-bottom: 6px;">🫁 Solunum Sistemi</strong>
+              <strong class="symptom-group-title">🫁 Solunum Sistemi</strong>
               <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
                 <input type="checkbox" class="symptom-cb" value="oksuruk" style="width:auto; min-height:auto;"> Öksürük / Hırıltı
               </label>
@@ -419,7 +419,7 @@
 
             <!-- Doğum & Meme -->
             <div style="background: rgba(0,0,0,0.02); padding: 10px; border-radius: 4px; border: 1px solid var(--border);">
-              <strong style="color:var(--primary-dark); font-size: 0.85rem; display:block; margin-bottom: 6px;">🍼 Doğum & Meme</strong>
+              <strong class="symptom-group-title">🍼 Doğum & Meme</strong>
               <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
                 <input type="checkbox" class="symptom-cb" value="meme_sislik" style="width:auto; min-height:auto;"> Memede Şişlik / Kızarıklık / Isı
               </label>
@@ -436,7 +436,7 @@
 
             <!-- Sinirsel & Ayak -->
             <div style="background: rgba(0,0,0,0.02); padding: 10px; border-radius: 4px; border: 1px solid var(--border);">
-              <strong style="color:var(--primary-dark); font-size: 0.85rem; display:block; margin-bottom: 6px;">🦵 Sinirsel & Ayak / Tırnak</strong>
+              <strong class="symptom-group-title">🦵 Sinirsel & Ayak / Tırnak</strong>
               <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
                 <input type="checkbox" class="symptom-cb" value="yatma_kalkamama" style="width:auto; min-height:auto;"> Yatma / Ayağa Kalkamama
               </label>
@@ -490,7 +490,7 @@
           <div class="grid-2">
             <!-- Sıvı Hesaplama -->
             <div>
-              <h4 style="font-weight:700; color:var(--primary-dark); margin-bottom:10px;">🧪 24 Saatlik Sıvı / Serum Hesabı</h4>
+              <h4 class="section-card-title">🧪 24 Saatlik Sıvı / Serum Hesabı</h4>
               <div class="form-group">
                 <label for="fluid-weight">Canlı Ağırlık (kg):</label>
                 <input type="number" id="fluid-weight" value="45" placeholder="Örn: 45 (buzağı) veya 500 (inek)">
@@ -516,7 +516,7 @@
 
             <!-- Brix Refraktometre -->
             <div>
-              <h4 style="font-weight:700; color:var(--primary-dark); margin-bottom:10px;">🔬 Kolostrum Kalite Ölçümü (Brix Refraktometre)</h4>
+              <h4 class="section-card-title">🔬 Kolostrum Kalite Ölçümü (Brix Refraktometre)</h4>
               <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px;">Yeni doğan buzağıya ilk 2 saat içinde verilecek ağız sütünün antikor (IgG) yoğunluğunu ölçünüz.</p>
               <div class="form-group">
                 <label for="brix-input">Ölçülen Brix Değeri (%):</label>
@@ -580,7 +580,7 @@
             </div>
 
             <div class="card" style="border-left: 4px solid var(--primary);">
-              <h4 style="color:var(--primary-dark); font-weight:800;">4. Enterotoksemi (Çelerme / Kuzu)</h4>
+              <h4 style="color:var(--primary); font-weight:800;">4. Enterotoksemi (Çelerme / Kuzu)</h4>
               <ul style="padding-left:18px; font-size:0.84rem; line-height:1.6; margin-top:8px;">
                 <li>Kuzularda konsantre tane yemi derhal yarı yarıya kesin, kaba yem miktarını artırın.</li>
                 <li>Semptom gösteren canlı hayvanlara acil Enterotoksemi Antiserumu uygulayın.</li>
@@ -1121,7 +1121,7 @@
         </p>
 
         <div class="card">
-          <h4 style="font-weight:700; color:var(--primary-dark); margin-bottom:6px;">📦 JSON Tam Çiftlik Yedeği</h4>
+          <h4 class="section-card-title">📦 JSON Tam Çiftlik Yedeği</h4>
           <p style="font-size:0.82rem; margin-bottom:10px;">Küpe defteri, aktif ilaç kilitleri, rasyonlar, tohumlamalar ve tarlaların tamamını tek bir dosyada saklar.</p>
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
             <button type="button" class="btn btn-primary" onclick="exportFullBackupJSON()">
@@ -1135,7 +1135,7 @@
         </div>
 
         <div class="card">
-          <h4 style="font-weight:700; color:var(--primary-dark); margin-bottom:6px;">📊 Excel Uyumlu CSV Dışa Aktarımı</h4>
+          <h4 class="section-card-title">📊 Excel Uyumlu CSV Dışa Aktarımı</h4>
           <p style="font-size:0.82rem; margin-bottom:10px;">Türkçe karakterleri (ş, ğ, ı, ö, ü, ç) bozmayan UTF-8 BOM destekli Excel tabloları:</p>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <button type="button" class="btn btn-secondary btn-sm" onclick="exportExcelCSV('ear_tags')">🏷️ Küpe & Tedaviler (CSV)</button>
@@ -1171,7 +1171,7 @@
         <button type="button" class="btn-close-modal" onclick="closeModal('modal-help-guide')">&times;</button>
       </div>
       <div class="modal-body" style="font-size:0.88rem; line-height:1.6;">
-        <h4 style="color:var(--primary-dark); font-weight:700;">Tosun Paşa Çiftliği Felsefesi</h4>
+        <h4 class="section-card-title">Tosun Paşa Çiftliği Felsefesi</h4>
         <p>Bu sistem dağda, merada, bodrum ahırında internet bağlantısı olmadan veteriner hekimlik ve zootekni bilimiyle çiftçiyi buluşturmak üzere geliştirilmiştir.</p>
         
         <h5 style="margin-top:12px; font-weight:700;">Modüllerin Kullanımı:</h5>
@@ -1338,7 +1338,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=1.4.0"></script>
+  <script src="app.js?v=1.5.0"></script>
 
   <script>
     // Initialize default dates in modals

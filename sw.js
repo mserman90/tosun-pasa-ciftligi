@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 1.4.0 - Network-First for HTML, Stale-While-Revalidate for Assets
-const CACHE_NAME = 'tosun-pasa-v1.4.0';
+// Sürüm 1.5.0 - High-Contrast Dark Mode & Full Text Visibility Guarantees
+const CACHE_NAME = 'tosun-pasa-v1.5.0';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -18,7 +18,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW v1.3.0] Yeni önbellek yükleniyor:', CACHE_NAME);
+      console.log('[SW v1.5.0] Yeni önbellek yükleniyor:', CACHE_NAME);
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );

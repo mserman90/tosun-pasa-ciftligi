@@ -515,7 +515,7 @@ function runCobanDoctorDiagnosis() {
       <div class="card" style="margin-bottom: 12px; border-left: 4px solid ${d.urgency === 'ACİL' ? 'var(--danger)' : 'var(--warning)'};">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
           <div>
-            <strong style="font-size: 1.05rem; color: var(--primary-dark);">${idx + 1}. ${d.name}</strong>
+            <strong style="font-size: 1.05rem; color: var(--primary);">${idx + 1}. ${d.name}</strong>
             <span class="badge ${badgeClass}" style="margin-left: 8px;">${d.urgency}</span>
           </div>
           <div style="text-align:right;">
@@ -605,7 +605,7 @@ function updateIkasDisplay() {
         <div class="grid-2" style="margin-top: 10px;">
           <div style="background: ${isMilkLocked ? 'rgba(220,38,38,0.1)' : 'rgba(37,211,102,0.1)'}; padding: 10px; border-radius: 4px; border: 1px solid ${isMilkLocked ? 'var(--danger)' : 'var(--primary-light)'};">
             <div style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase;">🥛 SÜT ARINMA KİLİDİ</div>
-            <div style="font-size: 1.15rem; font-weight: 800; font-family: inherit; font-variant-numeric: tabular-nums; color: ${isMilkLocked ? 'var(--danger)' : 'var(--primary-dark)'};">
+            <div style="font-size: 1.15rem; font-weight: 800; font-family: inherit; font-variant-numeric: tabular-nums; color: ${isMilkLocked ? 'var(--danger)' : 'var(--primary)'};">
               ${formatDiff(milkDiff)}
             </div>
             <div style="font-size: 0.74rem; color: var(--text-muted);">${isMilkLocked ? '⛔ Tanka Süt Katılması YASAKTIR!' : '✅ Süt tanka verilebilir.'}</div>
@@ -613,7 +613,7 @@ function updateIkasDisplay() {
 
           <div style="background: ${isMeatLocked ? 'rgba(220,38,38,0.1)' : 'rgba(37,211,102,0.1)'}; padding: 10px; border-radius: 4px; border: 1px solid ${isMeatLocked ? 'var(--danger)' : 'var(--primary-light)'};">
             <div style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase;">🥩 ET ARINMA KİLİDİ</div>
-            <div style="font-size: 1.15rem; font-weight: 800; font-family: inherit; font-variant-numeric: tabular-nums; color: ${isMeatLocked ? 'var(--danger)' : 'var(--primary-dark)'};">
+            <div style="font-size: 1.15rem; font-weight: 800; font-family: inherit; font-variant-numeric: tabular-nums; color: ${isMeatLocked ? 'var(--danger)' : 'var(--primary)'};">
               ${formatDiff(meatDiff)}
             </div>
             <div style="font-size: 0.74rem; color: var(--text-muted);">${isMeatLocked ? '⛔ Kesime Gönderilmesi YASAKTIR!' : '✅ Kesim için yasal engel yoktur.'}</div>
@@ -710,7 +710,7 @@ function calculateFluidAndColostrum() {
   resultBox.innerHTML = `
     <div class="grid-2">
       <div class="card" style="margin-bottom:0;">
-        <h5 style="color:var(--primary-dark); font-weight:700; margin-bottom:8px;">💧 24 Saatlik Sıvı İhtiyacı</h5>
+        <h5 style="color:var(--primary); font-weight:700; margin-bottom:8px;">💧 24 Saatlik Sıvı İhtiyacı</h5>
         <div class="metric-val num" style="color:var(--primary); font-size:1.6rem;">${totalFluidLiters.toFixed(1)} Litre</div>
         <div style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">
           • Dehidrasyon Kaybı: <strong>${deficitLiters.toFixed(1)} L</strong><br>
@@ -720,7 +720,7 @@ function calculateFluidAndColostrum() {
       </div>
 
       <div class="card" style="margin-bottom:0; border-left: 4px solid ${brixColor};">
-        <h5 style="color:var(--primary-dark); font-weight:700; margin-bottom:8px;">🥛 Kolostrum Brix Skoru (%${brixVal})</h5>
+        <h5 style="color:var(--primary); font-weight:700; margin-bottom:8px;">🥛 Kolostrum Brix Skoru (%${brixVal})</h5>
         <div style="font-weight:800; font-size:0.95rem; color:${brixColor};">${brixStatus}</div>
         <p style="font-size:0.82rem; margin-top:6px; color:var(--text);">${brixRec}</p>
       </div>
@@ -1025,7 +1025,7 @@ function renderRationResults(res) {
     <div class="card" style="border-left: 4px solid var(--primary);">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
         <div>
-          <h4 style="font-weight:800; color:var(--primary-dark);">${res.req.name} - Optimum Rasyon Reçetesi</h4>
+          <h4 style="font-weight:800; color:var(--primary);">${res.req.name} - Optimum Rasyon Reçetesi</h4>
           <span style="font-size:0.82rem; color:var(--text-muted);">NASEM / NRC Standartlarında En Düşük Maliyet Analizi</span>
         </div>
         <div style="display:flex; gap:8px;">
@@ -1128,7 +1128,7 @@ function renderSavedRecipesList() {
     <div class="card" style="margin-bottom:10px; padding:12px;">
       <div style="display:flex; justify-content:space-between; align-items:center;">
         <div>
-          <strong style="font-size:0.95rem; color:var(--primary-dark);">${rec.name}</strong>
+          <strong style="font-size:0.95rem; color:var(--primary);">${rec.name}</strong>
           <div style="font-size:0.8rem; color:var(--text-muted);">
             Toplam: ${rec.totalKg} kg/gün | Maliyet: <strong>${rec.costPerDay} TL</strong>/baş
           </div>
@@ -1203,7 +1203,7 @@ function renderMixerUI() {
   const totalTargetKg = mixerState.steps.reduce((sum, s) => sum + s.targetKg, 0);
 
   let html = `
-    <div class="card" style="background:var(--primary-dark); color:#ffffff; text-align:center; padding:20px; border-radius:4px;">
+    <div class="card tmr-scale-banner">
       <div style="font-size:0.85rem; letter-spacing:0.05em; text-transform:uppercase; opacity:0.85;">DİJİTAL MİKSER VAGON KANTARI (${mixerState.herdSize} BAŞ)</div>
       <div class="num" style="font-size:3.2rem; font-weight:900; line-height:1.1; margin:8px 0; color:var(--primary-light);">
         ${mixerState.cumulativeWeight.toFixed(1)} <span style="font-size:1.4rem;">kg</span>
@@ -1224,7 +1224,7 @@ function renderMixerUI() {
           <span class="badge badge-info">ADIM ${mixerState.currentStepIndex + 1} / ${mixerState.steps.length}</span>
           <span style="font-size:0.84rem; color:var(--text-muted);">Sıradaki Hammadde</span>
         </div>
-        <h3 style="color:var(--primary-dark); margin:8px 0; font-size:1.3rem;">👉 ${currentStep.name}</h3>
+        <h3 style="color:var(--primary); margin:8px 0; font-size:1.3rem;">👉 ${currentStep.name}</h3>
         <p style="font-size:0.9rem; margin-bottom:12px;">
           Vagona Dökülecek Net Miktar: <strong style="font-size:1.2rem; color:var(--danger);">${currentStep.targetKg} kg</strong> 
           <span style="font-size:0.8rem; color:var(--text-muted);">(${currentStep.singleAnimalKg.toFixed(2)} kg/baş)</span>
@@ -1348,7 +1348,7 @@ function calculatePearsonSquare() {
 
   resultBox.innerHTML = `
     <div class="card" style="border-left: 4px solid var(--primary);">
-      <h4 style="font-weight:700; color:var(--primary-dark); margin-bottom:12px;">🎯 Pearson Karesi Karışım Sonucu</h4>
+      <h4 style="font-weight:700; color:var(--primary); margin-bottom:12px;">🎯 Pearson Karesi Karışım Sonucu</h4>
       <div class="grid-2">
         <div class="metric-box">
           <div style="font-size:0.95rem; font-weight:700;">1. Yem: ${feedA.name} (%${cpA} HP)</div>
@@ -1404,7 +1404,7 @@ function calculateLiveWeightCAAG() {
   resultBox.innerHTML = `
     <div class="metric-box" style="border-left: 6px solid var(--primary);">
       <div class="metric-label">${formulaDesc}</div>
-      <div class="metric-val num" style="font-size:2.4rem; color:var(--primary-dark); margin:6px 0;">
+      <div class="metric-val num" style="font-size:2.4rem; color:var(--primary); margin:6px 0;">
         ${weightKg.toFixed(0)} <span style="font-size:1.2rem;">kg</span>
       </div>
       <div style="font-size:0.85rem; color:var(--text-muted);">
@@ -1492,7 +1492,7 @@ function renderReproductionLedger() {
       <div class="card" style="margin-bottom:12px;">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
           <div>
-            <strong style="font-size:1.1rem; color:var(--primary-dark);">🏷️ ${rec.tagNo}</strong>
+            <strong style="font-size:1.1rem; color:var(--primary);">🏷️ ${rec.tagNo}</strong>
             ${rec.name ? `<span style="font-weight:700;"> (${rec.name})</span>` : ''}
             <span style="font-size:0.8rem; color:var(--text-muted); margin-left:6px;">Boğa/Koç: <strong>${rec.sire || '-'}</strong></span>
           </div>
@@ -1604,7 +1604,7 @@ function checkAmPmTiming() {
   resultBox.innerHTML = `
     <div class="card" style="border-left: 6px solid var(--primary); margin-top:10px;">
       <div style="font-size:0.85rem; font-weight:700; color:var(--text-muted);">${icon} AM-PM KURALI İDEAL TOHUMLAMA ZAMANI</div>
-      <div style="font-size:1.3rem; font-weight:900; color:var(--primary-dark); margin:6px 0;">${windowText}</div>
+      <div style="font-size:1.3rem; font-weight:900; color:var(--primary); margin:6px 0;">${windowText}</div>
       <p style="font-size:0.88rem; color:var(--text);">${advice}</p>
     </div>
   `;
@@ -1635,7 +1635,7 @@ function checkBreedingReadiness() {
   resultBox.innerHTML = `
     <div class="card" style="border-left: 6px solid ${isReady ? 'var(--primary-light)' : 'var(--danger)'};">
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-weight:800; font-size:1.1rem; color:${isReady ? 'var(--primary-dark)' : 'var(--danger)'};">
+        <span style="font-weight:800; font-size:1.1rem; color:${isReady ? 'var(--primary)' : 'var(--danger)'};">
           ${isReady ? '✅ DAMIZLIK İÇİN UYGUNDUR' : '⛔ HENÜZ ERKEN / BEKLEYİNİZ'}
         </span>
         <span class="num" style="font-size:1.4rem; font-weight:800;">%${weightRatio.toFixed(1)}</span>
@@ -1771,7 +1771,7 @@ function renderAgronomyCards() {
     <div class="card" style="margin-bottom:0;">
       <div class="card-header" style="margin-bottom:8px; padding-bottom:6px;">
         <div>
-          <strong style="color:var(--primary-dark); font-size:1.05rem;">🌱 ${crop.name}</strong>
+          <strong style="color:var(--primary); font-size:1.05rem;">🌱 ${crop.name}</strong>
           <div style="font-size:0.78rem; color:var(--text-muted);">${crop.type}</div>
         </div>
         <span class="badge badge-success">${crop.crudeProtein.split(',')[0]}</span>
@@ -1784,7 +1784,7 @@ function renderAgronomyCards() {
         <div>🧪 <strong>Taban Gübresi:</strong> ${crop.baseFertilizer}</div>
         <div>⚡ <strong>Üst Gübreleme:</strong> ${crop.topFertilizer}</div>
         <div>✂️ <strong>Hasat/Biçim Evresi:</strong> ${crop.harvestPhenology}</div>
-        <div style="margin-top:6px; color:var(--primary-dark); font-weight:700;">📈 <strong>Beklenen Verim:</strong> ${crop.expectedYield}</div>
+        <div style="margin-top:6px; color:var(--primary); font-weight:700;">📈 <strong>Beklenen Verim:</strong> ${crop.expectedYield}</div>
       </div>
     </div>
   `).join('');
@@ -1838,7 +1838,7 @@ function calculateSeedMix() {
 
   resultBox.innerHTML = `
     <div class="card" style="border-left: 6px solid var(--primary); margin-top:10px;">
-      <h4 style="color:var(--primary-dark); font-weight:800; margin-bottom:8px;">🌾 ${mixName}</h4>
+      <h4 style="color:var(--primary); font-weight:800; margin-bottom:8px;">🌾 ${mixName}</h4>
       <div style="font-size:0.86rem; color:var(--text-muted); margin-bottom:12px;">Toplam Arazi: <strong>${areaDa} Dekar</strong></div>
 
       <div class="grid-3" style="margin-bottom:12px;">
@@ -1955,7 +1955,7 @@ function calculateSiloCapacity() {
 
   resultBox.innerHTML = `
     <div class="card" style="border-left: 6px solid var(--primary); margin-top:10px;">
-      <h4 style="color:var(--primary-dark); font-weight:800; margin-bottom:10px;">🚜 Silo Kapasite & Hacim Raporu</h4>
+      <h4 style="color:var(--primary); font-weight:800; margin-bottom:10px;">🚜 Silo Kapasite & Hacim Raporu</h4>
       <div class="grid-3">
         <div class="metric-box">
           <div class="metric-label">SİLO HACMİ</div>
@@ -1994,7 +1994,7 @@ function renderFieldLedger() {
     <div class="card" style="margin-bottom:12px;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start;">
         <div>
-          <strong style="font-size:1.05rem; color:var(--primary-dark);">🌾 ${f.fieldName}</strong>
+          <strong style="font-size:1.05rem; color:var(--primary);">🌾 ${f.fieldName}</strong>
           <span class="badge badge-info" style="margin-left:8px;">${f.areaDa} Dekar</span>
           <div style="font-size:0.85rem; font-weight:700; margin-top:2px;">Ürün: ${f.cropType}</div>
         </div>
@@ -2187,7 +2187,7 @@ function updateHeroDashboardStats() {
     <div class="farm-stat-card" onclick="jumpToDoctor('sub-doc-ikas')">
       <div class="stat-icon-wrap" style="background: rgba(220, 38, 38, 0.12); color: var(--danger);">⏱️</div>
       <div>
-        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: ${activeIkasCount > 0 ? 'var(--danger)' : 'var(--primary-dark)'};">
+        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: ${activeIkasCount > 0 ? 'var(--danger)' : 'var(--primary)'};">
           ${activeIkasCount} <span style="font-size:0.8rem; font-weight:600;">Baş</span>
         </div>
         <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Aktif İKAS İlaç Kilidi</div>
@@ -2197,7 +2197,7 @@ function updateHeroDashboardStats() {
     <div class="farm-stat-card" onclick="jumpToRepro('sub-repro-ledger')">
       <div class="stat-icon-wrap" style="background: rgba(18, 140, 126, 0.12); color: var(--primary);">🍼</div>
       <div>
-        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: var(--primary-dark);">
+        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: var(--primary);">
           ${pregnantCount} <span style="font-size:0.8rem; font-weight:600;">Baş</span>
         </div>
         <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Gebe & Döl Takibi</div>
@@ -2207,7 +2207,7 @@ function updateHeroDashboardStats() {
     <div class="farm-stat-card" onclick="jumpToRation('sub-ration-saved')">
       <div class="stat-icon-wrap" style="background: rgba(245, 158, 11, 0.12); color: var(--warning);">🌾</div>
       <div>
-        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: var(--primary-dark);">
+        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: var(--primary);">
           ${rationRecipes.length} <span style="font-size:0.8rem; font-weight:600;">Reçete</span>
         </div>
         <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Kayıtlı Rasyon Ambarı</div>
@@ -2217,7 +2217,7 @@ function updateHeroDashboardStats() {
     <div class="farm-stat-card" onclick="jumpToForage('sub-forage-ledger')">
       <div class="stat-icon-wrap" style="background: rgba(37, 211, 102, 0.12); color: var(--primary-light);">🚜</div>
       <div>
-        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: var(--primary-dark);">
+        <div class="num" style="font-size: 1.45rem; font-weight: 800; color: var(--primary);">
           ${totalFieldArea.toFixed(0)} <span style="font-size:0.8rem; font-weight:600;">Dekar</span>
         </div>
         <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Kayıtlı Ekili Tarla Alanı</div>
@@ -2369,8 +2369,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=1.4.0').then((reg) => {
-      console.log('Tosun Paşa SW v1.4.0 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=1.5.0').then((reg) => {
+      console.log('Tosun Paşa SW v1.5.0 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {

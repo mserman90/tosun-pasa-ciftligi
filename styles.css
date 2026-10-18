@@ -4,7 +4,8 @@
    ========================================================================== */
 
 :root {
-  --primary-dark: #075e54;     /* Koyu Kurumsal Yeşil (Header, Ana Çerçeve) */
+  --header-bg: #075e54;        /* Üst Header & Navigasyon Zemin Rengi */
+  --primary-dark: #075e54;     /* Koyu Kurumsal Yeşil (Başlıklar, Kart Vurguları) */
   --primary: #128c7e;          /* Canlı Zümrüt Yeşili (Aktif Butonlar, Vurgular) */
   --primary-light: #25d366;    /* Açık Yeşil (Başarı, Pozitif Uyarılar) */
   --primary-hover: #0a6f63;    /* Buton Hover Rengi */
@@ -27,9 +28,14 @@ body.dark-mode {
   --text: #e9edef;
   --text-muted: #8696a0;
   --border: #222e35;
-  --primary-dark: #111b21;
+  --header-bg: #111b21;
+  --primary-dark: #00a884;     /* Gece modunda yazılar için yüksek kontrastlı canlı zümrüt */
   --primary: #00a884;
   --primary-hover: #029071;
+  --primary-light: #25d366;
+  --danger: #ef4444;           /* Gece modunda net okunan canlı kırmızı */
+  --warning: #fbbf24;          /* Gece modunda net okunan canlı kehribar */
+  color-scheme: dark;
 }
 
 /* Base Reset & Typography */
@@ -57,7 +63,7 @@ html, body {
 
 /* App Header */
 .app-header {
-  background-color: var(--primary-dark);
+  background-color: var(--header-bg);
   color: #ffffff;
   padding: 10px 16px;
   display: flex;
@@ -153,7 +159,7 @@ html, body {
 
 /* Master Navigation Tabs */
 .master-tabs-container {
-  background-color: var(--primary-dark);
+  background-color: var(--header-bg);
   border-bottom: 2px solid rgba(0, 0, 0, 0.15);
   position: sticky;
   top: 62px;
@@ -693,7 +699,7 @@ body.dark-mode .metric-val {
 }
 
 .modal-header {
-  background-color: var(--primary-dark);
+  background-color: var(--header-bg);
   color: #ffffff;
   padding: 12px 18px;
   display: flex;
@@ -1186,3 +1192,140 @@ body.dark-mode .hero-module-header h3 {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(220, 38, 38, 0.3);
 }
+
+/* ==========================================================================
+   Gece Modu (Dark Mode) Yüksek Kontrast & Metin Okunabilirlik Güvenceleri
+   Gündüz modundaki tüm yazıların gece modunda da %100 net okunmasını sağlar
+   ========================================================================== */
+
+/* Ortak Başlık ve Grup Sınıfları */
+.symptom-group-title {
+  color: var(--primary-dark);
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+body.dark-mode .symptom-group-title {
+  color: var(--primary);
+}
+
+.section-card-title {
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+}
+
+body.dark-mode .section-card-title {
+  color: var(--primary);
+}
+
+.tmr-scale-banner {
+  background: #075e54;
+  color: #ffffff;
+  text-align: center;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+body.dark-mode .tmr-scale-banner {
+  background: #182229;
+  border: 1px solid var(--border);
+}
+
+/* Toast Bildirimleri (Gece Modu Zemin/Yazı Kontrastı) */
+body.dark-mode .toast {
+  background: #202c33 !important;
+  color: #ffffff !important;
+  border: 1px solid #2a3942;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Form Kontrolleri & Açılır Menüler (Select Option) */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #111b21 !important;
+  color: #e9edef !important;
+  border-color: #2a3942 !important;
+}
+
+body.dark-mode input:focus,
+body.dark-mode select:focus,
+body.dark-mode textarea:focus {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 2px rgba(0, 168, 132, 0.25) !important;
+}
+
+body.dark-mode select option {
+  background-color: #111b21 !important;
+  color: #e9edef !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #8696a0 !important;
+  opacity: 1 !important;
+}
+
+/* Checkbox ve Radyo Düğmeleri Teması */
+body.dark-mode input[type="checkbox"],
+body.dark-mode input[type="radio"] {
+  accent-color: var(--primary);
+}
+
+/* Tablo Alt Toplam Satırları (tfoot) ve Vurgular */
+body.dark-mode table tfoot tr,
+body.dark-mode table tfoot td {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: #e9edef !important;
+}
+
+body.dark-mode tr[style*="background:rgba(18,140,126,0.1)"],
+body.dark-mode tr[style*="background: rgba(18, 140, 126, 0.1)"] {
+  background: rgba(0, 168, 132, 0.18) !important;
+}
+
+/* Kart İçi Hafif Zemin Kutuları (Gece modunda kararık kalmaması için) */
+body.dark-mode [style*="background: rgba(0,0,0,0.02)"],
+body.dark-mode [style*="background:rgba(0,0,0,0.02)"],
+body.dark-mode [style*="background: rgba(0, 0, 0, 0.02)"],
+body.dark-mode [style*="background: rgba(0,0,0,0.04)"],
+body.dark-mode [style*="background:rgba(0,0,0,0.04)"] {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: var(--border) !important;
+}
+
+/* Inline Stil İle Yazılmış Tüm Koyu Başlık ve Yazıların Gece Modu Dönüşümü */
+body.dark-mode [style*="color:var(--primary-dark)"],
+body.dark-mode [style*="color: var(--primary-dark)"],
+body.dark-mode [style*="color:#075e54"],
+body.dark-mode [style*="color: #075e54"] {
+  color: var(--primary) !important;
+}
+
+body.dark-mode [style*="background:var(--primary-dark)"],
+body.dark-mode [style*="background: var(--primary-dark)"] {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+}
+
+/* Acil Durum Butonları Gece Modu Kontrastı */
+body.dark-mode .btn-emergency-shortcut {
+  background: #182229;
+  border-color: #ef4444;
+  color: #f87171;
+}
+
+body.dark-mode .btn-emergency-shortcut:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* Modal Zemin ve Butonları */
+body.dark-mode .modal-footer {
+  background: rgba(255, 255, 255, 0.02);
+  border-top-color: var(--border);
+}
+
