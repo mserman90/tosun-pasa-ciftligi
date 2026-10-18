@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#075e54">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Tosun Paşa Çiftliği: Bütünleşik Çiftlik & Hayvancılık Yönetim Sistemi - Çevrimdışı Öncelikli PWA">
+  
+  <title>Tosun Paşa Çiftliği | Bütünleşik Hayvancılık Portalı</title>
+
+  <!-- PWA Web App Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="noto-ox.svg">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- Google Fonts & App Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="header-avatar">
+        <img src="noto-ox.svg" alt="Tosun Paşa Logosu" width="38" height="38">
+      </div>
+      <div class="header-titles">
+        <h1>Tosun Paşa Çiftliği</h1>
+        <p><span class="status-dot"></span> çevrimiçi • Saha Karar Destek & Çiftlik Portalı</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="btn-header" onclick="openModal('modal-data-center')">
+        💾 <span class="btn-label">Veri Merkezi</span>
+      </button>
+      <button type="button" id="btn-pwa-install" class="btn-header" style="display:none;" onclick="installPWA()">
+        📲 <span class="btn-label">Yükle</span>
+      </button>
+      <button type="button" class="btn-header" onclick="openModal('modal-help-guide')">
+        ℹ️ <span class="btn-label">Kılavuz</span>
+      </button>
+      <button type="button" id="btn-theme-toggle" class="btn-header" onclick="toggleDarkMode()">
+        🌙 <span class="btn-label">Gece Modu</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Offline Status Alert Banner -->
+  <div id="offline-banner" class="offline-banner">
+    📡 Çevrimdışı Mod Aktif • İnternet olmadan tüm çiftlik hesaplama ve kayıt sistemleri %100 çalışmaktadır.
+  </div>
+
+  <!-- Master Navigation Tabs -->
+  <nav class="master-tabs-container">
+    <div class="master-tabs">
+      <button type="button" class="tab-btn active" data-tab="tab-doctor" onclick="switchMasterTab('tab-doctor')">
+        🩺 Çoban Doktor
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-ration" onclick="switchMasterTab('tab-ration')">
+        🌾 Rasyon Rehberi
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-repro" onclick="switchMasterTab('tab-repro')">
+        🍼 Üretim Rehberi
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-forage" onclick="switchMasterTab('tab-forage')">
+        🌱 Yem Bitkileri
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+
+    <!-- =======================================================================
+         MODÜL 1: ÇOBAN DOKTOR (SAHA ÖN TEŞHİS & TRİYAJ)
+         ======================================================================= -->
+    <section id="tab-doctor" class="tab-panel active">
+      
+      <!-- Sub-Nav -->
+      <div class="sub-nav">
+        <button type="button" class="sub-nav-btn active" data-section="sub-doc-diag" onclick="switchSubNav('tab-doctor', 'sub-doc-diag')">🎯 Saha Ön Teşhisi</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-doc-temp" onclick="switchSubNav('tab-doctor', 'sub-doc-temp')">🌡️ Ateş / Derece</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-doc-ikas" onclick="switchSubNav('tab-doctor', 'sub-doc-ikas')">⏱️ Canlı İKAS Kilidi</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-doc-fluid" onclick="switchSubNav('tab-doctor', 'sub-doc-fluid')">💧 Sıvı & Kolostrum</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-doc-firstaid" onclick="switchSubNav('tab-doctor', 'sub-doc-firstaid')">🚨 Acil Protokoller</button>
+      </div>
+
+      <!-- 1. Saha Ön Teşhisi Section -->
+      <div id="sub-doc-diag" class="sub-section" style="display:block;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🩺 Saha Karar Ağacı & Triyaj Motoru</span>
+            <span class="badge badge-info">Veteriner Saha Ön Değerlendirme</span>
+          </div>
+          <p class="card-desc">Veteriner hekim işletmenize ulaşana kadar hayvanınızın türünü ve gözlemlediğiniz belirtileri seçerek en olası 3 ön teşhisi ve acil ilk yardım adımlarını inceleyiniz.</p>
+
+          <div class="form-group">
+            <label for="diag-species">Hayvan Türü:</label>
+            <select id="diag-species" style="max-width: 320px;">
+              <option value="sigir">Büyükbaş: İnek / Düve / Tosun</option>
+              <option value="buzagi">Büyükbaş: Buzağı (0 - 6 Ay)</option>
+              <option value="koyun">Küçükbaş: Koyun / Koç</option>
+              <option value="kuzu">Küçükbaş: Kuzu / Toklu</option>
+            </select>
+          </div>
+
+          <label style="margin-top: 14px; font-weight: 700;">Gözlemlenen Klinik Belirtiler (Semptomlar):</label>
+          <div class="grid-4" style="margin-top: 6px;">
+            <!-- Sindirim -->
+            <div style="background: rgba(0,0,0,0.02); padding: 10px; border-radius: 4px; border: 1px solid var(--border);">
+              <strong style="color:var(--primary-dark); font-size: 0.85rem; display:block; margin-bottom: 6px;">🌾 Sindirim Sistemi</strong>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="sisme_gaz" style="width:auto; min-height:auto;"> Şişme / Gaz (Sol Açlık Çukuru)
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="ishal" style="width:auto; min-height:auto;"> İshal (Cıvık/Sulu/Sarı)
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="istahsizlik" style="width:auto; min-height:auto;"> İştahsızlık / Yem Yememe
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="kilo_kaybi" style="width:auto; min-height:auto;"> Hızlı Kondisyon Kaybı
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem;">
+                <input type="checkbox" class="symptom-cb" value="sol_aclik_cukuru_ses" style="width:auto; min-height:auto;"> Şirden / Çınlama Sesi
+              </label>
+            </div>
+
+            <!-- Solunum -->
+            <div style="background: rgba(0,0,0,0.02); padding: 10px; border-radius: 4px; border: 1px solid var(--border);">
+              <strong style="color:var(--primary-dark); font-size: 0.85rem; display:block; margin-bottom: 6px;">🫁 Solunum Sistemi</strong>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="oksuruk" style="width:auto; min-height:auto;"> Öksürük / Hırıltı
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="burun_akintisi" style="width:auto; min-height:auto;"> Burun Akıntısı (İrinli)
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="hizli_nefes" style="width:auto; min-height:auto;"> Hızlı / Zor Nefes Alma
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem;">
+                <input type="checkbox" class="symptom-cb" value="ates" style="width:auto; min-height:auto;"> Vücut / Rektal Yüksek Ateş
+              </label>
+            </div>
+
+            <!-- Doğum & Meme -->
+            <div style="background: rgba(0,0,0,0.02); padding: 10px; border-radius: 4px; border: 1px solid var(--border);">
+              <strong style="color:var(--primary-dark); font-size: 0.85rem; display:block; margin-bottom: 6px;">🍼 Doğum & Meme</strong>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="meme_sislik" style="width:auto; min-height:auto;"> Memede Şişlik / Kızarıklık / Isı
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="bozuk_sut" style="width:auto; min-height:auto;"> Pıhtılı / Sulu / Kanlı Süt
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="sut_azalmasi" style="width:auto; min-height:auto;"> Ani Süt Kesilmesi
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem;">
+                <input type="checkbox" class="symptom-cb" value="dusuk_derece" style="width:auto; min-height:auto;"> Hipotermi (Soğuk Kulaklar)
+              </label>
+            </div>
+
+            <!-- Sinirsel & Ayak -->
+            <div style="background: rgba(0,0,0,0.02); padding: 10px; border-radius: 4px; border: 1px solid var(--border);">
+              <strong style="color:var(--primary-dark); font-size: 0.85rem; display:block; margin-bottom: 6px;">🦵 Sinirsel & Ayak / Tırnak</strong>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="yatma_kalkamama" style="width:auto; min-height:auto;"> Yatma / Ayağa Kalkamama
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="denge_kaybi" style="width:auto; min-height:auto;"> Denge Kaybı / Dönme
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="titreme" style="width:auto; min-height:auto;"> Kas Titremeleri / Spazm
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem; margin-bottom:4px;">
+                <input type="checkbox" class="symptom-cb" value="basamama" style="width:auto; min-height:auto;"> Topallık / Basamama
+              </label>
+              <label style="display:flex; align-items:center; gap:8px; font-weight:normal; font-size:0.85rem;">
+                <input type="checkbox" class="symptom-cb" value="tirnakta_yara" style="width:auto; min-height:auto;"> Tırnak Arasında Kötü Koku/Yara
+              </label>
+            </div>
+          </div>
+
+          <div style="margin-top: 16px;">
+            <button type="button" class="btn btn-primary" onclick="runCobanDoctorDiagnosis()">
+              🔍 Semptomları Analiz Et & Ön Teşhis Üret
+            </button>
+          </div>
+
+          <div id="diag-results" style="margin-top: 18px;"></div>
+        </div>
+      </div>
+
+      <!-- 2. Rektal Derece Kontrolü Section -->
+      <div id="sub-doc-temp" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🌡️ Hızlı Ateş & Rektal Derece Analizörü</span>
+            <span class="badge badge-info">Fizyolojik Aralık Skalası</span>
+          </div>
+          <p class="card-desc">Dijital derece ile rektumdan ölçülen vücut sıcaklığını girerek hayvanın fizyolojik ve yangısal durumunu anında değerlendiriniz.</p>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="temp-species">Hayvan Kategorisi:</label>
+              <select id="temp-species">
+                <option value="sigir">Yetişkin Sığır (Normal: 38.0°C – 39.0°C)</option>
+                <option value="buzagi">Buzağı (Normal: 38.5°C – 39.5°C)</option>
+                <option value="koyun">Koyun / Koç (Normal: 38.5°C – 39.5°C)</option>
+                <option value="kuzu">Kuzu (Normal: 39.0°C – 40.0°C)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="temp-input">Ölçülen Rektal Derece (°C):</label>
+              <input type="number" id="temp-input" step="0.1" value="38.6" placeholder="Örn: 38.8" class="tabular-nums">
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" onclick="checkAnimalTemperature()">
+            📊 Dereceyi Değerlendir
+          </button>
+
+          <div id="temp-result" style="margin-top: 16px;"></div>
+        </div>
+      </div>
+
+      <!-- 3. Canlı İKAS Kilidi Section -->
+      <div id="sub-doc-ikas" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">⏱️ Canlı İKAS (Süt & Et Arınma Süresi) Geri Sayım Kilidi</span>
+            <button type="button" class="btn btn-danger btn-sm" onclick="openModal('modal-new-doc-rec')">
+              ➕ Yeni Tedavi & İKAS Kilidi Ekle
+            </button>
+          </div>
+          <p class="card-desc">Antibiyotik veya paraziter ilaç uygulanan hayvanların süt ve et yasal arınma süreleri saniyelik geri sayımla kilitlenir. Süre dolmadan tanka süt katılması veya hayvanın kesime gitmesi yasaktır.</p>
+
+          <div id="ikas-list"></div>
+        </div>
+      </div>
+
+      <!-- 4. Sıvı & Kolostrum Hesaplayıcı Section -->
+      <div id="sub-doc-fluid" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">💧 Sıvı Sağaltımı & Brix Refraktometre Kolostrum Testi</span>
+          </div>
+
+          <div class="grid-2">
+            <!-- Sıvı Hesaplama -->
+            <div>
+              <h4 style="font-weight:700; color:var(--primary-dark); margin-bottom:10px;">🧪 24 Saatlik Sıvı / Serum Hesabı</h4>
+              <div class="form-group">
+                <label for="fluid-weight">Canlı Ağırlık (kg):</label>
+                <input type="number" id="fluid-weight" value="45" placeholder="Örn: 45 (buzağı) veya 500 (inek)">
+              </div>
+              <div class="form-group">
+                <label for="fluid-dehydration">Dehidrasyon (Sıvı Kaybı) Derecesi:</label>
+                <select id="fluid-dehydration">
+                  <option value="5">%5 - Hafif (Deri çadırı 2-3 sn, göz küresi normal)</option>
+                  <option value="8" selected>%8 - Orta (Göz küresi hafif çökük, ağız kuru, deri 4-6 sn)</option>
+                  <option value="10">%10 - İleri (Göz küresi derin çökük, ayağa kalkamıyor)</option>
+                  <option value="12">%12 - Ağır Şok (Hayati tehlike, nabız zayıf, hipotermi)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="fluid-maint-rate">Yaşama Payı Hızı (ml/kg/gün):</label>
+                <select id="fluid-maint-rate">
+                  <option value="50">50 ml/kg (Yetişkin Sığır / Koyun)</option>
+                  <option value="60" selected>60 ml/kg (Genç Hayvan / Düve)</option>
+                  <option value="80">80 ml/kg (Yeni Doğan Buzağı / Kuzu)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Brix Refraktometre -->
+            <div>
+              <h4 style="font-weight:700; color:var(--primary-dark); margin-bottom:10px;">🔬 Kolostrum Kalite Ölçümü (Brix Refraktometre)</h4>
+              <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:12px;">Yeni doğan buzağıya ilk 2 saat içinde verilecek ağız sütünün antikor (IgG) yoğunluğunu ölçünüz.</p>
+              <div class="form-group">
+                <label for="brix-input">Ölçülen Brix Değeri (%):</label>
+                <input type="number" id="brix-input" step="0.5" value="23.5" placeholder="Örn: 22.0">
+              </div>
+              <div style="background:rgba(0,0,0,0.02); padding:10px; border-radius:4px; font-size:0.8rem; line-height:1.5;">
+                • <strong>≥ %22 Brix:</strong> Mükemmel kalite (>50 mg/ml IgG). İlk 2 saatte 4L verilir.<br>
+                • <strong>%18 - %22 Brix:</strong> Orta kalite. Destekleyici verilir.<br>
+                • <strong>< %18 Brix:</strong> Zayıf kalite. ASLA ilk ağız sütü olarak verilmez!
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:16px;">
+            <button type="button" class="btn btn-primary" onclick="calculateFluidAndColostrum()">
+              💧 Sıvı ve Kolostrum Raporunu Hesapla
+            </button>
+          </div>
+
+          <div id="fluid-result" style="margin-top:16px;"></div>
+        </div>
+      </div>
+
+      <!-- 5. Acil Protokoller Section -->
+      <div id="sub-doc-firstaid" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🚨 Acil İlk Yardım Altın Protokolleri</span>
+            <span class="badge badge-danger">Hayati Müdahale</span>
+          </div>
+
+          <div class="grid-2">
+            <div class="card" style="border-left: 4px solid var(--danger);">
+              <h4 style="color:var(--danger); font-weight:800;">1. Akut Timpani (Şişme) Protokolü</h4>
+              <ul style="padding-left:18px; font-size:0.84rem; line-height:1.6; margin-top:8px;">
+                <li>Hayvanı derhal rampaya veya başı yukarıda olacak eğimli bir yere çekin.</li>
+                <li>Ağzına tahta takoz bağlayarak geğirmeyi teşvik edin.</li>
+                <li>Mide sondası takın; gaz çıkışı yoksa (köpüklü şişme) 200 ml Dimetikon veya 0.5 L sıvı ayçiçek yağı içirin.</li>
+                <li>Hayvan nefes alamıyor ve asfiksi (morarma) başladıysa sol açlık çukuruna Trokar uygulayın.</li>
+              </ul>
+            </div>
+
+            <div class="card" style="border-left: 4px solid var(--warning);">
+              <h4 style="color:var(--warning); font-weight:800;">2. Rumen Asidozu (Tane Çarpması)</h4>
+              <ul style="padding-left:18px; font-size:0.84rem; line-height:1.6; margin-top:8px;">
+                <li>Önündeki tüm arpa, mısır ve unlu yemleri derhal toplayın; sadece kaliteli kuru saman verin.</li>
+                <li>300-400 gr Sodyum Bikarbonat'ı (yemek sodası) 5 litre ılık suda eritip sondayla içirin.</li>
+                <li>Veteriner hekimle damar içi izotonik bikarbonat serum ve B1 vitamini uygulayın.</li>
+                <li>Sağlıklı inekten 2-4 L taze rumen sıvısı nakli (transfaunasyon) faunayı hızla toparlar.</li>
+              </ul>
+            </div>
+
+            <div class="card" style="border-left: 4px solid var(--danger);">
+              <h4 style="color:var(--danger); font-weight:800;">3. Hipokalsemi (Doğum Felci)</h4>
+              <ul style="padding-left:18px; font-size:0.84rem; line-height:1.6; margin-top:8px;">
+                <li>Kalsiyum Boroglukonat serumunu vücut sıcaklığına (38°C) kadar ılık suya daldırarak ısıtın.</li>
+                <li>Damar içine (juguler ven) ÇOK YAVAŞ şekilde (en az 15-20 dakikada) akıtın.</li>
+                <li>Kalp atışlarını stetoskop veya el ile göğüsten dinleyin; aritmi veya hızlanma olursa akışı durdurun.</li>
+                <li>Hayvanı göğüs üstü dik pozisyonda tutun, asla yan yatmasına izin vermeyin.</li>
+              </ul>
+            </div>
+
+            <div class="card" style="border-left: 4px solid var(--primary);">
+              <h4 style="color:var(--primary-dark); font-weight:800;">4. Enterotoksemi (Çelerme / Kuzu)</h4>
+              <ul style="padding-left:18px; font-size:0.84rem; line-height:1.6; margin-top:8px;">
+                <li>Kuzularda konsantre tane yemi derhal yarı yarıya kesin, kaba yem miktarını artırın.</li>
+                <li>Semptom gösteren canlı hayvanlara acil Enterotoksemi Antiserumu uygulayın.</li>
+                <li>Sürüdeki tüm sağlıklı toklu ve kuzuları Çelerme Aşısı ile aşılayın (21 gün sonra tekrar aşı).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =======================================================================
+         MODÜL 2: RASYON REHBERİ (BİLİMSEL BESLEME & LP SIMPLEX)
+         ======================================================================= -->
+    <section id="tab-ration" class="tab-panel">
+      
+      <!-- Sub-Nav -->
+      <div class="sub-nav">
+        <button type="button" class="sub-nav-btn active" data-section="sub-ration-optimizer" onclick="switchSubNav('tab-ration', 'sub-ration-optimizer')">🤖 Simplex Rasyon Robotu</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-ration-mixer" onclick="switchSubNav('tab-ration', 'sub-ration-mixer')">🚜 Mikser Vagon Kantarı</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-ration-pearson" onclick="switchSubNav('tab-ration', 'sub-ration-pearson')">📐 Pearson Karesi</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-ration-caag" onclick="switchSubNav('tab-ration', 'sub-ration-caag')">📏 Canlı Ağırlık (CAAG)</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-ration-saved" onclick="switchSubNav('tab-ration', 'sub-ration-saved')">📚 Kayıtlı Reçeteler</button>
+      </div>
+
+      <!-- 1. Simplex Optimizer Section -->
+      <div id="sub-ration-optimizer" class="sub-section" style="display:block;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🤖 Simplex Doğrusal Programlama & Rasyon Robotu</span>
+            <span class="badge badge-success">NRC 2001 / NASEM 2021 Standartları</span>
+          </div>
+          <p class="card-desc">Hayvanınızın fizyolojik dönemine göre kuru madde, ham protein, metabolik enerji ve lif gereksinimlerini sağlarken günlük yem maliyetini en aza indiren bilimsel reçeteyi çözer.</p>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="ration-animal-select">Hedef Hayvan Grubu & Verim Seviyesi:</label>
+              <select id="ration-animal-select">
+                <optgroup label="Süt Sığırcılığı">
+                  <option value="sut_20">Süt İneği: 20 Litre Süt (600 kg CA, 17.5 kg KM)</option>
+                  <option value="sut_30" selected>Süt İneği: 30 Litre Süt (650 kg CA, 21.0 kg KM)</option>
+                  <option value="sut_40">Süt İneği: 40 Litre Yüksek Verim (680 kg CA, 24.5 kg KM)</option>
+                  <option value="kuru_donem">Kuru Dönem İnek (650 kg CA, 12.0 kg KM)</option>
+                </optgroup>
+                <optgroup label="Besi Sığırcılığı">
+                  <option value="besi_250">Besi Danası: 250 kg (Besi Başı, 6.8 kg KM)</option>
+                  <option value="besi_380">Besi Danası: 380 kg (Besi Ortası, 9.5 kg KM)</option>
+                  <option value="besi_480">Besi Danası: 480 kg (Besi Bitiriş, 11.2 kg KM)</option>
+                </optgroup>
+                <optgroup label="Küçükbaş">
+                  <option value="koyun_gebe">Gebe / Sağılır Koyun (65 kg CA, 2.2 kg KM)</option>
+                  <option value="toklu_besi">Toklu / Kuzu Besisi (40 kg CA, 1.6 kg KM)</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+
+          <label style="font-weight:700; margin-top:8px;">İşletmenizde Mevcut / Kullanılacak Yemler (Stok Seçimi):</label>
+          <div id="ration-feeds-selector" class="grid-3" style="max-height: 220px; overflow-y: auto; padding: 6px; border: 1px solid var(--border); border-radius: 4px; margin-top: 4px;">
+            <!-- Feeds populated dynamically -->
+          </div>
+
+          <div style="margin-top:16px;">
+            <button type="button" class="btn btn-primary" onclick="solveRationOptimization()">
+              ⚡ En Düşük Maliyetli Rasyonu Çöz (LP Simplex)
+            </button>
+          </div>
+
+          <div id="ration-output" style="margin-top:18px;"></div>
+        </div>
+      </div>
+
+      <!-- 2. TMR Mixer Wagon Scale Section -->
+      <div id="sub-ration-mixer" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🚜 TMR Mikser Vagon Kantarı & Adım Adım Yükleme Modu</span>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="resetMixerScale()">🔄 Kantarı Sıfırla</button>
+            </div>
+          </div>
+          <p class="card-desc">Rasyon reçetenizdeki yemleri sürü büyüklüğünüze göre çarpar ve traktör mikser vagonuna sırayla dökmeniz için adım adım dijital kantar sunar.</p>
+
+          <div class="form-grid" style="margin-bottom:14px;">
+            <div class="form-group">
+              <label for="mixer-herd-size">Sürüdeki Toplam Hayvan Sayısı (Baş):</label>
+              <input type="number" id="mixer-herd-size" value="50" min="1" max="1000">
+            </div>
+            <div class="form-group" style="display:flex; align-items:flex-end;">
+              <button type="button" class="btn btn-primary" onclick="setupMixerWithIngredients(window.currentCalculatedRation ? window.currentCalculatedRation.ingredients.map(i => ({name: i.feed.name, amountKg: i.amountKg})) : [])">
+                ⚙️ Sürü Miktarını Güncelle
+              </button>
+            </div>
+          </div>
+
+          <div id="mixer-steps-container"></div>
+        </div>
+      </div>
+
+      <!-- 3. Pearson Karesi Section -->
+      <div id="sub-ration-pearson" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📐 Pearson Karesi Yem Karışım Robotu</span>
+          </div>
+          <p class="card-desc">İki farklı yem kaynağını (örneğin ucuz tahıl ile yüksek proteinli küspe) karıştırarak hedeflenen ham protein yüzdesini tam tutturmak için gereken hassas oranları hesaplar.</p>
+
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label for="pearson-target-cp">Hedef Ham Protein (% HP):</label>
+              <input type="number" id="pearson-target-cp" step="0.5" value="16.0">
+            </div>
+            <div class="form-group">
+              <label for="pearson-feed-a">1. Yem (Düşük veya Yüksek Proteinli):</label>
+              <select id="pearson-feed-a"></select>
+            </div>
+            <div class="form-group">
+              <label for="pearson-feed-b">2. Yem (Tamamlayıcı Protein Kaynağı):</label>
+              <select id="pearson-feed-b"></select>
+            </div>
+            <div class="form-group">
+              <label for="pearson-batch-kg">Karışım Parti Büyüklüğü (kg):</label>
+              <input type="number" id="pearson-batch-kg" value="1000">
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" onclick="calculatePearsonSquare()">
+            ⚖️ Pearson Karışımını Hesapla
+          </button>
+
+          <div id="pearson-result" style="margin-top:16px;"></div>
+        </div>
+      </div>
+
+      <!-- 4. Canlı Ağırlık CAAG Section -->
+      <div id="sub-ration-caag" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📏 Göğüs Çevresinden Canlı Ağırlık (CAAG) Tahmini</span>
+            <span class="badge badge-info">Baskülsüz Ağırlık Ölçümü</span>
+          </div>
+          <p class="card-desc">Sahada hayvan kantarı bulunmadığında bir mezura ile göğüs çevresi ve vücut uzunluğu ölçülerek hayvanın canlı ağırlığı ±%5 hata payıyla hesaplanır.</p>
+
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label for="caag-chest">Göğüs Çevresi (cm):</label>
+              <input type="number" id="caag-chest" value="190" placeholder="Ön ayak arkasından göğüs çevresi">
+            </div>
+            <div class="form-group">
+              <label for="caag-length">Vücut Uzunluğu (cm):</label>
+              <input type="number" id="caag-length" value="160" placeholder="Omuz başından kuyruk sokumuna">
+            </div>
+            <div class="form-group">
+              <label for="caag-formula">Kullanılacak Formül:</label>
+              <select id="caag-formula">
+                <option value="classic">Klasik Zootekni Formülü (Göğüs² × Uzunluk / 10838)</option>
+                <option value="schoorl">Schoorl Standardı (Göğüs² / 300)</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" onclick="calculateLiveWeightCAAG()">
+            ⚖️ Canlı Ağırlığı Hesapla
+          </button>
+
+          <div id="caag-result" style="margin-top:16px;"></div>
+        </div>
+      </div>
+
+      <!-- 5. Kayıtlı Reçeteler Section -->
+      <div id="sub-ration-saved" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📚 Kayıtlı Rasyon Reçeteleri</span>
+          </div>
+          <div id="saved-recipes-list"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =======================================================================
+         MODÜL 3: ÜRETİM REHBERİ (BİYOLOJİK TAKVİMLER & DÖL DEFTERİ)
+         ======================================================================= -->
+    <section id="tab-repro" class="tab-panel">
+      
+      <!-- Sub-Nav -->
+      <div class="sub-nav">
+        <button type="button" class="sub-nav-btn active" data-section="sub-repro-ledger" onclick="switchSubNav('tab-repro', 'sub-repro-ledger')">📋 Döl Takip Defteri</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-repro-cattle" onclick="switchSubNav('tab-repro', 'sub-repro-cattle')">📅 283 Günlük Büyükbaş Çarkı</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-repro-sheep" onclick="switchSubNav('tab-repro', 'sub-repro-sheep')">🐑 150 Günlük Koç Katımı</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-repro-ampm" onclick="switchSubNav('tab-repro', 'sub-repro-ampm')">⏰ AM-PM Tohumlama Saati</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-repro-maturity" onclick="switchSubNav('tab-repro', 'sub-repro-maturity')">⚖️ Damızlık Eşiği</button>
+      </div>
+
+      <!-- 1. Döl Takip Defteri Section -->
+      <div id="sub-repro-ledger" class="sub-section" style="display:block;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📋 Çiftlik Döl Verimi & Reprodüksiyon Defteri</span>
+            <div style="display:flex; gap:8px;">
+              <select id="repro-filter-select" onchange="renderReproductionLedger()" style="max-width:180px; min-height:36px; padding:4px 8px;">
+                <option value="all">Tüm Durumlar</option>
+                <option value="gebe">Yalnızca Gebeler</option>
+                <option value="kuru_donem">Kuru Dönemdekiler</option>
+                <option value="dogumu_yakin">Doğumu Yaklaşanlar</option>
+              </select>
+              <button type="button" class="btn btn-primary btn-sm" onclick="openModal('modal-new-repro-rec')">
+                ➕ Yeni Tohumlama Ekle
+              </button>
+            </div>
+          </div>
+
+          <div id="repro-records-list"></div>
+        </div>
+      </div>
+
+      <!-- 2. Büyükbaş Çarkı Section -->
+      <div id="sub-repro-cattle" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📅 283 Günlük Büyükbaş Gebelik & Doğum Takvimi</span>
+          </div>
+          <p class="card-desc">Tohumlama tarihini girerek inek çarkındaki 5 kritik biyolojik kilometre taşını hesaplayınız.</p>
+
+          <div class="form-grid" style="max-width:400px; margin-bottom:14px;">
+            <div class="form-group">
+              <label for="cattle-calc-date">Tohumlama Tarihi (T0):</label>
+              <input type="date" id="cattle-calc-date" value="2026-03-01">
+            </div>
+            <div class="form-group" style="display:flex; align-items:flex-end;">
+              <button type="button" class="btn btn-primary" onclick="
+                const d = document.getElementById('cattle-calc-date').value;
+                const res = calculateCattleGestation(d);
+                document.getElementById('cattle-milestones-box').innerHTML = `
+                  <div class='grid-3' style='margin-top:14px;'>
+                    <div class='card' style='border-left:4px solid var(--warning);'>
+                      <strong>21. Gün (${formatTurkishDate(res.day21)})</strong><br>
+                      <span style='font-size:0.85rem;'>Kızgınlık Dönüş Kontrolü: Tekrar boğaya geldi mi? Gözlem yapınız.</span>
+                    </div>
+                    <div class='card' style='border-left:4px solid var(--primary);'>
+                      <strong>45. Gün (${formatTurkishDate(res.day45)})</strong><br>
+                      <span style='font-size:0.85rem;'>Veteriner Ultrason: Erken gebelik ve embriyo canlılık muayenesi.</span>
+                    </div>
+                    <div class='card' style='border-left:4px solid var(--warning);'>
+                      <strong>223. Gün (${formatTurkishDate(res.day223)})</strong><br>
+                      <span style='font-size:0.85rem;'>Kuruya Alma: Sağımı kesin, meme içi kuru dönem antibiyotiği uygulayın.</span>
+                    </div>
+                    <div class='card' style='border-left:4px solid var(--danger);'>
+                      <strong>253. Gün (${formatTurkishDate(res.day253)})</strong><br>
+                      <span style='font-size:0.85rem;'>Buzağı İshali Anne Aşısı: E.coli / Rota / Corona kolostrum koruma aşısı.</span>
+                    </div>
+                    <div class='card' style='border-left:4px solid var(--primary-light);'>
+                      <strong>283. Gün (${formatTurkishDate(res.day283)})</strong><br>
+                      <span style='font-size:0.85rem;'>Tahmini Doğum Günü: Doğum locasını bol temiz samanla hazırlayınız.</span>
+                    </div>
+                  </div>
+                `;
+              ">Hesapla</button>
+            </div>
+          </div>
+
+          <div id="cattle-milestones-box"></div>
+        </div>
+      </div>
+
+      <!-- 3. Küçükbaş Çarkı Section -->
+      <div id="sub-repro-sheep" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🐑 150 Günlük Küçükbaş Koç Katımı Takvimi</span>
+          </div>
+          <p class="card-desc">Koç katım tarihini girerek flushing, ultrason ikizlik kontrolü, toksemi önleme ve kuzulama tarihlerini planlayınız.</p>
+
+          <div class="form-grid" style="max-width:400px; margin-bottom:14px;">
+            <div class="form-group">
+              <label for="sheep-calc-date">Koç Katım Başlangıcı (T0):</label>
+              <input type="date" id="sheep-calc-date" value="2026-06-15">
+            </div>
+            <div class="form-group" style="display:flex; align-items:flex-end;">
+              <button type="button" class="btn btn-primary" onclick="
+                const d = document.getElementById('sheep-calc-date').value;
+                const res = calculateSheepGestation(d);
+                document.getElementById('sheep-milestones-box').innerHTML = `
+                  <div class='grid-3' style='margin-top:14px;'>
+                    <div class='card' style='border-left:4px solid var(--primary);'>
+                      <strong>T - 15 Gün (${formatTurkishDate(res.flushingDate)})</strong><br>
+                      <span style='font-size:0.85rem;'>Flaşlama (Flushing): Kondisyon artırıcı yoğun arpa/enerji beslemesi.</span>
+                    </div>
+                    <div class='card' style='border-left:4px solid var(--warning);'>
+                      <strong>45. - 60. Gün (${formatTurkishDate(res.day45)})</strong><br>
+                      <span style='font-size:0.85rem;'>Ultrason İkizlik Tespiti: İkiz gebe koyunları tekizlerden ayırıp gruplayınız.</span>
+                    </div>
+                    <div class='card' style='border-left:4px solid var(--danger);'>
+                      <strong>105. Gün (${formatTurkishDate(res.day105)})</strong><br>
+                      <span style='font-size:0.85rem;'>Kuruya Çıkarma & Toksemi Önleme: Gebelik toksemisini önleyici konsantre yem.</span>
+                    </div>
+                    <div class='card' style='border-left:4px solid var(--warning);'>
+                      <strong>120. Gün (${formatTurkishDate(res.day120)})</strong><br>
+                      <span style='font-size:0.85rem;'>Enterotoksemi (Çelerme) Anne Aşısı: Yavruya kolostrumla koruma sağlar.</span>
+                    </div>
+                    <div class='card' style='border-left:4px solid var(--primary-light);'>
+                      <strong>150. Gün (${formatTurkishDate(res.day150)})</strong><br>
+                      <span style='font-size:0.85rem;'>Tahmini Kuzulama Başlangıcı: Doğum bölmelerini dezenfekte ediniz.</span>
+                    </div>
+                  </div>
+                `;
+              ">Hesapla</button>
+            </div>
+          </div>
+
+          <div id="sheep-milestones-box"></div>
+        </div>
+      </div>
+
+      <!-- 4. AM-PM Tohumlama Kuralı Section -->
+      <div id="sub-repro-ampm" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">⏰ Sabah-Akşam Tohumlama Saati Kuralı (AM-PM Rule)</span>
+          </div>
+          <p class="card-desc">Sığırlarda en yüksek gebelik oranını (%70+) yakalamak için kızgınlığın ilk görüldüğü saate göre tohumlama zamanı tespit edilir.</p>
+
+          <div class="form-group" style="max-width:380px;">
+            <label for="heat-time-select">Kızgınlık (Atlama/Durgun Kızgınlık) Ne Zaman Görüldü?</label>
+            <select id="heat-time-select">
+              <option value="morning">Sabah Erken / Sabah Saatlerinde (06:00 – 11:00)</option>
+              <option value="evening">Akşamüstü / Gece Saatlerinde (17:00 – 23:00)</option>
+              <option value="noon">Öğle Saatlerinde (11:00 – 16:00)</option>
+            </select>
+          </div>
+
+          <button type="button" class="btn btn-primary" onclick="checkAmPmTiming()">
+            🎯 İdeal Tohumlama Penceresini Göster
+          </button>
+
+          <div id="ampm-result"></div>
+        </div>
+      </div>
+
+      <!-- 5. Damızlık Olgunluk Eşiği Section -->
+      <div id="sub-repro-maturity" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">⚖️ Damızlık Olgunluk & İlk Tohumlama Eşiği</span>
+          </div>
+          <p class="card-desc">Düve veya toklularda erken tohumlama boy ve kemik gelişimini durdurur, güç doğuma yol açar. Canlı ağırlık ve yaş eşiğini kontrol ediniz.</p>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="breed-check-type">Hayvan Türü:</label>
+              <select id="breed-check-type">
+                <option value="duve">Büyükbaş Düve (Holstein, Simental vb.)</option>
+                <option value="toklu">Küçükbaş Toklu (Koyun)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="breed-age">Hayvanın Yaşı (Ay):</label>
+              <input type="number" id="breed-age" value="15" placeholder="Örn: 15 ay">
+            </div>
+            <div class="form-group">
+              <label for="breed-weight">Mevcut Canlı Ağırlık (kg):</label>
+              <input type="number" id="breed-weight" value="390" placeholder="Örn: 390 kg">
+            </div>
+            <div class="form-group">
+              <label for="breed-mature-weight">Sürünün Ergin Anne Ağırlığı (kg):</label>
+              <input type="number" id="breed-mature-weight" value="650" placeholder="Örn: 650 kg">
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" onclick="checkBreedingReadiness()">
+            📊 Damızlık Eşiğini Değerlendir
+          </button>
+
+          <div id="breed-result" style="margin-top:16px;"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =======================================================================
+         MODÜL 4: YEM BİTKİLERİ & SİLAJ REHBERİ (AGRONOMİ & TOHUM)
+         ======================================================================= -->
+    <section id="tab-forage" class="tab-panel">
+      
+      <!-- Sub-Nav -->
+      <div class="sub-nav">
+        <button type="button" class="sub-nav-btn active" data-section="sub-forage-crops" onclick="switchSubNav('tab-forage', 'sub-forage-crops')">🌿 15+ Yem Bitkisi Kartı</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-forage-mix" onclick="switchSubNav('tab-forage', 'sub-forage-mix')">🤖 Tohumluk Karışım Robotu</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-forage-silage" onclick="switchSubNav('tab-forage', 'sub-forage-silage')">🔬 Mikrodalga Silaj Nem Testi</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-forage-silo" onclick="switchSubNav('tab-forage', 'sub-forage-silo')">🚜 Silo Hacim & Tonajı</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-forage-ledger" onclick="switchSubNav('tab-forage', 'sub-forage-ledger')">📒 Tarla Kayıt Defteri</button>
+      </div>
+
+      <!-- 1. 15+ Bitki Kartı Section -->
+      <div id="sub-forage-crops" class="sub-section" style="display:block;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🌿 Bilimsel Yem Bitkileri Agronomi Ansiklopedisi</span>
+          </div>
+          <div id="agronomy-cards-grid" class="grid-2"></div>
+        </div>
+      </div>
+
+      <!-- 2. Tohumluk Karışım Robotu Section -->
+      <div id="sub-forage-mix" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🤖 İdeal Tohumluk Karışım & Tarla Planlama Robotu</span>
+          </div>
+          <p class="card-desc">Baklagil-buğdaygil dengesini (örn: Fiğ-Tritikale veya Ryegrass-Bezelye) kurarak arazi büyüklüğünüze göre dekara net tohum ve torba ihtiyacını hesaplar.</p>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="mix-area-da">Ekim Yapılacak Tarla Alanı (Dekar):</label>
+              <input type="number" id="mix-area-da" value="25" min="1">
+            </div>
+            <div class="form-group">
+              <label for="mix-purpose-select">Üretim Amacı & Karışım Türü:</label>
+              <select id="mix-purpose-select">
+                <option value="kuru_ot">Kuru Ot / Balya (Macar Fiği + Tritikale/Yulaf)</option>
+                <option value="mera_otlatma">Otlatma / Mera (İtalyan Çimi + Aküçgül + Çayır Otu)</option>
+                <option value="silaj">Yüksek Enerjili Silaj (İtalyan Çimi + Yem Bezelyesi)</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" onclick="calculateSeedMix()">
+            🌱 Tohum ve Torba İhtiyacını Hesapla
+          </button>
+
+          <div id="mix-result"></div>
+        </div>
+      </div>
+
+      <!-- 3. Mikrodalga Silaj Nem Testi Section -->
+      <div id="sub-forage-silage" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🔬 Mikrodalga Fırında Hızlı Silaj Kuru Madde & Nem Testi</span>
+          </div>
+          <p class="card-desc">Tarladan kıyılmış taze numuneyi mikrodalgada kurutarak ideal paketleme nemini (%65-70) test ediniz. Klostridyum veya küf riskini önleyiniz.</p>
+
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label for="silage-fresh-weight">Taze Numune Ağırlığı A1 (Gram):</label>
+              <input type="number" id="silage-fresh-weight" value="100">
+            </div>
+            <div class="form-group">
+              <label for="silage-dry-weight">Kurutulmuş Numune Ağırlığı A2 (Gram):</label>
+              <input type="number" id="silage-dry-weight" value="32.5" placeholder="Örn: 32.5">
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" onclick="calculateSilageMoisture()">
+            📊 Silaj Kuru Madde ve Nemini Raporla
+          </button>
+
+          <div id="silage-result"></div>
+        </div>
+      </div>
+
+      <!-- 4. Kelepçe Silo Hacim & Tonaj Section -->
+      <div id="sub-forage-silo" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">🚜 Kelepçe / Hendek Silo Hacim ve Tonaj Kapasitesi</span>
+          </div>
+          <p class="card-desc">Silonuzun taban, tavan genişliği, yükseklik ve boyunu girerek m³ hacmini ve kaç ton silaj alacağını hesaplayınız.</p>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="silo-bottom-w">Taban Genişliği (Metre):</label>
+              <input type="number" id="silo-bottom-w" value="6.0" step="0.5">
+            </div>
+            <div class="form-group">
+              <label for="silo-top-w">Tavan Genişliği (Metre):</label>
+              <input type="number" id="silo-top-w" value="8.0" step="0.5">
+            </div>
+            <div class="form-group">
+              <label for="silo-height">Silo Yüksekliği (Metre):</label>
+              <input type="number" id="silo-height" value="3.0" step="0.2">
+            </div>
+            <div class="form-group">
+              <label for="silo-length">Silo Uzunluğu (Metre):</label>
+              <input type="number" id="silo-length" value="30.0" step="1.0">
+            </div>
+            <div class="form-group">
+              <label for="silo-density">Sıkıştırma Yoğunluğu (kg/m³):</label>
+              <select id="silo-density">
+                <option value="650">650 kg/m³ (Hafif Sıkıştırılmış)</option>
+                <option value="700" selected>700 kg/m³ (İdeal Standart Sıkıştırma)</option>
+                <option value="750">750 kg/m³ (Ağır Silindirle Çiğnenmiş)</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" onclick="calculateSiloCapacity()">
+            📐 Silo Tonajını Hesapla
+          </button>
+
+          <div id="silo-result"></div>
+        </div>
+      </div>
+
+      <!-- 5. Tarla Defteri Section -->
+      <div id="sub-forage-ledger" class="sub-section" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📒 Çiftlik Ekili Tarla Defteri</span>
+            <button type="button" class="btn btn-primary btn-sm" onclick="openModal('modal-new-field-rec')">
+              ➕ Yeni Tarla Kaydı Ekle
+            </button>
+          </div>
+          <div id="field-records-list"></div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- =======================================================================
+       MODALLAR (PENCERELER)
+       ======================================================================= -->
+
+  <!-- 1. Veri Merkezi Modalı -->
+  <div id="modal-data-center" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">💾 Merkezi Çiftlik Veri İstasyonu</div>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modal-data-center')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">
+          Tüm verileriniz yalnızca bu cihazda (tarayıcınızın yerel hafızasında) saklanır. Cihaz değişimi veya güvenlik için tek tıkla tam yedek alabilir veya Excel'e aktarabilirsiniz.
+        </p>
+
+        <div class="card">
+          <h4 style="font-weight:700; color:var(--primary-dark); margin-bottom:6px;">📦 JSON Tam Çiftlik Yedeği</h4>
+          <p style="font-size:0.82rem; margin-bottom:10px;">Küpe defteri, aktif ilaç kilitleri, rasyonlar, tohumlamalar ve tarlaların tamamını tek bir dosyada saklar.</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-primary" onclick="exportFullBackupJSON()">
+              💾 Tüm Çiftliği Yedekle (JSON İndir)
+            </button>
+            <label class="btn btn-secondary" style="margin-bottom:0; cursor:pointer;">
+              📂 Yedekten Geri Yükle (JSON Seç)
+              <input type="file" accept=".json" style="display:none;" onchange="importBackupJSON(this)">
+            </label>
+          </div>
+        </div>
+
+        <div class="card">
+          <h4 style="font-weight:700; color:var(--primary-dark); margin-bottom:6px;">📊 Excel Uyumlu CSV Dışa Aktarımı</h4>
+          <p style="font-size:0.82rem; margin-bottom:10px;">Türkçe karakterleri (ş, ğ, ı, ö, ü, ç) bozmayan UTF-8 BOM destekli Excel tabloları:</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="exportExcelCSV('ear_tags')">🏷️ Küpe & Tedaviler (CSV)</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="exportExcelCSV('repro')">🍼 Döl Takip Defteri (CSV)</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="exportExcelCSV('forage')">🌾 Tarla Kayıtları (CSV)</button>
+          </div>
+        </div>
+
+        <div class="card" style="border: 1px dashed var(--danger);">
+          <h4 style="font-weight:700; color:var(--danger); margin-bottom:6px;">⚠️ Sıfırlama & Fabrika Ayarları</h4>
+          <p style="font-size:0.82rem; margin-bottom:10px;">Cihazdaki kayıtları temizleyip ilk kurulan zengin örnek çiftlik verilerini tekrar yükler.</p>
+          <button type="button" class="btn btn-danger btn-sm" onclick="restoreSampleData()">
+            🔄 Fabrika Örnek Verilerini Tekrar Yükle
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-data-center')">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Kılavuz Modalı -->
+  <div id="modal-help-guide" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">ℹ️ Çiftlik Sistemi Kullanım Kılavuzu</div>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modal-help-guide')">&times;</button>
+      </div>
+      <div class="modal-body" style="font-size:0.88rem; line-height:1.6;">
+        <h4 style="color:var(--primary-dark); font-weight:700;">Tosun Paşa Çiftliği Felsefesi</h4>
+        <p>Bu sistem dağda, merada, bodrum ahırında internet bağlantısı olmadan veteriner hekimlik ve zootekni bilimiyle çiftçiyi buluşturmak üzere geliştirilmiştir.</p>
+        
+        <h5 style="margin-top:12px; font-weight:700;">Modüllerin Kullanımı:</h5>
+        <ul style="padding-left:20px; margin-top:6px;">
+          <li><strong>Çoban Doktor:</strong> Hayvan hastalandığında veteriner gelene kadar ilk yardım sağlar. İlaç girildiğinde İKAS kilidi saniye saniye geri sayar.</li>
+          <li><strong>Rasyon Rehberi:</strong> Simplex matematik algoritmasıyla hayvanın enerji ve protein ihtiyacını karşılarken en ucuz yem reçetesini oluşturur ve mikser vagonuna aktarır.</li>
+          <li><strong>Üretim Rehberi:</strong> Tohumlama tarihinden itibaren ultrason, kuruya alma, anne aşısı ve doğum tarihlerini otomatik hesaplar.</li>
+          <li><strong>Yem Bitkileri:</strong> Doğru tohum karışımları ve mikrodalgada silaj nem testiyle kaba yem israfını önler.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="closeModal('modal-help-guide')">Anladım</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Yeni Doktor Tedavi / İKAS Kaydı Modalı -->
+  <div id="modal-new-doc-rec" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">➕ Yeni Tedavi & İKAS Kilidi Ekle</div>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modal-new-doc-rec')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="new-doc-tag">Küpe Numarası (*):</label>
+            <input type="text" id="new-doc-tag" placeholder="Örn: TR-06-1234567">
+          </div>
+          <div class="form-group">
+            <label for="new-doc-name">Hayvan Adı:</label>
+            <input type="text" id="new-doc-name" placeholder="Örn: Kınalı / Tosun">
+          </div>
+          <div class="form-group">
+            <label for="new-doc-species">Hayvan Türü:</label>
+            <select id="new-doc-species">
+              <option value="sigir">Büyükbaş İnek / Tosun</option>
+              <option value="buzagi">Buzağı</option>
+              <option value="koyun">Koyun / Koç</option>
+              <option value="kuzu">Kuzu / Toklu</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="new-doc-diag">Ön Tanı / Hastalık:</label>
+            <input type="text" id="new-doc-diag" placeholder="Örn: Akut Mastitis / Asidoz">
+          </div>
+          <div class="form-group">
+            <label for="new-doc-drug">Uygulanan İlaç İsmi (*):</label>
+            <input type="text" id="new-doc-drug" placeholder="Örn: Amoksisilin + Klavulanat">
+          </div>
+          <div class="form-group">
+            <label for="new-doc-milklock">Süt Arınma Süresi (Saat):</label>
+            <input type="number" id="new-doc-milklock" value="72" placeholder="Saat cinsinden (örn: 72)">
+          </div>
+          <div class="form-group">
+            <label for="new-doc-meatlock">Et Arınma Süresi (Gün):</label>
+            <input type="number" id="new-doc-meatlock" value="14" placeholder="Gün cinsinden (örn: 14)">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="new-doc-notes">Tedavi & Müdahale Notları:</label>
+          <textarea id="new-doc-notes" rows="2" placeholder="Uygulama dozu, veteriner hekim notu vb."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-new-doc-rec')">İptal</button>
+        <button type="button" class="btn btn-danger" onclick="saveNewDoctorRecord()">🔒 İKAS Kilidini Başlat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Yeni Reprodüksiyon / Tohumlama Modalı -->
+  <div id="modal-new-repro-rec" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">➕ Yeni Tohumlama & Döl Kaydı Ekle</div>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modal-new-repro-rec')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="new-rep-tag">Küpe Numarası (*):</label>
+            <input type="text" id="new-rep-tag" placeholder="Örn: TR-06-889900">
+          </div>
+          <div class="form-group">
+            <label for="new-rep-name">Hayvan Adı:</label>
+            <input type="text" id="new-rep-name" placeholder="Örn: Sarıkız">
+          </div>
+          <div class="form-group">
+            <label for="new-rep-species">Tür:</label>
+            <select id="new-rep-species">
+              <option value="cattle">Büyükbaş (283 Gün İnek Takvimi)</option>
+              <option value="sheep">Küçükbaş (150 Gün Koç Katımı)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="new-rep-date">Tohumlama Tarihi (*):</label>
+            <input type="date" id="new-rep-date">
+          </div>
+          <div class="form-group">
+            <label for="new-rep-sire">Boğa / Koç İsmi / Tohum Kodu:</label>
+            <input type="text" id="new-rep-sire" placeholder="Örn: Simental Max 102">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="new-rep-notes">Notlar:</label>
+          <textarea id="new-rep-notes" rows="2" placeholder="Tohumlayan veteriner hekim, kaçıncı tohumlama vb."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-new-repro-rec')">İptal</button>
+        <button type="button" class="btn btn-primary" onclick="saveNewReproductionRecord()">💾 Takvime İşle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Yeni Tarla Kaydı Modalı -->
+  <div id="modal-new-field-rec" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">➕ Yeni Tarla & Yem Bitkisi Kaydı</div>
+        <button type="button" class="btn-close-modal" onclick="closeModal('modal-new-field-rec')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="new-field-name">Tarla / Mevkii Adı (*):</label>
+            <input type="text" id="new-field-name" placeholder="Örn: Çayır Mevkii">
+          </div>
+          <div class="form-group">
+            <label for="new-field-area">Alan (Dekar) (*):</label>
+            <input type="number" id="new-field-area" value="20">
+          </div>
+          <div class="form-group">
+            <label for="new-field-crop">Ekilen Yem Bitkisi (*):</label>
+            <input type="text" id="new-field-crop" placeholder="Örn: Yonca + İtalyan Çimi">
+          </div>
+          <div class="form-group">
+            <label for="new-field-date">Ekim Tarihi:</label>
+            <input type="date" id="new-field-date">
+          </div>
+          <div class="form-group">
+            <label for="new-field-fert">Kullanılan Gübre:</label>
+            <input type="text" id="new-field-fert" placeholder="Örn: 25 kg DAP + 20 kg Üre">
+          </div>
+          <div class="form-group">
+            <label for="new-field-yield">Hasat / Biçim Verimi (kg):</label>
+            <input type="number" id="new-field-yield" placeholder="Örn: 15000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="new-field-notes">Notlar:</label>
+          <textarea id="new-field-notes" rows="2" placeholder="Nem oranı, balya sayısı vb."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('modal-new-field-rec')">İptal</button>
+        <button type="button" class="btn btn-primary" onclick="saveNewFieldRecord()">🌾 Tarlayı Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+
+  <script>
+    // Initialize default dates in modals
+    const todayStr = new Date().toISOString().split('T')[0];
+    const repDateInput = document.getElementById('new-rep-date');
+    if (repDateInput) repDateInput.value = todayStr;
+    const fieldDateInput = document.getElementById('new-field-date');
+    if (fieldDateInput) fieldDateInput.value = todayStr;
+  </script>
+</body>
+</html>
