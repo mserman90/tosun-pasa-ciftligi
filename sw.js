@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.1.2 - Reklam Afişi ve Tanıtım Sayfası Eklentisi
-const CACHE_NAME = 'tosun-pasa-v2.1.2';
+// Sürüm 2.1.3 - Tam Mobil Uyum & Responsif İyileştirmeler
+const CACHE_NAME = 'tosun-pasa-v2.1.3';
 
 const ASSETS_TO_CACHE = [
   './',

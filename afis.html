@@ -268,6 +268,53 @@
       gap: 5px;
     }
 
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 540px) {
+      body {
+        padding: 10px 8px;
+      }
+      .container {
+        padding: 0;
+      }
+      .action-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 12px;
+      }
+      .action-title {
+        font-size: 0.95rem;
+      }
+      .btn-group {
+        flex-direction: column;
+        width: 100%;
+      }
+      .btn-group .btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 44px;
+      }
+      .qr-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 14px;
+        padding: 14px;
+      }
+      .qr-img {
+        margin: 0 auto;
+      }
+      .info-card {
+        padding: 16px 12px;
+      }
+      .main-headline {
+        font-size: 1.35rem;
+      }
+      .guarantees-row {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+
     /* Print Styles for A4 Poster / Flyer */
     @media print {
       body {
