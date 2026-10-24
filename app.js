@@ -351,22 +351,13 @@ function populateFeedSelectionList() {
   const totEl = document.getElementById('total-feed-count');
   if (totEl) totEl.textContent = allFeeds.length;
 
-  // Önceden seçilmiş yemleri hatırla
+  // Önceden kullanıcı tarafından seçilmiş yemler varsa koru; başlangıçta hiçbir yem varsayılan seçili olmasın
   const previouslyChecked = new Set(
     Array.from(document.querySelectorAll('.feed-check:checked')).map(cb => cb.value)
   );
 
-  // İlk yüklemede popüler yemleri varsayılan olarak seç
-  const useDefaults = previouslyChecked.size === 0;
-  const defaultCheckedIds = [
-    'yonca_kuru', 'misir_silaji', 'bugday_samani',
-    'arpa_ezme', 'misir_dane', 'ptk_34', 'soya_44',
-    'bugday_kepegi', 'mermer_tozu', 'yem_tuzu', 'bikarbonat',
-    'akilli_yem_sut_21'
-  ];
-
   feedListContainer.innerHTML = allFeeds.map(f => {
-    const isChecked = useDefaults ? defaultCheckedIds.includes(f.id) : previouslyChecked.has(f.id);
+    const isChecked = previouslyChecked.has(f.id);
     const isAkilli = f.id.startsWith('akilli_');
     const isKarma = f.category === 'karma';
 
@@ -2601,8 +2592,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=1.9.0').then((reg) => {
-      console.log('Tosun Paşa SW v1.9.0 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=1.9.1').then((reg) => {
+      console.log('Tosun Paşa SW v1.9.1 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {
