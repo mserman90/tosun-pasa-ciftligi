@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.0.6 - Zooteknist Bölümü Başlık Sadeleştirmesi
-const CACHE_NAME = 'tosun-pasa-v2.0.6';
+// Sürüm 2.0.7 - Zooteknist Girişi Reklam ve Tanıtım İçeriklerinin Kaldırılması
+const CACHE_NAME = 'tosun-pasa-v2.0.7';
 
 const ASSETS_TO_CACHE = [
   './',

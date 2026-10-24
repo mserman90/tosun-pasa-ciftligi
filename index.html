@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.0.6">
+  <link rel="stylesheet" href="styles.css?v=2.0.7">
 </head>
 <body>
 
@@ -474,266 +474,30 @@
          ======================================================================= -->
     <section id="tab-home" class="tab-panel">
       
-      <!-- Big Spectacular Hero Banner -->
-      <div class="hero-banner">
-        <div class="hero-golden-badge">
-          👑 TÜRKİYE'NİN İLK ÇEVRİMDIŞI BÜTÜNLEŞİK ÇİFTLİK VE HAYVANCILIK EKOSİSTEMİ
-        </div>
-
-        <div class="hero-header-flex">
-          <div class="pulse-ring-container">
-            <div class="hero-avatar-large">
-              <img src="noto-ox.svg" alt="Tosun Paşa Logosu" width="76" height="76" loading="lazy" decoding="async">
+      <!-- Zooteknist Profesyonel Çalışma Masası Başlığı -->
+      <div class="card" style="border-left: 5px solid var(--primary); padding: 16px 20px; margin-bottom: 16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="font-size:2rem; line-height:1;">🔬</div>
+            <div>
+              <h2 style="margin:0 0 4px 0; font-size:1.3rem; font-weight:800; color:var(--text);">Zooteknist & Veteriner Yönetim Paneli</h2>
+              <p style="margin:0; font-size:0.86rem; color:var(--text-muted);">Sürü sağlığı, rasyon optimizasyonu, döl takibi ve saha veri analiz çalışma alanı.</p>
             </div>
           </div>
-          <div class="hero-title-group">
-            <h2>Tosun Paşa Çiftliği</h2>
-            <p>Bilimsel Hayvancılık, Akıllı Besleme ve Saha Veteriner Karar Destek Portalı</p>
-          </div>
-        </div>
-
-        <!-- Live Ticker Bar -->
-        <div class="hero-ticker-wrap">
-          <div class="hero-ticker-pill">📡 Sistem: <strong>%100 Çevrimdışı Çalışır</strong></div>
-          <div class="hero-ticker-pill">•</div>
-          <div class="hero-ticker-pill">🔒 Veri Güvenliği: <strong>Sıfır Sunucu / Yerel Cihaz</strong></div>
-          <div class="hero-ticker-pill">•</div>
-          <div class="hero-ticker-pill">🌾 Standart: <strong>NASEM & NRC 2021 LP Simplex</strong></div>
-          <div class="hero-ticker-pill">•</div>
-          <div class="hero-ticker-pill">⏱️ İKAS Kilidi: <strong>Saniyelik Arınma Geri Sayımı</strong></div>
-          <div class="hero-ticker-pill">•</div>
-          <div class="hero-ticker-pill">🍼 Biyolojik Takvim: <strong>283 Günlük İnek Çarkı</strong></div>
-        </div>
-
-        <p style="font-size: 0.95rem; line-height: 1.65; margin-bottom: 22px; max-width: 900px; color: rgba(255, 255, 255, 0.95);">
-          Yaylada, dağda, merada veya bodrum ahırında internet bağlantısına ihtiyaç duymadan; veteriner hekimlik ve zootekni bilimiyle sürünüzü profesyonelce yönetin. Rasyon maliyetini düşürün, döl verimini maksimize edin ve acil durumlarda altın standart ilk yardım protokollerini saniyeler içinde uygulayın.
-        </p>
-
-        <!-- Spectacular CTA Buttons -->
-        <div class="hero-actions-row">
-          <button type="button" class="btn btn-primary" style="background:#ffdd00; color:#000000; font-weight:800; font-size:1.02rem; padding:10px 22px; box-shadow:0 4px 14px rgba(255,221,0,0.4); border:1px solid #e6c700;" onclick="jumpToDoctor('sub-doc-diag')">
-            🚀 ÇİFTLİK YÖNETİM MERKEZİNE GİRİŞ YAP
-          </button>
-          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.12); border-color:rgba(255,221,0,0.45); color:#ffffff; font-weight:700;" onclick="jumpToRation('sub-ration-optimizer')">
-            🌾 Rasyon Robotu (LP Simplex)
-          </button>
-          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.12); border-color:rgba(255,221,0,0.45); color:#ffffff; font-weight:700;" onclick="jumpToRepro('sub-repro-ledger')">
-            🍼 Döl & Gebelik Takvimi
-          </button>
-          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.12); border-color:rgba(255,221,0,0.45); color:#ffffff; font-weight:700;" onclick="openModal('modal-data-center')">
-            💾 Veri İstasyonu
-          </button>
-        </div>
-
-        <div style="text-align:center; margin-top:14px;">
-          <a href="#tab-home" class="bobble" style="color:#ffdd00; font-size:1.3rem; text-decoration:none; cursor:pointer;" onclick="document.querySelector('.hero-impact-grid')?.scrollIntoView({behavior:'smooth'}); return false;" title="Aşağı Kaydır">↓</a>
-        </div>
-      </div>
-
-      <!-- 4 Temel Kazanç & Verim Metriği (Impact Grid) -->
-      <div class="hero-impact-grid lazy-defer lazy-reveal">
-        <div class="hero-impact-card impact-accent-success">
-          <div class="hero-impact-val">
-            <span>%28'e</span>
-            <span style="font-size:1rem; font-weight:700; color:var(--text-muted);">Varan</span>
-          </div>
-          <div class="hero-impact-title">🌾 Yem & Rasyon Tasarrufu</div>
-          <p class="hero-impact-desc">NASEM & NRC 2021 standartlarında Doğrusal Programlama (Simplex) ile en ucuz maliyetli rasyon (Least Cost).</p>
-        </div>
-
-        <div class="hero-impact-card impact-accent-warning">
-          <div class="hero-impact-val">
-            <span>%0</span>
-            <span style="font-size:1rem; font-weight:700; color:var(--text-muted);">Risk</span>
-          </div>
-          <div class="hero-impact-title">⏱️ İKAS İlaç Arınma Koruması</div>
-          <p class="hero-impact-desc">Canlı kilit sayacı ile tanka antibiyotikli süt dökülmesini ve erken kesim ilaç cezalarını %100 engeller.</p>
-        </div>
-
-        <div class="hero-impact-card impact-accent-info">
-          <div class="hero-impact-val">
-            <span>+1.8</span>
-            <span style="font-size:1rem; font-weight:700; color:var(--text-muted);">Ay</span>
-          </div>
-          <div class="hero-impact-title">🍼 Erken Damızlık & Döl Takibi</div>
-          <p class="hero-impact-desc">283 günlük gebelik çarkı, AM-PM tohumlama saati ve kızgınlık takibiyle sürüde boş günleri sıfırlar.</p>
-        </div>
-
-        <div class="hero-impact-card">
-          <div class="hero-impact-val">
-            <span>%100</span>
-            <span style="font-size:1rem; font-weight:700; color:var(--text-muted);">Çevrimdışı</span>
-          </div>
-          <div class="hero-impact-title">📶 Sıfır Sunucu & Kesintisiz Saha</div>
-          <p class="hero-impact-desc">Dağda, yaylada, bodrum ahırında internetsiz anında çalışır. Verileriniz yabancı buluta değil cihazınıza aittir.</p>
-        </div>
-      </div>
-
-      <!-- Farm Readiness Radar Card -->
-      <div class="hero-readiness-card lazy-defer lazy-reveal">
-        <div class="readiness-gauge-box">
-          <div class="readiness-score-num num">%98.4</div>
-          <div class="readiness-score-label">Çiftlik Performans & Hazırlık İndeksi</div>
-          <div style="font-size:0.75rem; color:var(--primary); font-weight:700; margin-top:6px;">● SÜRÜ KONTROLÜ AKTİF</div>
-        </div>
-
-        <div class="readiness-bars-list">
-          <div class="readiness-bar-item">
-            <div class="readiness-bar-header">
-              <span>🛡️ Biyogüvenlik & İKAS Arınma Koruması</span>
-              <span style="color:var(--primary-light);">%100 Güvenli</span>
-            </div>
-            <div class="progress-bar-wrap" style="height:8px; margin:0;">
-              <div class="progress-bar-fill success" style="width:100%;"></div>
-            </div>
-          </div>
-
-          <div class="readiness-bar-item">
-            <div class="readiness-bar-header">
-              <span>🌾 Rasyon Besin Dengesi (HP & ME)</span>
-              <span style="color:var(--primary);">NRC 2021 Optimum</span>
-            </div>
-            <div class="progress-bar-wrap" style="height:8px; margin:0;">
-              <div class="progress-bar-fill success" style="width:96%;"></div>
-            </div>
-          </div>
-
-          <div class="readiness-bar-item">
-            <div class="readiness-bar-header">
-              <span>🍼 Reprodüktif Döl Verimi (283 Gün Takvimi)</span>
-              <span style="color:var(--warning);">Aktif İzlemede</span>
-            </div>
-            <div class="progress-bar-wrap" style="height:8px; margin:0;">
-              <div class="progress-bar-fill warning" style="width:94%;"></div>
-            </div>
-          </div>
-
-          <div class="readiness-bar-item">
-            <div class="readiness-bar-header">
-              <span>🌱 Kaba Yem Rezervi & Silaj Kalitesi</span>
-              <span style="color:var(--primary);">%68 İdeal Nem</span>
-            </div>
-            <div class="progress-bar-wrap" style="height:8px; margin:0;">
-              <div class="progress-bar-fill success" style="width:98%;"></div>
-            </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('modal-data-center')">💾 Veri Merkezi / Yedek</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="setAppMode('portal')">🚪 Giriş Sayfasına Dön</button>
           </div>
         </div>
       </div>
 
-      <!-- 6 Büyük Teknolojik Süper Güç -->
+      <!-- Live Farm Status Summary -->
       <div class="card-header" style="border-bottom:none; margin-bottom:8px; padding-bottom:0;">
-        <span class="card-title">⚡ Tosun Paşa Çiftliği'nin 6 Teknolojik Süper Gücü</span>
-        <span style="font-size:0.8rem; color:var(--text-muted);">Bilimsel Algoritmalar & Saha Mühendisliği</span>
+        <span class="card-title">📊 Çiftlik Genel Durum & Canlı İstatistikler</span>
+        <span style="font-size:0.8rem; color:var(--text-muted);">Cihaz Hafızasından Canlı</span>
       </div>
-
-      <div class="hero-superpowers-grid lazy-defer lazy-reveal">
-        <!-- Güç 1 -->
-        <div class="superpower-card" style="border-left-color: #10b981;">
-          <div class="superpower-header">
-            <div class="superpower-icon">🧮</div>
-            <div>
-              <h3 class="superpower-title">Matematiksel Rasyon Çözücüsü</h3>
-              <span class="superpower-tag">LP Simplex & Pearson Karesi</span>
-            </div>
-          </div>
-          <p class="superpower-body">
-            Ezbere yem karmaya son. 45+ bilimsel kütüphaneden seçtiğiniz kaba ve kesif yemlerle NASEM & NRC 2021 normlarına göre en düşük maliyetli (Least-Cost) dengeli rasyonu saniyeler içinde çözer.
-          </p>
-          <ul class="superpower-points">
-            <li>✅ Kuru Madde (KM), Ham Protein (HP) ve ME Net Enerji optimizasyonu</li>
-            <li>✅ Kendi ambarınızdaki özel yem ve birim fiyatları tanımlama</li>
-          </ul>
-        </div>
-
-        <!-- Güç 2 -->
-        <div class="superpower-card" style="border-left-color: #ef4444;">
-          <div class="superpower-header">
-            <div class="superpower-icon" style="background:rgba(239,68,68,0.1); color:#ef4444;">⏱️</div>
-            <div>
-              <h3 class="superpower-title">Canlı İKAS Arınma Kalkanı</h3>
-              <span class="superpower-tag">Süt & Et Güvenlik Kilidi</span>
-            </div>
-          </div>
-          <p class="superpower-body">
-            Uygulanan antibiyotik ve ilaçların arınma süresini saniye saniye geri sayar. Risk bitene kadar görsel kilit koyarak tanka ilaçlı süt dökülmesini ve erken kesim cezalarını kesin olarak engeller.
-          </p>
-          <ul class="superpower-points">
-            <li>✅ Süt ve et arınma süreleri için çift kilit mekanizması</li>
-            <li>✅ Süresi biten ilaç kaydını arşivleme ve geçmiş izlenebilirliği</li>
-          </ul>
-        </div>
-
-        <!-- Güç 3 -->
-        <div class="superpower-card" style="border-left-color: #f59e0b;">
-          <div class="superpower-header">
-            <div class="superpower-icon" style="background:rgba(245,158,11,0.1); color:#f59e0b;">🩺</div>
-            <div>
-              <h3 class="superpower-title">Saha Veteriner Karar Ağacı</h3>
-              <span class="superpower-tag">Belirti Korelasyonu & Triyaj</span>
-            </div>
-          </div>
-          <p class="superpower-body">
-            Veteriner hekim sahaya ulaşana kadar altın dakikaları kazanın. Şişme (Timpani), doğum felci, yem çarpması (Asidoz) ve mastitise yönelik interaktif semptom analizi ve acil müdahale protokolleri.
-          </p>
-          <ul class="superpower-points">
-            <li>✅ Semptom eşleşme olasılık yüzdesi ve risk seviyesi</li>
-            <li>✅ Trokar kullanımı, rumen tamponlama ve acil kalsiyum adımları</li>
-          </ul>
-        </div>
-
-        <!-- Güç 4 -->
-        <div class="superpower-card" style="border-left-color: #8b5cf6;">
-          <div class="superpower-header">
-            <div class="superpower-icon" style="background:rgba(139,92,246,0.1); color:#8b5cf6;">🍼</div>
-            <div>
-              <h3 class="superpower-title">283 Günlük Biyolojik İnek Çarkı</h3>
-              <span class="superpower-tag">Reprodüksiyon & Döl Radarı</span>
-            </div>
-          </div>
-          <p class="superpower-body">
-            Tohumlama tarihini girin; 21. gün dönüş kontrolü, 45. gün ultrason, 220. gün kuruya alma, aşılama ve tahmini buzağılama gününü otomatik hesaplasın. AM-PM kuralıyla tohumlama saatini kaçırmayın.
-          </p>
-          <ul class="superpower-points">
-            <li>✅ 150 günlük küçükbaş koç katımı & ikizlik takvimi</li>
-            <li>✅ Damızlık ilk tohumlama canlı ağırlık eşik testi</li>
-          </ul>
-        </div>
-
-        <!-- Güç 5 -->
-        <div class="superpower-card" style="border-left-color: #0284c7;">
-          <div class="superpower-header">
-            <div class="superpower-icon" style="background:rgba(2,132,199,0.1); color:#0284c7;">🚜</div>
-            <div>
-              <h3 class="superpower-title">Dijital TMR Mikser Vagon Kantarı</h3>
-              <span class="superpower-tag">Canlı Yükleme & Dara Sıfırlama</span>
-            </div>
-          </div>
-          <p class="superpower-body">
-            Hesaplanan rasyon tek tıkla kantar moduna aktarılır. Miksere yüklenen her yemin darası tek tek sıfırlanarak vagon başında gramı gramına hatasız yükleme yapılır. Homojen ve dengeli yemleme garantiye alınır.
-          </p>
-          <ul class="superpower-points">
-            <li>✅ Hedef kilo ve anlık tartım karşılaştırması</li>
-            <li>✅ Aşırı veya eksik yem yükleme uyarıları</li>
-          </ul>
-        </div>
-
-        <!-- Güç 6 -->
-        <div class="superpower-card" style="border-left-color: #0d9488;">
-          <div class="superpower-header">
-            <div class="superpower-icon" style="background:rgba(13,148,136,0.1); color:#0d9488;">🔒</div>
-            <div>
-              <h3 class="superpower-title">Sıfır Sunucu & Veri Bağımsızlığı</h3>
-              <span class="superpower-tag">%100 Çevrimdışı & Yerel Şifreli</span>
-            </div>
-          </div>
-          <p class="superpower-body">
-            Verileriniz satılmaz, yabancı sunuculara gitmez. Cihazınızda şifreli yerel hafızada saklanır. Tek tıkla JSON ve Excel CSV yedeği alabilir, dilediğiniz cihaza anında aktarabilirsiniz.
-          </p>
-          <ul class="superpower-points">
-            <li>✅ İnternet olmasa da sıfır bekleme ve tam fonksiyon</li>
-            <li>✅ Tek tıkla tüm çiftliği Excel (CSV) veya JSON olarak dışa aktarma</li>
-          </ul>
-        </div>
+      <div id="hero-stats-container" class="farm-stats-grid lazy-defer lazy-reveal">
+        <!-- Loaded dynamically by updateHeroDashboardStats() -->
       </div>
 
       <!-- Quick Emergency Bar -->
@@ -758,15 +522,6 @@
             Tüm Acil Protokoller (15) ➔
           </button>
         </div>
-      </div>
-
-      <!-- Live Farm Status Summary -->
-      <div class="card-header" style="border-bottom:none; margin-bottom:8px; padding-bottom:0;">
-        <span class="card-title">📊 Çiftlik Genel Durum & Canlı İstatistikler</span>
-        <span style="font-size:0.8rem; color:var(--text-muted);">Cihaz Hafızasından Canlı</span>
-      </div>
-      <div id="hero-stats-container" class="farm-stats-grid lazy-defer lazy-reveal">
-        <!-- Loaded dynamically by updateHeroDashboardStats() -->
       </div>
 
       <!-- 4 Master Modules Launch Cards -->
@@ -817,7 +572,7 @@
             </p>
             <ul class="hero-module-features">
               <li>✅ Doğrusal Programlama (Simplex) algoritması</li>
-              <li>✅ 45+ bilimsel yem ambarı & özel yem ekleme</li>
+              <li>✅ 83 bilimsel yem ambarı & özel yem ekleme</li>
               <li>✅ TMR Mikser Vagon Kantarı & dara sıfırlama</li>
               <li>✅ Pearson Karesi ve Canlı Ağırlık (CAAG) hesabı</li>
             </ul>
@@ -877,61 +632,6 @@
           </button>
         </div>
 
-      </div>
-
-      <!-- Geleneksel Çiftlik Yönetimi vs. Tosun Paşa Çiftliği Karşılaştırma Matrisi -->
-      <div class="hero-comparison-card lazy-defer lazy-reveal">
-        <div class="card-header" style="border-bottom:none; margin-bottom:12px; padding:0;">
-          <div>
-            <span class="card-title">🏆 Neden Tosun Paşa Çiftliği? Üstünlük Karşılaştırma Matrisi</span>
-            <p style="font-size:0.83rem; color:var(--text-muted); margin-top:2px;">Geleneksel yöntemlerle Tosun Paşa Çiftliği ekosisteminin farkı</p>
-          </div>
-          <span class="badge badge-success">Bilimsel & Bağımsız</span>
-        </div>
-
-        <div class="comparison-table-wrap">
-          <table class="comparison-table">
-            <thead>
-              <tr>
-                <th class="comparison-col-area">Kritik Çiftlik Alanı</th>
-                <th class="comparison-col-old">❌ Geleneksel / Eski Usul Yönetim</th>
-                <th class="comparison-col-tosun th-tosun">⭐ Tosun Paşa Çiftliği Ekosistemi</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="comparison-col-area">📡 İnternet & Saha Erişimi</td>
-                <td class="comparison-col-old">İnternet çekmeyen dağda, yaylada veya bodrum ahırında bulut sistemler kilitlenir; kağıt deftere dönülür.</td>
-                <td class="comparison-col-tosun"><strong>%100 Çevrimdışı (Offline-First):</strong> Sıfır sunucu, sıfır gecikme. İnternet olmadan dağ başında tam kapasite çalışır.</td>
-              </tr>
-              <tr>
-                <td class="comparison-col-area">🌾 Rasyon & Yemleme Maliyeti</td>
-                <td class="comparison-col-old">Ezbere kürek/kova hesabı veya pahalı hazır fabrika yemleri; yüksek maliyet, dengesiz protein ve enerji kaybı.</td>
-                <td class="comparison-col-tosun"><strong>LP Simplex Doğrusal Robot:</strong> NASEM & NRC 2021 standartlarında en ucuz maliyetli ve tam dengeli bilimsel rasyon.</td>
-              </tr>
-              <tr>
-                <td class="comparison-col-area">⏱️ İlaç Kalıntısı & Tank Güvenliği</td>
-                <td class="comparison-col-old">Deftere yazılan veya unutulan arınma süresi; tanka antibiyotikli süt dökülüp tüm sütün imhası ve kesim cezası.</td>
-                <td class="comparison-col-tosun"><strong>Canlı İKAS Kalkanı:</strong> Saniye saniye geri sayan görsel kilit mekanizması; arınma bitmeden tanka süt gitmesini ve erken kesimi önler.</td>
-              </tr>
-              <tr>
-                <td class="comparison-col-area">🍼 Tohumlama & Reprodüksiyon</td>
-                <td class="comparison-col-old">Kaçırılan kızgınlıklar, yanlış tohumlama saati, unutulan gebelik muayeneleri; her boş geçen siklusta yüksek ekonomik zarar.</td>
-                <td class="comparison-col-tosun"><strong>283 Gün Biyolojik İnek Çarkı:</strong> AM-PM kuralı, 21. gün dönüş, 45. gün ultrason ve aşı takvimini otomatik yönetir.</td>
-              </tr>
-              <tr>
-                <td class="comparison-col-area">🚜 TMR Mikser Yüklemesi</td>
-                <td class="comparison-col-old">Kağıttan ezbere yüklenen yemlerde kaba/kesif dengesi bozulur; rumen asidozu veya süt verimi düşüşü yaşanır.</td>
-                <td class="comparison-col-tosun"><strong>TMR Mikser Vagon Kantarı:</strong> Rasyondan tek tıkla kantar moduna aktarım, her yem için dara sıfırlama ve gramaj kontrollü yükleme.</td>
-              </tr>
-              <tr>
-                <td class="comparison-col-area">🔒 Veri Mülkiyeti & Gizlilik</td>
-                <td class="comparison-col-old">Aylık yüksek abonelik ücretleri, yabancı sunucularda tutulan ticari veriler ve internet kesintisinde ulaşılamayan kayıtlar.</td>
-                <td class="comparison-col-tosun"><strong>%100 Yerel Cihaz & Sıfır Ücret:</strong> Veriniz yalnızca sizin cihazınızda kalır. Tek tıkla JSON ve Excel CSV yedeği alınabilir.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </div>
 
     </section>
@@ -2498,7 +2198,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.0.6"></script>
+  <script src="app.js?v=2.0.7"></script>
 
   <script>
     // Initialize default dates in modals
