@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.0.4">
+  <link rel="stylesheet" href="styles.css?v=2.0.5">
 </head>
 <body>
 
@@ -169,20 +169,17 @@
 
       </div>
 
-      <!-- Quick Action Utilities -->
-      <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:20px;">
-        <button type="button" class="btn btn-secondary btn-sm" onclick="installPWA()">
-          📲 Telefonuna Yükle (PWA)
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm" onclick="toggleDarkMode()">
-          🌙/☀️ Gece-Gündüz Modu
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('modal-data-center')">
-          💾 Veri Merkezi (Yedek)
-        </button>
-        <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('modal-help-guide')">
-          ℹ️ Kullanım Kılavuzu
-        </button>
+      <!-- Yasal Bilgilendirme, KVKK & Sorumsuzluk Beyanı -->
+      <div class="portal-legal-disclaimer">
+        <div class="portal-legal-title">
+          ⚖️ Yasal Bilgilendirme, KVKK ve Sorumsuzluk Beyanı
+        </div>
+        <p style="margin: 0 0 8px 0;">
+          <strong>1. Tıbbi & Zooteknik Sorumsuzluk Beyanı:</strong> Tosun Paşa Çiftliği uygulaması; hayvancılık işletmelerinde sürü yönetimi, rasyon planlama ve saha karar desteği sağlamak amacıyla hazırlanmış bir bilgi, hesaplama ve danışma aracıdır. Sistemde yer alan rasyon formülleri, acil ilk yardım protokolleri, ilaç arınma süresi (İKAS) hesapları ve hastalık ön değerlendirme verileri hiçbir surette yetkili bir Veteriner Hekim muayenesi, teşhisi veya resmi tıbbi reçetesinin yerine geçmez. Hayvan sağlığı, tedavi protokolleri ve ilaç uygulamalarında işletmenizden sorumlu Veteriner Hekime danışılması zorunludur. Uygulama geliştiricileri; kullanıcı tarafından sisteme girilen eksik veya hatalı verilerden, sahada yapılan yanlış veya gecikmiş müdahalelerden, doğrudan veya dolaylı olarak doğabilecek herhangi bir verim kaybı, hayvan kaybı ya da maddi zarardan hukuken sorumlu tutulamaz.
+        </p>
+        <p style="margin: 0;">
+          <strong>2. 6698 Sayılı KVKK ve Veri Gizliliği:</strong> Tosun Paşa Çiftliği, modern çevrimdışı (offline-first PWA) mimarisiyle çalışır. Çiftliğinize, hayvanlarınıza, küpe numaralarınıza ve tedavi geçmişinize ait hiçbir kişisel veya ticari veri harici bir sunucuya, buluta veya üçüncü şahıslara aktarılmaz; kaydedilmez ve işlenmez. Tüm veriler münhasıran kullandığınız cihazın yerel tarayıcı hafızasında (LocalStorage) şahsi olarak saklanır. Cihazınızdaki verilerin güvenliği ve periyodik yedeğinin alınması kullanıcının sorumluluğundadır.
+        </p>
       </div>
 
     </section>
@@ -2511,7 +2508,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.0.4"></script>
+  <script src="app.js?v=2.0.5"></script>
 
   <script>
     // Initialize default dates in modals
