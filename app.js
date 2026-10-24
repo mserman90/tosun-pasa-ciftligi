@@ -2849,102 +2849,425 @@ function renderYetistiriciHealth() {
   }).join('');
 }
 
+// =============================================================================
+// YETİŞTİRİCİ: KENDİ YEMİNİ HAZIRLA MOTORU (TÜRKİYE YEM HAMMADDELERİ & FABRİKA YEMLERİ)
+// =============================================================================
+let yetistiriciSelectedFeeds = new Set();
+let currentYetFeedCategory = 'all';
+let currentYetFeedSearch = '';
+
+function setYetistiriciFeedCategory(cat) {
+  currentYetFeedCategory = cat;
+  document.querySelectorAll('.yet-cat-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-yetcat') === cat);
+  });
+  renderYetistiriciFeedCheckboxes();
+}
+
+function filterYetistiriciFeeds() {
+  const searchInput = document.getElementById('yet-feed-search');
+  currentYetFeedSearch = searchInput ? searchInput.value.trim().toLowerCase() : '';
+  renderYetistiriciFeedCheckboxes();
+}
+
+function onYetFeedToggle(cb) {
+  if (cb.checked) {
+    yetistiriciSelectedFeeds.add(cb.value);
+  } else {
+    yetistiriciSelectedFeeds.delete(cb.value);
+  }
+  const label = cb.closest('.yet-feed-item-label');
+  if (label) label.classList.toggle('selected', cb.checked);
+  updateYetistiriciSelectedCount();
+}
+
+function updateYetistiriciSelectedCount() {
+  const badge = document.getElementById('yet-feed-selected-count');
+  if (badge) {
+    const count = yetistiriciSelectedFeeds.size;
+    badge.textContent = `${count} Yem Seçildi`;
+    badge.style.background = count > 0 ? 'var(--primary)' : 'var(--border)';
+    badge.style.color = count > 0 ? '#000000' : 'var(--text-muted)';
+  }
+}
+
+function quickSelectYetistiriciSample(type) {
+  if (type === 'sut') {
+    yetistiriciSelectedFeeds = new Set([
+      'yonca_kuru',
+      'misir_silaji',
+      'bugday_samani',
+      'fabrika_sut_19',
+      'arpa_ezme',
+      'soya_44',
+      'bikarbonat'
+    ]);
+    showToast("🥛 Örnek Süt Yemi Karması yüklendi!", "toast-info");
+  } else if (type === 'besi') {
+    yetistiriciSelectedFeeds = new Set([
+      'bugday_samani',
+      'misir_silaji',
+      'misir_dane',
+      'arpa_ezme',
+      'fabrika_besi_gelistirme',
+      'ptk_34',
+      'mermer_tozu',
+      'bikarbonat'
+    ]);
+    showToast("🐂 Örnek Besi Yemi Karması yüklendi!", "toast-info");
+  }
+  renderYetistiriciFeedCheckboxes();
+}
+
+function clearYetistiriciFeeds() {
+  yetistiriciSelectedFeeds.clear();
+  renderYetistiriciFeedCheckboxes();
+  showToast("Seçili tüm yemler temizlendi.", "toast-info");
+}
+
 function renderYetistiriciFeedCheckboxes() {
   const container = document.getElementById('yet-feed-checkboxes');
   if (!container) return;
 
-  const stapleFeeds = [
-    { id: 'yonca_kuru', name: 'Yonca Kuru Otu' },
-    { id: 'misir_silaji', name: 'Mısır Silajı' },
-    { id: 'bugday_samani', name: 'Buğday Samanı' },
-    { id: 'arpa_ezme', name: 'Arpa Ezmesi / Kırması' },
-    { id: 'misir_dane', name: 'Mısır Tane / Kırma' },
-    { id: 'akilli_yem_sut_21', name: '⭐ Akıllı Yem (21 HP Süt)' },
-    { id: 'fabrika_sut_19', name: 'Fabrika Süt Yemi (%19 HP)' },
-    { id: 'ptk_34', name: 'Pamuk Tohumu Küspesi (PTK)' },
-    { id: 'soya_44', name: 'Soya Küspesi (%44 HP)' },
-    { id: 'bugday_kepegi', name: 'Buğday Kepeği' },
-    { id: 'pancar_posasi_kuru', name: 'Şeker Pancarı Posası (Kuru)' },
-    { id: 'bikarbonat', name: 'Yem Sodası (Bikarbonat)' }
-  ];
+  const allFeeds = getAllFeeds();
+  let filtered = allFeeds;
 
-  container.innerHTML = stapleFeeds.map(f => `
-    <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; padding:6px 8px; border:1px solid var(--border); border-radius:4px; cursor:pointer; background:var(--card-bg);">
-      <input type="checkbox" class="yet-feed-check" value="${f.id}" style="width:auto; min-height:auto;">
-      <span>${f.name}</span>
-    </label>
-  `).join('');
+  if (currentYetFeedCategory !== 'all') {
+    filtered = filtered.filter(f => f.category === currentYetFeedCategory);
+  }
+
+  if (currentYetFeedSearch) {
+    filtered = filtered.filter(f => 
+      f.name.toLowerCase().includes(currentYetFeedSearch) ||
+      (f.category && f.category.toLowerCase().includes(currentYetFeedSearch)) ||
+      (f.id && f.id.toLowerCase().includes(currentYetFeedSearch))
+    );
+  }
+
+  updateYetistiriciSelectedCount();
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1/-1; text-align:center; padding: 20px; color:var(--text-muted); font-size:0.9rem;">
+        🔍 Arama kriterinize uygun yem bulunamadı. Lütfen arama terimini değiştirin veya diğer kategorilere göz atın.
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map(f => {
+    const isChecked = yetistiriciSelectedFeeds.has(f.id);
+    const isAkilli = f.id.startsWith('akilli_');
+    const isFabrika = f.category === 'karma' && !isAkilli;
+    const isKaba = f.category === 'kaba';
+    const isKesif = f.category === 'kesif';
+    const isSanayi = f.category === 'sanayi';
+    const isMineral = f.category === 'mineral';
+
+    let catBadge = '';
+    if (isAkilli) {
+      catBadge = `<span class="badge" style="background:#ffdd00; color:#000000; font-size:0.68rem; font-weight:800; padding:1px 5px; border-radius:3px;">⭐ AKILLI YEM</span>`;
+    } else if (isFabrika) {
+      catBadge = `<span class="badge" style="background:rgba(255,221,0,0.25); color:#856404; font-size:0.68rem; font-weight:700; padding:1px 5px; border-radius:3px;">FABRİKA YEMİ</span>`;
+    } else if (isKaba) {
+      catBadge = `<span class="badge" style="background:rgba(40,167,69,0.15); color:#28a745; font-size:0.68rem; font-weight:700; padding:1px 5px; border-radius:3px;">KABA YEM</span>`;
+    } else if (isKesif) {
+      catBadge = `<span class="badge" style="background:rgba(253,126,20,0.15); color:#fd7e14; font-size:0.68rem; font-weight:700; padding:1px 5px; border-radius:3px;">DANE</span>`;
+    } else if (isSanayi) {
+      catBadge = `<span class="badge" style="background:rgba(23,162,184,0.15); color:#17a2b8; font-size:0.68rem; font-weight:700; padding:1px 5px; border-radius:3px;">KÜSPE / YAN ÜRÜN</span>`;
+    } else if (isMineral) {
+      catBadge = `<span class="badge" style="background:rgba(108,117,125,0.15); color:#6c757d; font-size:0.68rem; font-weight:700; padding:1px 5px; border-radius:3px;">MİNERAL / TUZ</span>`;
+    }
+
+    return `
+      <label class="yet-feed-item-label ${isChecked ? 'selected' : ''}">
+        <input type="checkbox" class="yet-feed-check" value="${f.id}" ${isChecked ? 'checked' : ''} onchange="onYetFeedToggle(this)" style="margin-top:3px; cursor:pointer;">
+        <div style="flex:1; min-width:0;">
+          <div style="font-weight:700; font-size:0.86rem; color:var(--text); line-height:1.25; margin-bottom:3px;">${f.name}</div>
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            ${catBadge}
+            <span style="font-size:0.72rem; color:var(--text-muted); font-weight:600;">%${f.hp || 0} HP • ${f.me || 0} ME</span>
+          </div>
+        </div>
+      </label>
+    `;
+  }).join('');
 }
 
 function solveYetistiriciFeed() {
   const cowCount = parseInt(document.getElementById('yet-feed-cow-count')?.value) || 1;
-  const checkedFeeds = Array.from(document.querySelectorAll('.yet-feed-check:checked')).map(cb => cb.value);
+  const checkedFeedIds = Array.from(yetistiriciSelectedFeeds);
   const animalType = document.getElementById('yet-feed-animal')?.value || 'sut_30';
   const resultWrap = document.getElementById('yet-feed-result-wrap');
   if (!resultWrap) return;
 
-  if (checkedFeeds.length === 0) {
-    showToast("Lütfen ambarınızda olan en az 2-3 yem işaretleyiniz!", "toast-warning");
+  if (checkedFeedIds.length === 0) {
+    showToast("Lütfen ambarınızda olan en az 2-3 kaba ve kesif yem işaretleyiniz!", "toast-warning");
     return;
   }
 
   const allFeeds = getAllFeeds();
-  const activeFeeds = allFeeds.filter(f => checkedFeeds.includes(f.id));
+  const activeFeeds = allFeeds.filter(f => checkedFeedIds.includes(f.id));
 
-  let inekBasiSaman = checkedFeeds.includes('bugday_samani') ? 1.5 : 0;
-  let inekBasiYonca = checkedFeeds.includes('yonca_kuru') ? 3.5 : (inekBasiSaman > 0 ? 0 : 2.5);
-  let inekBasiSilaj = checkedFeeds.includes('misir_silaji') ? (animalType.includes('sut') ? 18.0 : 12.0) : 0;
-  let inekBasiArpa = checkedFeeds.includes('arpa_ezme') ? (animalType === 'sut_30' ? 4.5 : 3.0) : 0;
-  let inekBasiFabrika = (checkedFeeds.includes('akilli_yem_sut_21') || checkedFeeds.includes('fabrika_sut_19')) ? (animalType === 'sut_30' ? 6.0 : 4.0) : 0;
-  let inekBasiKuspe = (checkedFeeds.includes('ptk_34') || checkedFeeds.includes('soya_44')) ? 2.0 : 0;
+  // Yemleri fizyolojik alt gruplara ayır
+  const wetRoughages = activeFeeds.filter(f => f.category === 'kaba' && (f.km < 60 || f.id.includes('silaj') || f.id.includes('posas')));
+  const dryRoughages = activeFeeds.filter(f => f.category === 'kaba' && !wetRoughages.some(w => w.id === f.id));
+  const factoryFeeds = activeFeeds.filter(f => f.category === 'karma');
+  const grains = activeFeeds.filter(f => f.category === 'kesif');
+  const proteinMeals = activeFeeds.filter(f => f.category === 'sanayi' && f.hp >= 20);
+  const byproducts = activeFeeds.filter(f => f.category === 'sanayi' && f.hp < 20);
+  const minerals = activeFeeds.filter(f => f.category === 'mineral');
 
-  // Fallbacks if user selected other items
-  if (inekBasiSaman === 0 && inekBasiYonca === 0 && inekBasiSilaj === 0) {
-    inekBasiYonca = 4.0;
+  // Hayvan tipine göre hedef rasyon ağırlıkları (kg yaş bazda)
+  let targetWetRoughageKg = 0;
+  let targetDryRoughageKg = 0;
+  let targetFactoryKg = 0;
+  let targetGrainKg = 0;
+  let targetProteinMealKg = 0;
+  let targetByproductKg = 0;
+
+  if (animalType === 'sut_30') {
+    targetWetRoughageKg = wetRoughages.length > 0 ? 20.0 : 0;
+    targetDryRoughageKg = dryRoughages.length > 0 ? (wetRoughages.length > 0 ? 4.5 : 8.5) : 0;
+    targetFactoryKg = factoryFeeds.length > 0 ? 6.5 : 0;
+    targetGrainKg = grains.length > 0 ? (factoryFeeds.length > 0 ? 3.5 : 6.0) : 0;
+    targetProteinMealKg = proteinMeals.length > 0 ? (factoryFeeds.length > 0 ? 1.8 : 3.0) : 0;
+    targetByproductKg = byproducts.length > 0 ? 1.5 : 0;
+  } else if (animalType === 'sut_20') {
+    targetWetRoughageKg = wetRoughages.length > 0 ? 16.0 : 0;
+    targetDryRoughageKg = dryRoughages.length > 0 ? (wetRoughages.length > 0 ? 4.0 : 7.5) : 0;
+    targetFactoryKg = factoryFeeds.length > 0 ? 4.8 : 0;
+    targetGrainKg = grains.length > 0 ? (factoryFeeds.length > 0 ? 2.5 : 4.5) : 0;
+    targetProteinMealKg = proteinMeals.length > 0 ? (factoryFeeds.length > 0 ? 1.2 : 2.0) : 0;
+    targetByproductKg = byproducts.length > 0 ? 1.2 : 0;
+  } else if (animalType === 'kuru_donem') {
+    targetWetRoughageKg = wetRoughages.length > 0 ? 8.0 : 0;
+    targetDryRoughageKg = dryRoughages.length > 0 ? 5.5 : 0;
+    targetFactoryKg = factoryFeeds.length > 0 ? 2.0 : 0;
+    targetGrainKg = grains.length > 0 ? 1.0 : 0;
+    targetProteinMealKg = proteinMeals.length > 0 ? 0.5 : 0;
+    targetByproductKg = byproducts.length > 0 ? 0.8 : 0;
+  } else if (animalType === 'besi_380') {
+    targetWetRoughageKg = wetRoughages.length > 0 ? 10.0 : 0;
+    targetDryRoughageKg = dryRoughages.length > 0 ? 2.2 : 0;
+    targetFactoryKg = factoryFeeds.length > 0 ? 4.5 : 0;
+    targetGrainKg = grains.length > 0 ? (factoryFeeds.length > 0 ? 4.5 : 6.5) : 0;
+    targetProteinMealKg = proteinMeals.length > 0 ? 1.6 : 0;
+    targetByproductKg = byproducts.length > 0 ? 1.0 : 0;
+  } else if (animalType === 'besi_480') {
+    targetWetRoughageKg = wetRoughages.length > 0 ? 6.0 : 0;
+    targetDryRoughageKg = dryRoughages.length > 0 ? 1.5 : 0;
+    targetFactoryKg = factoryFeeds.length > 0 ? 5.0 : 0;
+    targetGrainKg = grains.length > 0 ? (factoryFeeds.length > 0 ? 6.5 : 8.5) : 0;
+    targetProteinMealKg = proteinMeals.length > 0 ? 1.8 : 0;
+    targetByproductKg = byproducts.length > 0 ? 0.8 : 0;
   }
-  if (inekBasiArpa === 0 && inekBasiFabrika === 0 && inekBasiKuspe === 0) {
-    inekBasiFabrika = 5.0;
+
+  // Güvenlik dengelemesi: Eğer kullanıcı sadece kaba yem veya sadece kesif yem seçtiyse
+  const totalRoughageCount = wetRoughages.length + dryRoughages.length;
+  const totalConcCount = factoryFeeds.length + grains.length + proteinMeals.length + byproducts.length;
+
+  if (totalRoughageCount === 0 && totalConcCount > 0) {
+    showToast("⚠️ Dikkat: Rasyonda hiç kaba yem (saman/yonca/silaj) yok! Rumen asidozu riskine karşı en az 1 kaba yem seçiniz.", "toast-warning");
   }
 
   const items = [];
-  if (inekBasiSilaj > 0) items.push({ name: 'Mısır Silajı', inekKg: inekBasiSilaj, vagonKg: inekBasiSilaj * cowCount });
-  if (inekBasiYonca > 0) items.push({ name: 'Yonca Kuru Otu', inekKg: inekBasiYonca, vagonKg: inekBasiYonca * cowCount });
-  if (inekBasiSaman > 0) items.push({ name: 'Buğday Samanı', inekKg: inekBasiSaman, vagonKg: inekBasiSaman * cowCount });
-  if (inekBasiArpa > 0) items.push({ name: 'Arpa Ezmesi / Kırma', inekKg: inekBasiArpa, vagonKg: inekBasiArpa * cowCount });
-  if (inekBasiFabrika > 0) items.push({ name: 'Süt / Akıllı Fabrika Yemi', inekKg: inekBasiFabrika, vagonKg: inekBasiFabrika * cowCount });
-  if (inekBasiKuspe > 0) items.push({ name: 'Protein Küspesi (PTK / Soya)', inekKg: inekBasiKuspe, vagonKg: inekBasiKuspe * cowCount });
+
+  // 1. Yaş kaba yemler & silajlar
+  if (wetRoughages.length > 0) {
+    const perFeed = targetWetRoughageKg / wetRoughages.length;
+    wetRoughages.forEach(f => {
+      items.push({ feed: f, inekKg: perFeed });
+    });
+  }
+
+  // 2. Kuru kaba yemler (Saman, Yonca)
+  if (dryRoughages.length > 0) {
+    // Saman ile yonca ayrımı: Samanı 1.2-1.8 kg civarında tut, kalanı yoncaya ver
+    const samanFeeds = dryRoughages.filter(f => f.id.includes('saman') || f.id.includes('sap'));
+    const otFeeds = dryRoughages.filter(f => !samanFeeds.some(s => s.id === f.id));
+
+    if (samanFeeds.length > 0 && otFeeds.length > 0) {
+      const samanShare = Math.min(1.5, targetDryRoughageKg * 0.35);
+      const otShare = targetDryRoughageKg - samanShare;
+      samanFeeds.forEach(f => items.push({ feed: f, inekKg: samanShare / samanFeeds.length }));
+      otFeeds.forEach(f => items.push({ feed: f, inekKg: otShare / otFeeds.length }));
+    } else {
+      const perFeed = targetDryRoughageKg / dryRoughages.length;
+      dryRoughages.forEach(f => items.push({ feed: f, inekKg: perFeed }));
+    }
+  }
+
+  // 3. Fabrika & Akıllı Yemler
+  if (factoryFeeds.length > 0) {
+    const perFeed = targetFactoryKg / factoryFeeds.length;
+    factoryFeeds.forEach(f => items.push({ feed: f, inekKg: perFeed }));
+  }
+
+  // 4. Dane / Tahıl Kırmaları
+  if (grains.length > 0) {
+    const perFeed = targetGrainKg / grains.length;
+    grains.forEach(f => items.push({ feed: f, inekKg: perFeed }));
+  }
+
+  // 5. Protein Küspeleri
+  if (proteinMeals.length > 0) {
+    const perFeed = targetProteinMealKg / proteinMeals.length;
+    proteinMeals.forEach(f => items.push({ feed: f, inekKg: perFeed }));
+  }
+
+  // 6. Yan ürünler (Kepek, Melas vb.)
+  if (byproducts.length > 0) {
+    const perFeed = targetByproductKg / byproducts.length;
+    byproducts.forEach(f => items.push({ feed: f, inekKg: perFeed }));
+  }
+
+  // 7. Mineraller & Katkılar
+  minerals.forEach(f => {
+    let mKg = 0.05;
+    if (f.id === 'bikarbonat') mKg = 0.15;
+    else if (f.id === 'mermer_tozu') mKg = 0.10;
+    else if (f.id === 'yem_tuzu' || f.id === 'kaya_tuzu') mKg = 0.06;
+    else if (f.id === 'vit_min_premiksi') mKg = 0.05;
+    else if (f.id === 'canli_maya') mKg = 0.03;
+    else if (f.id === 'bypass_yag') mKg = 0.20;
+    items.push({ feed: f, inekKg: mKg });
+  });
+
+  // Toplam hesaplamaları
+  let toplamInekKg = 0;
+  let toplamVagonKg = 0;
+  let gunlukMaliyetInek = 0;
+  let kabaKmTotal = 0;
+  let kesifKmTotal = 0;
+
+  items.forEach(it => {
+    it.vagonKg = it.inekKg * cowCount;
+    it.maliyetTL = it.inekKg * (it.feed.price || 5.0);
+    const kmKg = it.inekKg * ((it.feed.km || 88) / 100);
+
+    toplamInekKg += it.inekKg;
+    toplamVagonKg += it.vagonKg;
+    gunlukMaliyetInek += it.maliyetTL;
+
+    if (it.feed.category === 'kaba') {
+      kabaKmTotal += kmKg;
+    } else {
+      kesifKmTotal += kmKg;
+    }
+  });
+
+  const totalKm = kabaKmTotal + kesifKmTotal;
+  const kabaYuzde = totalKm > 0 ? Math.round((kabaKmTotal / totalKm) * 100) : 50;
+  const kesifYuzde = 100 - kabaYuzde;
 
   resultWrap.style.display = 'block';
   resultWrap.innerHTML = `
-    <div style="background:rgba(255,221,0,0.12); border:2px solid var(--primary); border-radius:4px; padding:16px;">
-      <h4 style="margin:0 0 10px 0; font-weight:800; color:var(--text); font-size:1.15rem;">
-        📋 Hazırlanan Yem Dağıtım Tablosu (${cowCount} Baş Hayvan İçin):
-      </h4>
+    <div style="background:var(--card-bg); border:2px solid var(--primary); border-radius:4px; padding:18px; box-shadow:0 4px 16px rgba(0,0,0,0.06);">
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+        <div>
+          <h4 style="margin:0 0 4px 0; font-weight:800; color:var(--text); font-size:1.2rem;">
+            📋 Günlük Yem Dağıtım Tablosu (${cowCount} Baş Hayvan İçin)
+          </h4>
+          <span style="font-size:0.85rem; color:var(--text-muted);">
+            Seçtiğiniz ${items.length} çeşit yem hammaddesi ve fabrika yemiyle dengelenmiştir.
+          </span>
+        </div>
+        <span class="badge" style="background:#ffdd00; color:#000; font-weight:800; padding:6px 12px; font-size:0.85rem; border-radius:4px;">
+          🚜 TMR VAGON HESABI AKTİF
+        </span>
+      </div>
+
+      <!-- 4 Temel Özet Kartı -->
+      <div class="grid-4" style="margin-bottom:16px;">
+        <div class="card" style="padding:10px; text-align:center; border-left:4px solid var(--primary);">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted);">🐮 1 Hayvanın Payı</div>
+          <div style="font-size:1.45rem; font-weight:900; color:var(--primary); margin:2px 0;">${toplamInekKg.toFixed(1)} <span style="font-size:0.8rem;">kg</span></div>
+          <div style="font-size:0.72rem; color:var(--text-muted);">Günlük Toplam Tüketim</div>
+        </div>
+        <div class="card" style="padding:10px; text-align:center; border-left:4px solid #28a745;">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted);">🚜 Vagon Yükü (${cowCount} Baş)</div>
+          <div style="font-size:1.45rem; font-weight:900; color:#28a745; margin:2px 0;">${toplamVagonKg.toFixed(0)} <span style="font-size:0.8rem;">kg</span></div>
+          <div style="font-size:0.72rem; color:var(--text-muted);">Miksere Atılacak Toplam</div>
+        </div>
+        <div class="card" style="padding:10px; text-align:center; border-left:4px solid #fd7e14;">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted);">🌾 Kaba / Kesif Oranı</div>
+          <div style="font-size:1.45rem; font-weight:900; color:#fd7e14; margin:2px 0;">%${kabaYuzde} / %${kesifYuzde}</div>
+          <div style="font-size:0.72rem; color:var(--text-muted);">KM Bazında Denge</div>
+        </div>
+        <div class="card" style="padding:10px; text-align:center; border-left:4px solid #007bff;">
+          <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted);">💰 Tahmini Günlük Maliyet</div>
+          <div style="font-size:1.45rem; font-weight:900; color:#007bff; margin:2px 0;">${gunlukMaliyetInek.toFixed(1)} <span style="font-size:0.8rem;">₺</span></div>
+          <div style="font-size:0.72rem; color:var(--text-muted);">1 Hayvan İçin / Gün</div>
+        </div>
+      </div>
+
+      <!-- Detaylı Yem Tablosu -->
       <div style="overflow-x:auto;">
         <table style="width:100%; border-collapse:collapse; font-size:0.90rem;">
           <thead>
-            <tr style="background:var(--primary); color:#000;">
-              <th style="padding:8px; text-align:left;">Yem Maddesi</th>
-              <th style="padding:8px; text-align:center;">1 Hayvanın Günlük Payı</th>
-              <th style="padding:8px; text-align:right;">🚜 Karma Vagonuna Atılacak Toplam</th>
+            <tr style="background:#181b1e; color:#ffdd00;">
+              <th style="padding:10px 8px; text-align:left;">Yem Maddesi & Fabrika Yemi</th>
+              <th style="padding:10px 8px; text-align:center;">1 Hayvanın Günlük Payı</th>
+              <th style="padding:10px 8px; text-align:right;">🚜 Karma Vagonuna Atılacak (${cowCount} Baş)</th>
+              <th style="padding:10px 8px; text-align:right;">Birim Fiyat</th>
             </tr>
           </thead>
           <tbody>
-            ${items.map(it => `
-              <tr style="border-bottom:1px solid var(--border);">
-                <td style="padding:8px; font-weight:700;">${it.name}</td>
-                <td style="padding:8px; text-align:center; font-weight:800; color:var(--primary);">${it.inekKg.toFixed(1)} kg</td>
-                <td style="padding:8px; text-align:right; font-weight:800; color:var(--text);">${it.vagonKg.toFixed(0)} kg</td>
-              </tr>
-            `).join('')}
+            ${items.map((it, idx) => {
+              const isAkilli = it.feed.id.startsWith('akilli_');
+              const isFabrika = it.feed.category === 'karma' && !isAkilli;
+              let badge = '';
+              if (isAkilli) badge = `<span class="badge" style="background:#ffdd00; color:#000; font-size:0.65rem; padding:1px 4px; font-weight:800;">⭐ AKILLI YEM</span>`;
+              else if (isFabrika) badge = `<span class="badge" style="background:rgba(255,221,0,0.25); color:#856404; font-size:0.65rem; padding:1px 4px;">FABRİKA</span>`;
+              
+              return `
+                <tr style="border-bottom:1px solid var(--border); background:${idx % 2 === 0 ? 'rgba(0,0,0,0.015)' : 'transparent'};">
+                  <td style="padding:10px 8px;">
+                    <div style="font-weight:700; color:var(--text);">${it.feed.name}</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">${badge} %${it.feed.hp} HP • ${it.feed.me} ME</div>
+                  </td>
+                  <td style="padding:10px 8px; text-align:center; font-weight:800; font-size:1.05rem; color:var(--primary);">
+                    ${it.inekKg.toFixed(2)} kg
+                  </td>
+                  <td style="padding:10px 8px; text-align:right; font-weight:900; font-size:1.1rem; color:var(--text);">
+                    ${it.vagonKg.toFixed(1)} kg
+                  </td>
+                  <td style="padding:10px 8px; text-align:right; color:var(--text-muted); font-size:0.85rem;">
+                    ${(it.feed.price || 0).toFixed(2)} ₺/kg
+                  </td>
+                </tr>
+              `;
+            }).join('')}
           </tbody>
+          <tfoot>
+            <tr style="background:rgba(255,221,0,0.15); font-weight:800; border-top:2px solid var(--primary);">
+              <td style="padding:10px 8px;">TOPLAM GÜNLÜK YÜKLEME:</td>
+              <td style="padding:10px 8px; text-align:center; font-size:1.1rem; color:var(--primary);">${toplamInekKg.toFixed(1)} kg</td>
+              <td style="padding:10px 8px; text-align:right; font-size:1.2rem; color:var(--text);">${toplamVagonKg.toFixed(0)} kg</td>
+              <td style="padding:10px 8px; text-align:right; color:var(--text);">${(gunlukMaliyetInek * cowCount).toFixed(0)} ₺</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
-      <div style="margin-top:12px; font-size:0.88rem; color:var(--text-muted); line-height:1.5;">
-        💡 <strong>Önemli Tavsiye:</strong> Yemleri önce kaba yemler (saman, yonca), sonra silaj ve en son unlu ezmeleri dökecek şekilde vagonda karıştırınız.
+
+      <!-- Pratik Vagon Yükleme Sırası -->
+      <div style="background:rgba(255,221,0,0.08); border:1px solid rgba(255,221,0,0.3); border-radius:4px; padding:12px 14px; margin-top:14px; font-size:0.88rem; line-height:1.6;">
+        <div style="font-weight:800; color:var(--text); margin-bottom:6px; display:flex; align-items:center; gap:6px;">
+          🚜 Vagon Başında Doğru Karıştırma Sırası (Homojen TMR Kuralı):
+        </div>
+        <ol style="margin:0; padding-left:20px; color:var(--text);">
+          <li><strong>1. Adım:</strong> Kuru kaba yemleri (Buğday samanı, yonca kuru otu) miksere atın; 3-4 dakika parçalansın.</li>
+          <li><strong>2. Adım:</strong> Yaş kaba yemleri (Mısır silajı, yaş şeker pancarı posası) ekleyin.</li>
+          <li><strong>3. Adım:</strong> Fabrika yemlerini, arpa/mısır kırmasını ve protein küspelerini dökün.</li>
+          <li><strong>4. Adım:</strong> En son mineral, yem sodası (bikarbonat) ve premiksleri ekleyip mikseri 4-5 dakika daha homojen karıştırın.</li>
+        </ol>
       </div>
+
     </div>
   `;
+
   resultWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
@@ -3101,7 +3424,7 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=2.0.8').then((reg) => {
+    navigator.serviceWorker.register('./sw.js?v=2.0.9').then((reg) => {
       console.log('Tosun Paşa SW v2.0.6 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();

@@ -2677,3 +2677,85 @@ body.dark-mode .yet-action-card {
   color: var(--text-muted);
 }
 
+/* Yetiştirici Kendi Yemini Hazırla Kategori ve Yem Kartı Stilleri */
+.yet-cat-btn {
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border-radius: 4px !important;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.yet-cat-btn:hover {
+  background: rgba(255, 221, 0, 0.12);
+  color: var(--text);
+}
+
+.yet-cat-btn.active {
+  background: var(--primary) !important;
+  color: #000000 !important;
+  border-color: #e6c700 !important;
+  font-weight: 800;
+}
+
+body.dark-mode .yet-cat-btn {
+  background: #1e242b;
+  border-color: #30363d;
+  color: #8b949e;
+}
+
+body.dark-mode .yet-cat-btn:hover {
+  background: #283038;
+  color: #ffffff;
+}
+
+body.dark-mode .yet-cat-btn.active {
+  background: #ffdd00 !important;
+  color: #000000 !important;
+  border-color: #e6c700 !important;
+}
+
+.yet-feed-item-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px !important;
+  cursor: pointer;
+  background: var(--card-bg);
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.yet-feed-item-label:hover {
+  border-color: var(--primary);
+  background: rgba(255, 221, 0, 0.05);
+}
+
+.yet-feed-item-label.selected {
+  border-color: var(--primary);
+  background: rgba(255, 221, 0, 0.14);
+}
+
+body.dark-mode .yet-feed-item-label {
+  background: #181d24;
+  border-color: #30363d;
+}
+
+body.dark-mode .yet-feed-item-label:hover {
+  border-color: #ffdd00;
+  background: rgba(255, 221, 0, 0.08);
+}
+
+body.dark-mode .yet-feed-item-label.selected {
+  border-color: #ffdd00;
+  background: rgba(255, 221, 0, 0.18);
+}
+
+

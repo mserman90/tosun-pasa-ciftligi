@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.0.8 - Yetiştirici ve Zooteknist Özel Kullanım Kılavuzları
-const CACHE_NAME = 'tosun-pasa-v2.0.8';
+// Sürüm 2.0.9 - Kendi Yemini Hazırla Türkiye Yem Hammaddeleri ve Fabrika Yemleri Genişletmesi
+const CACHE_NAME = 'tosun-pasa-v2.0.9';
 
 const ASSETS_TO_CACHE = [
   './',
