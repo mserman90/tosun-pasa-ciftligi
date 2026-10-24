@@ -2320,6 +2320,9 @@ function switchMasterTab(tabId) {
     renderAgronomyCards();
     renderFieldLedger();
   }
+
+  // Servis Plan Lazy Load re-scan for newly visible tab content
+  setTimeout(() => initLazyLoader(), 60);
 }
 
 function switchSubNav(parentTabId, subSectionId) {
@@ -2381,8 +2384,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=1.7.0').then((reg) => {
-      console.log('Tosun Paşa SW v1.7.0 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=1.8.0').then((reg) => {
+      console.log('Tosun Paşa SW v1.8.0 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {
@@ -2437,8 +2440,55 @@ window.addEventListener('online', () => {
   showToast("İnternet bağlantısı tekrar sağlandı.", "toast-success");
 });
 
+// =============================================================================
+// SERVIS PLAN LAZY LOAD & PERFORMANCE OBSERVER
+// =============================================================================
+let globalLazyObserver = null;
+
+function initLazyLoader() {
+  if ('IntersectionObserver' in window) {
+    if (!globalLazyObserver) {
+      globalLazyObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+
+            // Swap lazy image sources if present
+            if (el.dataset.lazySrc) {
+              el.src = el.dataset.lazySrc;
+              el.removeAttribute('data-lazy-src');
+            }
+            if (el.dataset.lazyBg) {
+              el.style.backgroundImage = `url('${el.dataset.lazyBg}')`;
+              el.removeAttribute('data-lazy-bg');
+            }
+
+            // Trigger Servis Plan style smooth reveal animation
+            el.classList.add('revealed');
+            observer.unobserve(el);
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: '140px 0px 140px 0px',
+        threshold: 0.05
+      });
+    }
+
+    // Observe all lazy items
+    document.querySelectorAll('.lazy-reveal:not(.revealed), .lazy-reveal-zoom:not(.revealed), [data-lazy-src], [data-lazy-bg]').forEach(el => {
+      globalLazyObserver.observe(el);
+    });
+  } else {
+    // Fallback: reveal immediately
+    document.querySelectorAll('.lazy-reveal, .lazy-reveal-zoom').forEach(el => el.classList.add('revealed'));
+  }
+}
+
 // INITIAL DOM READY
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Servis Plan Lazy Loading & Scroll Reveal
+  initLazyLoader();
   // DOM Sağlık Rehberi İsim Güvencesi
   document.querySelectorAll('[data-tab="tab-doctor"]').forEach(el => {
     el.innerHTML = '🩺 Sağlık Rehberi';

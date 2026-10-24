@@ -4,37 +4,41 @@
    ========================================================================== */
 
 :root {
-  --header-bg: #075e54;        /* Üst Header & Navigasyon Zemin Rengi */
-  --primary-dark: #075e54;     /* Koyu Kurumsal Yeşil (Başlıklar, Kart Vurguları) */
-  --primary: #128c7e;          /* Canlı Zümrüt Yeşili (Aktif Butonlar, Vurgular) */
-  --primary-light: #25d366;    /* Açık Yeşil (Başarı, Pozitif Uyarılar) */
-  --primary-hover: #0a6f63;    /* Buton Hover Rengi */
-  --bg: #efeae2;               /* Klasik Sıcak Arka Plan (Göz Yormayan Açık Gri-Bej) */
+  --header-bg: #181b1e;        /* Servis Plan Sleek Carbon Anthracite */
+  --primary-dark: #181b1e;     /* Başlıklar & Koyu Vurgular */
+  --primary: #ffdd00;          /* Servis Plan İmzası Elektrik Sarı / Altın */
+  --primary-text: #000000;     /* Sarı Üzerine Ultra Okunaklı Siyah Metin */
+  --primary-light: #ffe833;    /* Canlı Açık Sarı (Hover) */
+  --primary-hover: #e6c700;    /* Buton Hover Rengi */
+  --bg: #f4f6f8;               /* Modern, Temiz, Göz Yormayan Açık Gri Arka Plan */
   --card-bg: #ffffff;          /* Beyaz Kart ve Modal Zeminleri */
-  --text: #111b21;             /* Koyu Metin (Yüksek Okunabilirlik) */
-  --text-muted: #54656f;       /* Yardımcı ve Açıklama Metinleri */
-  --border: #d1d7db;           /* Çerçeve Çizgileri */
-  --danger: #dc2626;           /* Acil Durum / Zehirlenme / Arınma Süresi */
-  --warning: #f59e0b;          /* Dikkat / Sınırda / Kontrol Uyarısı */
+  --text: #181b1e;             /* Koyu Metin (Yüksek Okunabilirlik) */
+  --text-muted: #5c6670;       /* Yardımcı ve Açıklama Metinleri */
+  --border: #e2e8f0;           /* Modern Çerçeve Çizgileri */
+  --danger: #ff5158;           /* Servis Plan Kırmızı (Acil Durum / İKAS Kalkanı) */
+  --warning: #ffaa00;          /* Kehribar Sarı Uyarı */
+  --success: #059669;          /* Pozitif Durum */
   --radius: 4px;               /* Sabit Köşe Standardı */
-  --shadow-sm: 0 1px 2px rgba(11, 20, 26, 0.08);
-  --shadow-md: 0 3px 8px rgba(11, 20, 26, 0.12);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* Yüksek Kontrastlı Gece Modu (Dark Mode) */
 body.dark-mode {
-  --bg: #0b141a;
-  --card-bg: #111b21;
-  --text: #e9edef;
-  --text-muted: #8696a0;
-  --border: #222e35;
-  --header-bg: #111b21;
-  --primary-dark: #00a884;     /* Gece modunda yazılar için yüksek kontrastlı canlı zümrüt */
-  --primary: #00a884;
-  --primary-hover: #029071;
-  --primary-light: #25d366;
-  --danger: #ef4444;           /* Gece modunda net okunan canlı kırmızı */
-  --warning: #fbbf24;          /* Gece modunda net okunan canlı kehribar */
+  --bg: #0e1217;
+  --card-bg: #161b22;
+  --text: #f0f6fc;
+  --text-muted: #8b949e;
+  --border: #30363d;
+  --header-bg: #161b22;
+  --primary-dark: #ffdd00;     /* Gece modunda yazılar için sarı vurgu */
+  --primary: #ffdd00;
+  --primary-text: #000000;
+  --primary-hover: #ffe833;
+  --primary-light: #ffe833;
+  --danger: #ff5158;
+  --warning: #ffaa00;
+  --success: #10b981;
   color-scheme: dark;
 }
 
@@ -73,6 +77,7 @@ html, body {
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 3px solid var(--primary);
 }
 
 .header-brand {
@@ -95,7 +100,7 @@ html, body {
 }
 
 .header-brand:focus-visible {
-  outline: 2px solid var(--primary-light);
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
 
@@ -109,7 +114,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 2px var(--primary);
 }
 
 .header-avatar img, .header-avatar svg {
@@ -120,10 +125,11 @@ html, body {
 
 .header-titles h1 {
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: 800;
   line-height: 1.2;
   letter-spacing: -0.01em;
   margin: 0;
+  color: #ffffff;
 }
 
 .header-titles p {
@@ -139,10 +145,10 @@ html, body {
 .status-dot {
   width: 8px;
   height: 8px;
-  background-color: var(--primary-light);
+  background-color: var(--primary);
   border-radius: 50%;
   display: inline-block;
-  box-shadow: 0 0 6px var(--primary-light);
+  box-shadow: 0 0 6px var(--primary);
 }
 
 .header-actions {
@@ -154,8 +160,8 @@ html, body {
 
 /* Header Action Buttons */
 .btn-header {
-  background: rgba(255, 255, 255, 0.16);
-  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 221, 0, 0.45);
   color: #ffffff;
   border-radius: 4px;
   min-height: 40px;
@@ -171,8 +177,9 @@ html, body {
 }
 
 .btn-header:hover {
-  background: rgba(255, 255, 255, 0.28);
-  border-color: rgba(255, 255, 255, 0.6);
+  background: var(--primary);
+  color: #000000;
+  border-color: var(--primary);
 }
 
 /* Master Navigation Tabs */
@@ -337,14 +344,16 @@ body.dark-mode .card-title {
 }
 
 .sub-nav-btn:hover {
-  background-color: rgba(18, 140, 126, 0.08);
+  background-color: rgba(255, 221, 0, 0.12);
   border-color: var(--primary);
 }
 
 .sub-nav-btn.active {
   background-color: var(--primary);
-  color: #ffffff;
-  border-color: var(--primary);
+  color: #000000;
+  border-color: #e6c700;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(255, 221, 0, 0.3);
 }
 
 /* Form Controls (Strictly min-height 40px & border-radius: 4px) */
@@ -411,25 +420,36 @@ label {
 
 .btn-primary {
   background-color: var(--primary);
-  color: #ffffff;
+  color: #000000 !important;
+  font-weight: 700;
+  border: 1px solid #e6c700;
+  box-shadow: 0 2px 6px rgba(255, 221, 0, 0.25);
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-hover);
+  background-color: var(--primary-light);
+  color: #000000 !important;
+  box-shadow: 0 4px 12px rgba(255, 221, 0, 0.38);
+  border-color: #d4b500;
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background-color: transparent;
+  background-color: var(--card-bg);
   border: 1px solid var(--border);
   color: var(--text);
+  font-weight: 600;
 }
 
 .btn-secondary:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 221, 0, 0.1);
+  border-color: var(--primary);
+  color: var(--text);
 }
 
 body.dark-mode .btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: rgba(255, 221, 0, 0.12);
+  border-color: var(--primary);
 }
 
 .btn-danger {
@@ -473,14 +493,16 @@ body.dark-mode .btn-secondary:hover {
   letter-spacing: 0.02em;
 }
 
-.badge-success { background-color: #dcfce7; color: #15803d; }
-.badge-warning { background-color: #fef3c7; color: #b45309; }
-.badge-danger  { background-color: #fee2e2; color: #b91c1c; }
+.badge-primary, .badge-servis { background-color: #ffdd00; color: #000000; border: 1px solid #e6c700; font-weight: 800; }
+.badge-success { background-color: rgba(255, 221, 0, 0.18); color: #856404; border: 1px solid rgba(255, 221, 0, 0.5); }
+.badge-warning { background-color: rgba(255, 170, 0, 0.15); color: #b45309; }
+.badge-danger  { background-color: rgba(255, 81, 88, 0.15); color: #dc2626; }
 .badge-info    { background-color: #e0f2fe; color: #0369a1; }
 
-body.dark-mode .badge-success { background-color: #064e3b; color: #a7f3d0; }
-body.dark-mode .badge-warning { background-color: #78350f; color: #fde68a; }
-body.dark-mode .badge-danger  { background-color: #7f1d1d; color: #fecaca; }
+body.dark-mode .badge-primary, body.dark-mode .badge-servis { background-color: #ffdd00; color: #000000; }
+body.dark-mode .badge-success { background-color: rgba(255, 221, 0, 0.22); color: #ffdd00; }
+body.dark-mode .badge-warning { background-color: rgba(255, 170, 0, 0.25); color: #fde68a; }
+body.dark-mode .badge-danger  { background-color: rgba(255, 81, 88, 0.25); color: #fecaca; }
 body.dark-mode .badge-info    { background-color: #0c4a6e; color: #bae6fd; }
 
 /* Tables */
@@ -505,9 +527,14 @@ th, td {
 }
 
 th {
-  background-color: rgba(7, 94, 84, 0.08);
+  background-color: rgba(24, 27, 30, 0.05);
   font-weight: 700;
   color: var(--primary-dark);
+}
+
+body.dark-mode th {
+  background-color: rgba(255, 255, 255, 0.04);
+  color: var(--primary);
 }
 
 body.dark-mode th {
@@ -1042,15 +1069,15 @@ button, .btn, .sub-nav-btn, .tab-btn {
    Hero Landing Screen Styles (Gösterişli Giriş Paneli)
    ========================================================================== */
 .hero-banner {
-  background: radial-gradient(circle at 100% 0%, #128c7e 0%, #075e54 45%, #032b26 100%);
+  background: radial-gradient(circle at 95% 5%, rgba(255, 221, 0, 0.22) 0%, rgba(24, 27, 30, 0.95) 45%, #0e1217 100%);
   color: #ffffff;
   border-radius: 4px !important;
-  border: 1.5px solid rgba(37, 211, 102, 0.3);
+  border: 1.5px solid rgba(255, 221, 0, 0.45);
   padding: 32px 26px;
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(7, 94, 84, 0.25);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
 }
 
 .hero-banner::after {
@@ -1060,7 +1087,7 @@ button, .btn, .sub-nav-btn, .tab-btn {
   right: -60px;
   width: 260px;
   height: 260px;
-  background: radial-gradient(circle, rgba(245, 158, 11, 0.2) 0%, rgba(37, 211, 102, 0.1) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 221, 0, 0.25) 0%, rgba(255, 81, 88, 0.1) 40%, transparent 70%);
   pointer-events: none;
 }
 
@@ -1068,16 +1095,17 @@ button, .btn, .sub-nav-btn, .tab-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(90deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.15));
-  border: 1px solid rgba(245, 158, 11, 0.6);
-  color: #fef3c7;
-  padding: 4px 12px;
+  background: #ffdd00;
+  border: 1px solid #e6c700;
+  color: #000000;
+  padding: 5px 14px;
   border-radius: 4px !important;
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(255, 221, 0, 0.3);
 }
 
 .hero-header-flex {
@@ -1097,7 +1125,7 @@ button, .btn, .sub-nav-btn, .tab-btn {
   content: '';
   position: absolute;
   top: -6px; left: -6px; right: -6px; bottom: -6px;
-  border: 2px solid rgba(37, 211, 102, 0.7);
+  border: 2px solid rgba(255, 221, 0, 0.75);
   border-radius: 50%;
   animation: pulseRing 2.4s infinite ease-out;
 }
@@ -1113,12 +1141,12 @@ button, .btn, .sub-nav-btn, .tab-btn {
   height: 82px;
   min-width: 82px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ffffff 0%, #fef3c7 100%);
+  background: #ffffff;
   padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.9), 0 8px 16px rgba(0,0,0,0.3);
+  box-shadow: 0 0 0 3px #ffdd00, 0 8px 16px rgba(0,0,0,0.4);
   position: relative;
   z-index: 2;
 }
@@ -1154,8 +1182,8 @@ button, .btn, .sub-nav-btn, .tab-btn {
 }
 
 .hero-badge-pill {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 221, 0, 0.35);
   color: #ffffff;
   padding: 5px 12px;
   border-radius: 4px !important;
@@ -1175,8 +1203,8 @@ button, .btn, .sub-nav-btn, .tab-btn {
 
 /* Hero Live Ticker Bar */
 .hero-ticker-wrap {
-  background: rgba(0, 0, 0, 0.28);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 221, 0, 0.3);
   border-radius: 4px !important;
   padding: 8px 16px;
   display: flex;
@@ -1197,7 +1225,7 @@ button, .btn, .sub-nav-btn, .tab-btn {
 }
 
 .hero-ticker-pill strong {
-  color: var(--primary-light);
+  color: #ffdd00;
 }
 
 /* ==========================================================================
@@ -1309,8 +1337,8 @@ body.dark-mode .hero-impact-val {
   width: 44px;
   height: 44px;
   min-width: 44px;
-  background: rgba(18, 140, 126, 0.1);
-  color: var(--primary);
+  background: rgba(255, 221, 0, 0.15);
+  color: #181b1e;
   border-radius: 4px !important;
   display: flex;
   align-items: center;
@@ -1319,7 +1347,8 @@ body.dark-mode .hero-impact-val {
 }
 
 body.dark-mode .superpower-icon {
-  background: rgba(0, 168, 132, 0.15);
+  background: rgba(255, 221, 0, 0.2);
+  color: var(--primary);
 }
 
 .superpower-title {
@@ -1402,13 +1431,13 @@ body.dark-mode .superpower-title {
 }
 
 .comparison-table th.th-tosun {
-  background: rgba(18, 140, 126, 0.12);
-  color: var(--primary-dark);
+  background: rgba(255, 221, 0, 0.22);
+  color: #181b1e;
   border-bottom-color: var(--primary);
 }
 
 body.dark-mode .comparison-table th.th-tosun {
-  background: rgba(0, 168, 132, 0.2);
+  background: rgba(255, 221, 0, 0.25);
   color: var(--primary);
 }
 
@@ -1439,8 +1468,8 @@ body.dark-mode .comparison-col-old {
 }
 
 .comparison-col-tosun {
-  color: #065f46;
-  background: rgba(18, 140, 126, 0.06);
+  color: #181b1e;
+  background: rgba(255, 221, 0, 0.08);
   font-weight: 600;
   width: 39%;
   min-width: 260px;
@@ -1448,8 +1477,8 @@ body.dark-mode .comparison-col-old {
 }
 
 body.dark-mode .comparison-col-tosun {
-  color: #6ee7b7;
-  background: rgba(0, 168, 132, 0.12);
+  color: #fef08a;
+  background: rgba(255, 221, 0, 0.12);
 }
 
 /* Farm Readiness Radar Card */
@@ -1475,8 +1504,8 @@ body.dark-mode .comparison-col-tosun {
 }
 
 .readiness-gauge-box {
-  background: rgba(18, 140, 126, 0.08);
-  border: 1px solid rgba(18, 140, 126, 0.25);
+  background: rgba(255, 221, 0, 0.12);
+  border: 1px solid rgba(255, 221, 0, 0.35);
   border-radius: 4px !important;
   padding: 16px;
   text-align: center;
@@ -1711,7 +1740,8 @@ body.dark-mode .section-card-title {
 }
 
 .tmr-scale-banner {
-  background: #075e54;
+  background: #181b1e;
+  border: 1.5px solid var(--primary);
   color: #ffffff;
   text-align: center;
   padding: 20px;
@@ -1719,8 +1749,8 @@ body.dark-mode .section-card-title {
 }
 
 body.dark-mode .tmr-scale-banner {
-  background: #182229;
-  border: 1px solid var(--border);
+  background: #161b22;
+  border: 1.5px solid var(--primary);
 }
 
 /* Toast Bildirimleri (Gece Modu Zemin/Yazı Kontrastı) */
@@ -1744,7 +1774,7 @@ body.dark-mode input:focus,
 body.dark-mode select:focus,
 body.dark-mode textarea:focus {
   border-color: var(--primary) !important;
-  box-shadow: 0 0 0 2px rgba(0, 168, 132, 0.25) !important;
+  box-shadow: 0 0 0 2px rgba(255, 221, 0, 0.25) !important;
 }
 
 body.dark-mode select option {
@@ -1773,7 +1803,8 @@ body.dark-mode table tfoot td {
 
 body.dark-mode tr[style*="background:rgba(18,140,126,0.1)"],
 body.dark-mode tr[style*="background: rgba(18, 140, 126, 0.1)"] {
-  background: rgba(0, 168, 132, 0.18) !important;
+  background: rgba(255, 221, 0, 0.18) !important;
+  color: #000000 !important;
 }
 
 /* Kart İçi Hafif Zemin Kutuları (Gece modunda kararık kalmaması için) */
@@ -1797,7 +1828,7 @@ body.dark-mode [style*="color: #075e54"] {
 body.dark-mode [style*="background:var(--primary-dark)"],
 body.dark-mode [style*="background: var(--primary-dark)"] {
   background: var(--primary) !important;
-  color: #ffffff !important;
+  color: #000000 !important;
 }
 
 /* Acil Durum Butonları Gece Modu Kontrastı */
@@ -1816,5 +1847,76 @@ body.dark-mode .btn-emergency-shortcut:hover {
 body.dark-mode .modal-footer {
   background: rgba(255, 255, 255, 0.02);
   border-top-color: var(--border);
+}
+
+/* ==========================================================================
+   Servis Plan & Modern Web Guidance: Lazy Load & Performance Engine
+   ========================================================================== */
+
+/* 1. CSS Content-Visibility Deferral (Skips layout/paint when off-screen) */
+.lazy-defer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto none auto 280px;
+}
+
+/* 2. Scroll-Driven IntersectionObserver Reveal Animations (Servis Plan AOS style) */
+.lazy-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.lazy-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.lazy-reveal-zoom {
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  will-change: opacity, transform;
+}
+
+.lazy-reveal-zoom.revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 3. Native Lazy Loading for Media & Placeholders */
+img[loading="lazy"] {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.lazy-placeholder {
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.04) 25%, rgba(0, 0, 0, 0.08) 50%, rgba(0, 0, 0, 0.04) 75%);
+  background-size: 200% 100%;
+  animation: lazyShimmer 1.5s infinite;
+}
+
+@keyframes lazyShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+body.dark-mode .lazy-placeholder {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.07) 50%, rgba(255, 255, 255, 0.03) 75%);
+}
+
+/* Servis Plan Style Bobble Scroll Animation */
+@keyframes bobble {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+.bobble {
+  animation: bobble 1.8s infinite ease-in-out;
+  display: inline-block;
 }
 

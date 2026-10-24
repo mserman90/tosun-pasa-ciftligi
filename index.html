@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1.7.0">
+  <link rel="stylesheet" href="styles.css?v=1.8.0">
 </head>
 <body>
 
@@ -30,7 +30,7 @@
   <header class="app-header">
     <div class="header-brand" onclick="goToHome()" role="button" tabindex="0" title="Ana Sayfa (Giriş Paneli)" onkeydown="if(event.key==='Enter'||event.key===' ') goToHome()">
       <div class="header-avatar">
-        <img src="noto-ox.svg" alt="Tosun Paşa Logosu" width="38" height="38">
+        <img src="noto-ox.svg" alt="Tosun Paşa Logosu" width="38" height="38" loading="lazy" decoding="async">
       </div>
       <div class="header-titles">
         <h1>Tosun Paşa Çiftliği</h1>
@@ -100,7 +100,7 @@
         <div class="hero-header-flex">
           <div class="pulse-ring-container">
             <div class="hero-avatar-large">
-              <img src="noto-ox.svg" alt="Tosun Paşa Logosu" width="76" height="76">
+              <img src="noto-ox.svg" alt="Tosun Paşa Logosu" width="76" height="76" loading="lazy" decoding="async">
             </div>
           </div>
           <div class="hero-title-group">
@@ -138,23 +138,27 @@
 
         <!-- Spectacular CTA Buttons -->
         <div class="hero-actions-row">
-          <button type="button" class="btn btn-primary" style="background:#25d366; color:#064e3b; font-weight:800; font-size:1.02rem; padding:10px 22px; box-shadow:0 4px 14px rgba(37,211,102,0.4);" onclick="jumpToDoctor('sub-doc-diag')">
+          <button type="button" class="btn btn-primary" style="background:#ffdd00; color:#000000; font-weight:800; font-size:1.02rem; padding:10px 22px; box-shadow:0 4px 14px rgba(255,221,0,0.4); border:1px solid #e6c700;" onclick="jumpToDoctor('sub-doc-diag')">
             🚀 ÇİFTLİK YÖNETİM MERKEZİNE GİRİŞ YAP
           </button>
-          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.45); color:#ffffff; font-weight:700;" onclick="jumpToRation('sub-ration-optimizer')">
+          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.12); border-color:rgba(255,221,0,0.45); color:#ffffff; font-weight:700;" onclick="jumpToRation('sub-ration-optimizer')">
             🌾 Rasyon Robotu (LP Simplex)
           </button>
-          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.45); color:#ffffff; font-weight:700;" onclick="jumpToRepro('sub-repro-ledger')">
+          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.12); border-color:rgba(255,221,0,0.45); color:#ffffff; font-weight:700;" onclick="jumpToRepro('sub-repro-ledger')">
             🍼 Döl & Gebelik Takvimi
           </button>
-          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.18); border-color:rgba(255,255,255,0.45); color:#ffffff; font-weight:700;" onclick="openModal('modal-data-center')">
+          <button type="button" class="btn btn-secondary" style="background:rgba(255,255,255,0.12); border-color:rgba(255,221,0,0.45); color:#ffffff; font-weight:700;" onclick="openModal('modal-data-center')">
             💾 Veri İstasyonu
           </button>
+        </div>
+
+        <div style="text-align:center; margin-top:14px;">
+          <a href="#tab-home" class="bobble" style="color:#ffdd00; font-size:1.3rem; text-decoration:none; cursor:pointer;" onclick="document.querySelector('.hero-impact-grid')?.scrollIntoView({behavior:'smooth'}); return false;" title="Aşağı Kaydır">↓</a>
         </div>
       </div>
 
       <!-- 4 Temel Kazanç & Verim Metriği (Impact Grid) -->
-      <div class="hero-impact-grid">
+      <div class="hero-impact-grid lazy-defer lazy-reveal">
         <div class="hero-impact-card impact-accent-success">
           <div class="hero-impact-val">
             <span>%28'e</span>
@@ -193,7 +197,7 @@
       </div>
 
       <!-- Farm Readiness Radar Card -->
-      <div class="hero-readiness-card">
+      <div class="hero-readiness-card lazy-defer lazy-reveal">
         <div class="readiness-gauge-box">
           <div class="readiness-score-num num">%98.4</div>
           <div class="readiness-score-label">Çiftlik Performans & Hazırlık İndeksi</div>
@@ -249,7 +253,7 @@
         <span style="font-size:0.8rem; color:var(--text-muted);">Bilimsel Algoritmalar & Saha Mühendisliği</span>
       </div>
 
-      <div class="hero-superpowers-grid">
+      <div class="hero-superpowers-grid lazy-defer lazy-reveal">
         <!-- Güç 1 -->
         <div class="superpower-card" style="border-left-color: #10b981;">
           <div class="superpower-header">
@@ -388,7 +392,7 @@
         <span class="card-title">📊 Çiftlik Genel Durum & Canlı İstatistikler</span>
         <span style="font-size:0.8rem; color:var(--text-muted);">Cihaz Hafızasından Canlı</span>
       </div>
-      <div id="hero-stats-container" class="farm-stats-grid">
+      <div id="hero-stats-container" class="farm-stats-grid lazy-defer lazy-reveal">
         <!-- Loaded dynamically by updateHeroDashboardStats() -->
       </div>
 
@@ -398,7 +402,7 @@
         <span style="font-size:0.8rem; color:var(--text-muted);">4 Temel Modül</span>
       </div>
 
-      <div class="hero-modules-grid">
+      <div class="hero-modules-grid lazy-defer lazy-reveal">
         
         <!-- Modül 1 Card -->
         <div class="hero-module-card" onclick="jumpToDoctor('sub-doc-diag')">
@@ -503,7 +507,7 @@
       </div>
 
       <!-- Geleneksel Çiftlik Yönetimi vs. Tosun Paşa Çiftliği Karşılaştırma Matrisi -->
-      <div class="hero-comparison-card">
+      <div class="hero-comparison-card lazy-defer lazy-reveal">
         <div class="card-header" style="border-bottom:none; margin-bottom:12px; padding:0;">
           <div>
             <span class="card-title">🏆 Neden Tosun Paşa Çiftliği? Üstünlük Karşılaştırma Matrisi</span>
@@ -562,7 +566,7 @@
     <!-- =======================================================================
          MODÜL 1: SAĞLIK REHBERİ (SAHA ÖN TEŞHİS & TRİYAJ)
          ======================================================================= -->
-    <section id="tab-doctor" class="tab-panel">
+    <section id="tab-doctor" class="tab-panel lazy-defer">
       
       <!-- Sub-Nav -->
       <div class="sub-nav">
@@ -809,7 +813,7 @@
     <!-- =======================================================================
          MODÜL 2: RASYON REHBERİ (BİLİMSEL BESLEME & LP SIMPLEX)
          ======================================================================= -->
-    <section id="tab-ration" class="tab-panel">
+    <section id="tab-ration" class="tab-panel lazy-defer">
       
       <!-- Sub-Nav -->
       <div class="sub-nav">
@@ -979,7 +983,7 @@
     <!-- =======================================================================
          MODÜL 3: ÜRETİM REHBERİ (BİYOLOJİK TAKVİMLER & DÖL DEFTERİ)
          ======================================================================= -->
-    <section id="tab-repro" class="tab-panel">
+    <section id="tab-repro" class="tab-panel lazy-defer">
       
       <!-- Sub-Nav -->
       <div class="sub-nav">
@@ -1178,7 +1182,7 @@
     <!-- =======================================================================
          MODÜL 4: YEM BİTKİLERİ & SİLAJ REHBERİ (AGRONOMİ & TOHUM)
          ======================================================================= -->
-    <section id="tab-forage" class="tab-panel">
+    <section id="tab-forage" class="tab-panel lazy-defer">
       
       <!-- Sub-Nav -->
       <div class="sub-nav">
@@ -1551,7 +1555,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=1.7.0"></script>
+  <script src="app.js?v=1.8.0"></script>
 
   <script>
     // Initialize default dates in modals
