@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1.9.3">
+  <link rel="stylesheet" href="styles.css?v=2.0.0">
 </head>
 <body>
 
@@ -39,6 +39,16 @@
     </div>
 
     <div class="header-actions">
+      <!-- Current Active Role Indicator & Portal Switch Button -->
+      <div id="header-role-indicator" style="display: none; align-items: center; gap: 6px;">
+        <span id="role-pill-badge" class="badge" style="background: var(--primary); color: #000000; font-weight: 800; padding: 4px 8px; font-size: 0.78rem; border-radius: 4px;">
+          🔬 Zooteknist
+        </span>
+        <button type="button" class="btn-header" onclick="setAppMode('portal')" title="Ana Sayfaya / Giriş Portalı'na Dön" style="background: rgba(255, 221, 0, 0.2); border-color: var(--primary); font-weight: 700;">
+          🚪 <span class="btn-label">Ana Sayfa</span>
+        </button>
+      </div>
+
       <button type="button" class="btn-header" onclick="forceAppUpdate()" title="Yeni Sürümü Yükle ve Önbelleği Temizle">
         🔄 <span class="btn-label">Tazele</span>
       </button>
@@ -62,11 +72,11 @@
     📡 Çevrimdışı Mod Aktif • İnternet olmadan tüm çiftlik hesaplama ve kayıt sistemleri %100 çalışmaktadır.
   </div>
 
-  <!-- Master Navigation Tabs -->
-  <nav class="master-tabs-container">
+  <!-- Master Navigation Tabs (Zooteknist Modunda Görünür) -->
+  <nav id="zooteknist-tabs-bar" class="master-tabs-container" style="display:none;">
     <div class="master-tabs">
       <button type="button" class="tab-btn active" data-tab="tab-home" onclick="switchMasterTab('tab-home')">
-        🏠 Giriş & Panel
+        🏠 Zooteknist Paneli
       </button>
       <button type="button" class="tab-btn" data-tab="tab-doctor" onclick="switchMasterTab('tab-doctor')">
         🩺 Sağlık Rehberi
@@ -87,9 +97,391 @@
   <main class="main-content">
 
     <!-- =======================================================================
-         HERO GİRİŞ EKRANI & MERKEZİ ÇİFTLİK PANELİ (TAB-HOME)
+         YENİ ANA SAYFA: GİRİŞ PORTALI (ZOOTEKNİST vs YETİŞTİRİCİ)
          ======================================================================= -->
-    <section id="tab-home" class="tab-panel active">
+    <section id="portal-landing" class="portal-landing-wrap">
+      
+      <!-- Brand Hero Box -->
+      <div class="portal-brand-hero">
+        <div class="portal-logo-bubble">
+          <img src="noto-ox.svg" alt="Tosun Paşa Logosu" width="48" height="48">
+        </div>
+        <h1 class="portal-title">TOSUN PAŞA ÇİFTLİĞİ</h1>
+        <p class="portal-subtitle">Akıllı Çiftlik, Sürü Yönetimi & Besleme Destek Sistemi</p>
+        
+        <div class="portal-badges-row">
+          <span class="portal-badge">📶 %100 Çevrimdışı Çalışır (PWA)</span>
+          <span class="portal-badge">🔒 Verileriniz Cihazınızda Güvende</span>
+          <span class="portal-badge">⚡ Servis Plan İmzalı Hızlı Arayüz</span>
+        </div>
+
+        <div style="margin-top: 20px; font-weight: 800; color: var(--text); font-size: 1.05rem;">
+          👇 Devam etmek için lütfen giriş türünüzü seçiniz:
+        </div>
+      </div>
+
+      <!-- Two Main Entry Cards -->
+      <div class="portal-cards-grid">
+        
+        <!-- 1. YETİŞTİRİCİ GİRİŞİ -->
+        <div class="portal-card portal-card-yetistirici">
+          <div>
+            <div class="portal-card-header">
+              <span class="portal-card-icon">🚜</span>
+              <span class="badge" style="background:#ffdd00; color:#000000; font-weight:800; float:right; padding:4px 8px; border-radius:4px;">SADE & PRATİK</span>
+              <h2 class="portal-card-title">🌾 Yetiştirici Girişi</h2>
+              <p class="portal-card-desc">Ahırda, merada, traktör üstünde; işini en hızlı, en sade ve anlaşılır şekilde görmek isteyen üreticilerimiz için özel çiftçi sürümü.</p>
+            </div>
+
+            <ul class="portal-features-list">
+              <li>🐮 <strong>Küpelerim:</strong> Tek tıkla hayvanını bul, sütünü ve durumunu gör</li>
+              <li>🚨 <strong>İlaç Kilidi (İKAS):</strong> İlaçlı sütü tanka dökme, mandıra cezasından korun</li>
+              <li>🚑 <strong>15 Acil İlk Yardım:</strong> Şişme, doğum felci ve kuzu acillerinde hayati ilk yardım</li>
+              <li>🌾 <strong>Kolay Yem Dağıtımı:</strong> Formülsüz; inek başı ve vagona kaçar kilo yem atacağını gör</li>
+              <li>🍼 <strong>Buzağı Takvimi:</strong> Tohumlama gününden doğuma kadar otomatik gün sayacı</li>
+              <li>ℹ️ <strong>Çiftçi El Kitabı:</strong> İlkokul seviyesinde resimli ve samimi kullanım kılavuzu</li>
+            </ul>
+          </div>
+
+          <button type="button" class="portal-btn-yetistirici" onclick="setAppMode('yetistirici')">
+            🌾 Yetiştirici Olarak Başla ➔
+          </button>
+        </div>
+
+        <!-- 2. ZOOTEKNİST GİRİŞİ -->
+        <div class="portal-card portal-card-zooteknist">
+          <div>
+            <div class="portal-card-header">
+              <span class="portal-card-icon">🧬</span>
+              <span class="badge" style="background:#181b1e; color:#ffdd00; border:1px solid #ffdd00; font-weight:800; float:right; padding:4px 8px; border-radius:4px;">UZMAN & MÜHENDİS</span>
+              <h2 class="portal-card-title">🔬 Zooteknist Girişi</h2>
+              <p class="portal-card-desc">Zooteknistler, veteriner hekimler ve profesyonel sürü yöneticileri için tam teşekküllü bilimsel analiz ve doğrusal optimizasyon sürümü.</p>
+            </div>
+
+            <ul class="portal-features-list">
+              <li>🤖 <strong>Simplex Rasyon Robotu:</strong> NRC / NASEM standartlarında maliyet minimizasyonu</li>
+              <li>🌾 <strong>83 Yem Kütüphanesi:</strong> Akıllı yemler, bypass protein, fabrika yemleri ve mineraller</li>
+              <li>🩺 <strong>Saha Triyaj Karar Ağacı:</strong> Ağırlıklı semptom analizi ve Brix kolostrum testi</li>
+              <li>🚜 <strong>Mikser Vagon Kantarı:</strong> Karışım homojenliği ve Pearson karesi terazisi</li>
+              <li>📏 <strong>CAAG Canlı Ağırlık:</strong> Göğüs çevresinden kg hesaplayan biyometrik model</li>
+              <li>🌱 <strong>Tarla & Yem Bitkileri:</strong> Mikrodalgada silaj nem testi ve ekim mühendisliği</li>
+            </ul>
+          </div>
+
+          <button type="button" class="portal-btn-zooteknist" onclick="setAppMode('zooteknist')">
+            🔬 Zooteknist Olarak Başla ➔
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Quick Action Utilities -->
+      <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:20px;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="installPWA()">
+          📲 Telefonuna Yükle (PWA)
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="toggleDarkMode()">
+          🌙/☀️ Gece-Gündüz Modu
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('modal-data-center')">
+          💾 Veri Merkezi (Yedek)
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('modal-help-guide')">
+          ℹ️ Çiftlik El Kitabı
+        </button>
+      </div>
+
+    </section>
+
+    <!-- =======================================================================
+         YETİŞTİRİCİ SADE SÜRÜMÜ (#yetistirici-app)
+         ======================================================================= -->
+    <section id="yetistirici-app" style="display:none; padding-bottom: 40px;">
+
+      <!-- Yetiştirici Navigasyon Çubuğu -->
+      <div class="yet-nav-container">
+        <div class="yet-nav">
+          <button type="button" class="yet-tab-btn active" data-yettab="yet-view-home" onclick="switchYetTab('yet-view-home')">
+            🏠 Çiftliğim
+          </button>
+          <button type="button" class="yet-tab-btn" data-yettab="yet-view-herd" onclick="switchYetTab('yet-view-herd')">
+            🐮 Küpelerim
+          </button>
+          <button type="button" class="yet-tab-btn" data-yettab="yet-view-health" onclick="switchYetTab('yet-view-health')">
+            🚨 Sağlık & İlaç Kilidi
+          </button>
+          <button type="button" class="yet-tab-btn" data-yettab="yet-view-feed" onclick="switchYetTab('yet-view-feed')">
+            🌾 Kolay Yemlik
+          </button>
+          <button type="button" class="yet-tab-btn" data-yettab="yet-view-repro" onclick="switchYetTab('yet-view-repro')">
+            🍼 Buzağı Takvimi
+          </button>
+          <button type="button" class="yet-tab-btn" onclick="openModal('modal-help-guide')">
+            ℹ️ Çiftçi Kılavuzu
+          </button>
+        </div>
+      </div>
+
+      <!-- 1. Yetiştirici Ana Sayfa: Çiftliğim -->
+      <div id="yet-view-home" class="yet-section active" style="padding: 16px 12px; max-width: 1040px; margin: 0 auto;">
+        
+        <!-- Greeting Card -->
+        <div style="background: linear-gradient(135deg, rgba(255,221,0,0.2), rgba(255,221,0,0.05)); border: 1px solid var(--primary); border-radius: 4px; padding: 14px 18px; margin-bottom: 16px;">
+          <h3 style="margin:0 0 4px 0; font-size:1.2rem; font-weight:800; color:var(--text);">
+            🌾 Selamünaleyküm Çiftçi Kardeşim!
+          </h3>
+          <p style="margin:0; font-size:0.90rem; color:var(--text-muted);">
+            Bugün ahırında her şey yolunda mı? Aşağıdan tek dokunuşla küpe arayabilir, yem hesaplayabilir veya ilaç kilidi başlatabilirsin.
+          </p>
+        </div>
+
+        <!-- Canlı İKAS Alarm Banner (Varsa çıkar) -->
+        <div id="yet-live-ikas-alert" style="display:none;" class="yet-big-alert-danger" onclick="switchYetTab('yet-view-health')">
+          <span style="font-size: 2rem;">🚨</span>
+          <div>
+            <div style="font-size: 1.05rem; font-weight: 800;">DİKKAT! AHIRINDA İLAÇLI SÜT KİLİDİ VAR!</div>
+            <div id="yet-live-ikas-desc" style="font-size: 0.88rem; opacity: 0.95;">İğneli ineğin sütünü sakın tanka dökme, mandıra ceza yazar! Ayrıntı için dokunun.</div>
+          </div>
+        </div>
+
+        <!-- Büyük Durum Sayarları (KPI) -->
+        <div class="grid-3" style="margin-bottom: 16px;">
+          <div class="card" style="text-align: center; padding: 14px; border-left: 4px solid var(--primary);">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">🐮 Toplam Hayvanım</div>
+            <div id="yet-stat-total" style="font-size: 2rem; font-weight: 800; color: var(--text); margin: 4px 0;">0</div>
+            <div id="yet-stat-breakdown" style="font-size: 0.78rem; color: var(--text-muted);">0 İnek • 0 Tosun • 0 Buzağı</div>
+          </div>
+          <div class="card" style="text-align: center; padding: 14px; border-left: 4px solid #28a745;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">🥛 Sağılan İnek Sayım</div>
+            <div id="yet-stat-milking" style="font-size: 2rem; font-weight: 800; color: #28a745; margin: 4px 0;">0</div>
+            <div id="yet-stat-estmilk" style="font-size: 0.78rem; color: var(--text-muted);">Tahmini Günlük: 0 Litre</div>
+          </div>
+          <div class="card" style="text-align: center; padding: 14px; border-left: 4px solid var(--danger);">
+            <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">⏱️ İlaçlı (Kilitli) Hayvan</div>
+            <div id="yet-stat-locked" style="font-size: 2rem; font-weight: 800; color: var(--danger); margin: 4px 0;">0</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">Sütü/Eti Arınma Sürecinde</div>
+          </div>
+        </div>
+
+        <!-- 4 Büyük Eylem Kartı -->
+        <h4 style="margin: 0 0 10px 0; font-size: 1.05rem; font-weight: 800; color: var(--text);">
+          ⚡ Hızlı İşlemler:
+        </h4>
+        <div class="grid-2" style="margin-bottom: 20px;">
+          <div class="yet-action-card" onclick="openModal('modal-new-cow')">
+            <span class="yet-action-icon">➕</span>
+            <div>
+              <div class="yet-action-title">Yeni Hayvan / Küpe Ekle</div>
+              <div class="yet-action-desc">Yeni buzağı doğduğunda veya pazardan hayvan aldığında kaydet.</div>
+            </div>
+          </div>
+          <div class="yet-action-card" onclick="openModal('modal-new-doc-rec')">
+            <span class="yet-action-icon">💉</span>
+            <div>
+              <div class="yet-action-title">Yeni İğne / İlaç Kilidi Başlat</div>
+              <div class="yet-action-desc">İğne vurduğun hayvanı gir; sütün tanka döküleceği saati sayaç saysın.</div>
+            </div>
+          </div>
+          <div class="yet-action-card" onclick="switchYetTab('yet-view-feed')">
+            <span class="yet-action-icon">🌾</span>
+            <div>
+              <div class="yet-action-title">Kolay Yem Dağıtımı Yap</div>
+              <div class="yet-action-desc">İnek başı veya mikser vagonuna kaçar kilo saman, silaj, arpa atacağını gör.</div>
+            </div>
+          </div>
+          <div class="yet-action-card" onclick="switchYetTab('yet-view-repro')">
+            <span class="yet-action-icon">🍼</span>
+            <div>
+              <div class="yet-action-title">Tohumlama & Buzağı Takvimi</div>
+              <div class="yet-action-desc">Tohum gününü yaz; ultrason, kuruya alma ve doğum gününü öğren.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Yaklaşan Doğumlar & Kuruya Almalar -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">📅 Yaklaşan Doğumlar & Dinlendirilecek (Kuruya Alınacak) İnekler</span>
+          </div>
+          <div id="yet-upcoming-alerts" style="padding: 10px 0;">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 2. Yetiştirici: Küpelerim (Hayvan Defteri) -->
+      <div id="yet-view-herd" class="yet-section" style="padding: 16px 12px; max-width: 1040px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+          <div>
+            <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: var(--text);">🐮 Küpelerim & Hayvan Defterim</h3>
+            <p style="margin: 2px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">Çiftliğindeki tüm hayvanların listesi ve geçmişi.</p>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="openModal('modal-new-cow')" style="font-weight: 800;">
+            ➕ Yeni Hayvan Ekle
+          </button>
+        </div>
+
+        <!-- Arama Kutusu -->
+        <div style="position: relative; margin-bottom: 14px;">
+          <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 1.1rem; color: var(--text-muted); pointer-events: none;">🔍</span>
+          <input type="text" id="yet-search-cow" placeholder="Küpe no veya inek adı yaz (Örn: 4567, Kınalı, Sarıkız)..." style="padding-left: 38px; min-height: 42px; font-size: 0.95rem; border-radius: 4px;" oninput="filterYetCows()">
+        </div>
+
+        <!-- Hayvan Kartları Konteyneri -->
+        <div id="yet-cows-list" class="grid-2">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- 3. Yetiştirici: Sağlık & İlaç Kilidi -->
+      <div id="yet-view-health" class="yet-section" style="padding: 16px 12px; max-width: 1040px; margin: 0 auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+          <div>
+            <h3 style="margin: 0; font-size: 1.25rem; font-weight: 800; color: var(--text);">⏱️ İlaçlı Süt & Et Kilidi (İKAS Sayacı)</h3>
+            <p style="margin: 2px 0 0 0; font-size: 0.85rem; color: var(--text-muted);">İlaç vurulmuş hayvanların geri sayım saatleri. Süre dolmadan sütü tanka dökmeyiniz.</p>
+          </div>
+          <button type="button" class="btn btn-danger" onclick="openModal('modal-new-doc-rec')" style="font-weight: 800;">
+            ➕ Yeni İlaç / İğne Kaydet
+          </button>
+        </div>
+
+        <!-- Canlı İKAS Kartları -->
+        <div id="yet-ikas-cards-container" class="grid-2" style="margin-bottom: 24px;">
+          <!-- Populated dynamically -->
+        </div>
+
+        <!-- 15 Acil İlk Yardım Protokolü -->
+        <div class="card" style="margin-top: 18px;">
+          <div class="card-header">
+            <div>
+              <span class="card-title">🚨 Acil İlk Yardım Altın Protokolleri</span>
+              <p class="card-desc" style="margin: 4px 0 0 0;">Veteriner hekim gelene kadar hayvanınızı hayatta tutacak 15 acil müdahale rehberi.</p>
+            </div>
+            <span class="badge badge-danger">15 Protokol</span>
+          </div>
+
+          <!-- Protokol Arama Barı -->
+          <div style="position: relative; margin: 10px 0 14px 0;">
+            <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: var(--text-muted); pointer-events: none;">🔍</span>
+            <input type="text" id="yet-firstaid-search" placeholder="Hastalık veya belirti ara (Örn: şişme, doğum felci, kuzu, kanama, zehirlenme)..." style="padding-left: 36px; min-height: 40px; border-radius: 4px;" oninput="filterYetFirstAid()">
+          </div>
+
+          <div id="yet-firstaid-list" class="grid-2">
+            <!-- Populated dynamically with 15 protocols -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Yetiştirici: Kolay Yemlik -->
+      <div id="yet-view-feed" class="yet-section" style="padding: 16px 12px; max-width: 1040px; margin: 0 auto;">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <span class="card-title">🌾 Kolay Yemlik (Pratik Günlük Dağıtım Hesabı)</span>
+              <p class="card-desc" style="margin: 4px 0 0 0;">Karmaşık formüller yok! Hayvanını ve ambarındaki yemleri seç; inek başı ve karma vagonuna kaçar kilo atacağını hemen öğren.</p>
+            </div>
+            <span class="badge badge-warning">Pratik Dağıtım</span>
+          </div>
+
+          <div class="form-grid" style="margin-top: 12px;">
+            <div class="form-group">
+              <label for="yet-feed-animal" style="font-weight: 800;">1. Adım: Hangi Hayvanı Yemleyeceksin?</label>
+              <select id="yet-feed-animal" style="min-height: 42px; font-weight: 700;">
+                <option value="sut_20">🥛 Süt İneği (Günde 18-22 Litre Süt Veren)</option>
+                <option value="sut_30" selected>🥛 Süt İneği (Günde 28-32 Litre Yüksek Süt Veren)</option>
+                <option value="kuru_donem">🛑 Kuru Dönem İnek (Doğuma 2 Ay Kalmış, Sağılmayan)</option>
+                <option value="besi_380">🐂 Besi Danası / Tosun (350 - 450 kg Canlı Ağırlık)</option>
+                <option value="besi_480">🐂 Besi Danası / Bitiriş (480 - 600 kg Ağır Besi)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="yet-feed-cow-count" style="font-weight: 800;">2. Adım: Ahırında Bu Grupta Kaç Hayvan Var?</label>
+              <input type="number" id="yet-feed-cow-count" value="10" min="1" max="1000" style="min-height: 42px; font-weight: 800; font-size: 1.05rem;">
+            </div>
+          </div>
+
+          <div style="margin-top: 12px;">
+            <label style="font-weight: 800;">3. Adım: Kendi Ambarındaki Yemleri İşaretle:</label>
+            <div id="yet-feed-checkboxes" class="grid-3" style="max-height: 220px; overflow-y: auto; padding: 8px; border: 1px solid var(--border); border-radius: 4px; margin-top: 6px; background: var(--card-bg);">
+              <!-- Feeds populated dynamically -->
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-block btn-lg" onclick="solveYetistiriciFeed()" style="margin-top: 16px; font-weight: 800; font-size: 1.05rem;">
+            🌾 Kaçar Kilo Yem Vereceğimi Hesapla ➔
+          </button>
+
+          <!-- Sonuç Kutusu -->
+          <div id="yet-feed-result-wrap" style="display: none; margin-top: 20px;">
+            <!-- Populated dynamically -->
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 5. Yetiştirici: Buzağı Takvimi -->
+      <div id="yet-view-repro" class="yet-section" style="padding: 16px 12px; max-width: 1040px; margin: 0 auto;">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <span class="card-title">🍼 Buzağı & Doğum Takvimi</span>
+              <p class="card-desc" style="margin: 4px 0 0 0;">İneğe tohum atıldığı tarihi yaz; ultrason, memeyi dinlendirme (kuruya alma), buzağı ishal aşısı ve doğum gününü tek ekranda öğren.</p>
+            </div>
+            <span class="badge badge-primary">Otomatik Gün Sayacı</span>
+          </div>
+
+          <div class="form-grid" style="margin-top: 12px;">
+            <div class="form-group">
+              <label for="yet-repro-tag" style="font-weight: 800;">İneğin Küpe No veya Adı:</label>
+              <input type="text" id="yet-repro-tag" placeholder="Örn: 4567 / Kınalı" style="min-height: 42px;">
+            </div>
+            <div class="form-group">
+              <label for="yet-repro-date" style="font-weight: 800;">Veterinerin Tohum Attığı Tarih:</label>
+              <input type="date" id="yet-repro-date" style="min-height: 42px;">
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-block" onclick="calcYetistiriciRepro()" style="font-weight: 800; padding: 10px;">
+            📅 Takvimi Hesapla & Kaydet
+          </button>
+
+          <!-- Sonuç Takvim Kartları -->
+          <div id="yet-repro-result-wrap" style="display: none; margin-top: 20px;">
+            <h4 style="margin: 0 0 10px 0; font-weight: 800; color: var(--text);">Kritik Günler & Yapılacaklar:</h4>
+            <div class="grid-2">
+              <div class="card" style="border-left: 5px solid #0288d1; padding: 14px;">
+                <div style="font-size: 0.8rem; font-weight: 800; color: #0288d1;">1. ADIM: 35. GÜN</div>
+                <div id="yet-date-35" style="font-size: 1.15rem; font-weight: 800; color: var(--text); margin: 4px 0;">--.--.----</div>
+                <div style="font-size: 0.85rem; color: var(--text);">🔍 <strong>Ultrason Muayenesi:</strong> Veteriner hekimi çağır, inek gebe kalmış mı baktır; boşuna 9 ay bekleme.</div>
+              </div>
+              <div class="card" style="border-left: 5px solid var(--warning); padding: 14px;">
+                <div style="font-size: 0.8rem; font-weight: 800; color: #856404;">2. ADIM: 220. GÜN</div>
+                <div id="yet-date-220" style="font-size: 1.15rem; font-weight: 800; color: var(--text); margin: 4px 0;">--.--.----</div>
+                <div style="font-size: 0.85rem; color: var(--text);">🛑 <strong>Kuruya Alma (Sağımı Kesme):</strong> İneğin memesini sağmayı bırak; anne dinlensin, buzağı son iki ayda iki kat büyüsün.</div>
+              </div>
+              <div class="card" style="border-left: 5px solid #28a745; padding: 14px;">
+                <div style="font-size: 0.8rem; font-weight: 800; color: #28a745;">3. ADIM: 250. GÜN</div>
+                <div id="yet-date-250" style="font-size: 1.15rem; font-weight: 800; color: var(--text); margin: 4px 0;">--.--.----</div>
+                <div style="font-size: 0.85rem; color: var(--text);">💉 <strong>Anne Aşısı (Buzağı İshal Aşısı):</strong> Anneye aşı yaptır ki doğacak yavru ilk ağız sütünden bağışıklık alsın, ishalden ölmesin.</div>
+              </div>
+              <div class="card" style="border-left: 5px solid var(--danger); padding: 14px;">
+                <div style="font-size: 0.8rem; font-weight: 800; color: var(--danger);">4. ADIM: 280. GÜN</div>
+                <div id="yet-date-280" style="font-size: 1.15rem; font-weight: 800; color: var(--text); margin: 4px 0;">--.--.----</div>
+                <div style="font-size: 0.85rem; color: var(--text);">🎯 <strong>Doğum Günü (Tahmini):</strong> İneği temiz, bol samanlı doğum bölmesine al. Gözün üzerinde olsun!</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =======================================================================
+         ZOOTEKNİST MODÜLLERİ (TAB-HOME ve DİĞER MASTER TABLAR)
+         ======================================================================= -->
+    <section id="tab-home" class="tab-panel">
       
       <!-- Big Spectacular Hero Banner -->
       <div class="hero-banner">
@@ -2125,7 +2517,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=1.9.3"></script>
+  <script src="app.js?v=2.0.0"></script>
 
   <script>
     // Initialize default dates in modals

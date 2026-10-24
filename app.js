@@ -2539,9 +2539,452 @@ function triggerEmergencyShortcut(emergencyType) {
   }, 100);
 }
 
+// =============================================================================
+// YENİ ANA SAYFA & ROL YÖNETİMİ (PORTAL, ZOOTEKNİST, YETİŞTİRİCİ)
+// =============================================================================
+let currentAppMode = 'portal'; // 'portal', 'zooteknist', 'yetistirici'
+let currentYetTab = 'yet-view-home';
+
 function goToHome() {
-  switchMasterTab('tab-home');
+  setAppMode('portal');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setAppMode(mode) {
+  currentAppMode = mode;
+  const portalEl = document.getElementById('portal-landing');
+  const zooteknistTabs = document.getElementById('zooteknist-tabs-bar');
+  const yetistiriciApp = document.getElementById('yetistirici-app');
+  const roleIndicator = document.getElementById('header-role-indicator');
+  const roleBadge = document.getElementById('role-pill-badge');
+
+  if (mode === 'portal') {
+    if (portalEl) portalEl.style.display = 'block';
+    if (zooteknistTabs) zooteknistTabs.style.display = 'none';
+    if (yetistiriciApp) yetistiriciApp.style.display = 'none';
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    if (roleIndicator) roleIndicator.style.display = 'none';
+  } else if (mode === 'zooteknist') {
+    if (portalEl) portalEl.style.display = 'none';
+    if (yetistiriciApp) yetistiriciApp.style.display = 'none';
+    if (zooteknistTabs) zooteknistTabs.style.display = 'block';
+    if (roleIndicator) {
+      roleIndicator.style.display = 'flex';
+      if (roleBadge) {
+        roleBadge.innerHTML = '🔬 Zooteknist';
+        roleBadge.style.background = 'var(--primary)';
+        roleBadge.style.color = '#000000';
+      }
+    }
+    switchMasterTab('tab-home');
+  } else if (mode === 'yetistirici') {
+    if (portalEl) portalEl.style.display = 'none';
+    if (zooteknistTabs) zooteknistTabs.style.display = 'none';
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    if (yetistiriciApp) yetistiriciApp.style.display = 'block';
+    if (roleIndicator) {
+      roleIndicator.style.display = 'flex';
+      if (roleBadge) {
+        roleBadge.innerHTML = '🌾 Yetiştirici';
+        roleBadge.style.background = '#ffdd00';
+        roleBadge.style.color = '#000000';
+      }
+    }
+    switchYetTab('yet-view-home');
+    renderYetistiriciDashboard();
+    renderYetistiriciFeedCheckboxes();
+    renderYetistiriciFirstAid();
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function switchYetTab(tabId) {
+  currentYetTab = tabId;
+  document.querySelectorAll('.yet-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-yettab') === tabId);
+  });
+  document.querySelectorAll('.yet-section').forEach(sec => {
+    sec.classList.remove('active');
+    sec.style.display = 'none';
+  });
+
+  const target = document.getElementById(tabId);
+  if (target) {
+    target.classList.add('active');
+    target.style.display = 'block';
+  }
+
+  if (tabId === 'yet-view-home') {
+    renderYetistiriciDashboard();
+  } else if (tabId === 'yet-view-herd') {
+    filterYetCows();
+  } else if (tabId === 'yet-view-health') {
+    renderYetistiriciHealth();
+    renderYetistiriciFirstAid();
+  } else if (tabId === 'yet-view-feed') {
+    renderYetistiriciFeedCheckboxes();
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderYetistiriciDashboard() {
+  const docRecords = (DB.doctor && DB.doctor.earTagRecords) ? DB.doctor.earTagRecords : [];
+  const reproRecords = (DB.reproduction && DB.reproduction.records) ? DB.reproduction.records : [];
+
+  const uniqueTags = new Set();
+  reproRecords.forEach(r => uniqueTags.add(r.tagNo));
+  docRecords.forEach(r => uniqueTags.add(r.tagNo));
+  
+  const totalCount = uniqueTags.size || 5;
+  const milkingCount = reproRecords.filter(r => r.status !== 'kuru_donem').length || 3;
+  const estMilkLiters = milkingCount * 24;
+
+  const now = Date.now();
+  let lockedCount = 0;
+  let activeLockedAnimal = null;
+
+  docRecords.forEach(r => {
+    const treatTime = new Date(r.treatmentDate).getTime();
+    const milkLockMs = (r.milkLockHours || 0) * 3600 * 1000;
+    const meatLockMs = (r.meatLockDays || 0) * 24 * 3600 * 1000;
+    if ((treatTime + milkLockMs > now) || (treatTime + meatLockMs > now)) {
+      lockedCount++;
+      if (!activeLockedAnimal) {
+        const remHours = Math.ceil((treatTime + milkLockMs - now) / (3600 * 1000));
+        activeLockedAnimal = { ...r, remHours };
+      }
+    }
+  });
+
+  const totalEl = document.getElementById('yet-stat-total');
+  const bdEl = document.getElementById('yet-stat-breakdown');
+  const milkEl = document.getElementById('yet-stat-milking');
+  const estMilkEl = document.getElementById('yet-stat-estmilk');
+  const lockEl = document.getElementById('yet-stat-locked');
+
+  if (totalEl) totalEl.textContent = totalCount;
+  if (bdEl) bdEl.textContent = `${milkingCount} Sağılır • ${totalCount - milkingCount} Kuru/Tosun`;
+  if (milkEl) milkEl.textContent = milkingCount;
+  if (estMilkEl) estMilkEl.textContent = `Tahmini Günlük: ~${estMilkLiters} Litre`;
+  if (lockEl) lockEl.textContent = lockedCount;
+
+  const alertBanner = document.getElementById('yet-live-ikas-alert');
+  const alertDesc = document.getElementById('yet-live-ikas-desc');
+  if (alertBanner) {
+    if (lockedCount > 0 && activeLockedAnimal) {
+      alertBanner.style.display = 'flex';
+      if (alertDesc) {
+        alertDesc.innerHTML = `<strong>${activeLockedAnimal.tagNo} (${activeLockedAnimal.animalName || 'İnek'})</strong> küpeli hayvana <em>${activeLockedAnimal.drugName}</em> yapıldı. Süt arınmasına <strong>${Math.max(0, activeLockedAnimal.remHours)} saat</strong> kaldı! Sakın tanka karıştırma!`;
+      }
+    } else {
+      alertBanner.style.display = 'none';
+    }
+  }
+
+  const upContainer = document.getElementById('yet-upcoming-alerts');
+  if (upContainer) {
+    if (reproRecords.length === 0) {
+      upContainer.innerHTML = `<div style="color:var(--text-muted); font-size:0.88rem; padding:6px;">Kayıtlı doğum veya kuruya alma uyarısı yok.</div>`;
+    } else {
+      upContainer.innerHTML = reproRecords.slice(0, 4).map(r => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 6px; border-bottom:1px solid var(--border); font-size:0.88rem;">
+          <div>
+            <strong>${r.tagNo} (${r.name || 'İnek'})</strong>
+            <span style="color:var(--text-muted); font-size:0.80rem; margin-left:6px;">Tohum: ${r.inseminationDate}</span>
+          </div>
+          <div>
+            <span class="badge" style="background:rgba(255,221,0,0.25); color:#856404; font-weight:700;">Doğum: ${r.expectedCalvingDate || 'Bilinmiyor'}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+  }
+}
+
+function filterYetCows() {
+  const query = (document.getElementById('yet-search-cow')?.value || '').trim().toLocaleLowerCase('tr-TR');
+  const container = document.getElementById('yet-cows-list');
+  if (!container) return;
+
+  const reproRecords = (DB.reproduction && DB.reproduction.records) ? DB.reproduction.records : [];
+  const docRecords = (DB.doctor && DB.doctor.earTagRecords) ? DB.doctor.earTagRecords : [];
+
+  const cowMap = new Map();
+  reproRecords.forEach(r => {
+    cowMap.set(r.tagNo, {
+      tagNo: r.tagNo,
+      name: r.name || 'İsimsiz',
+      species: r.species || 'cattle',
+      status: r.status || 'sağılır',
+      dailyMilk: (r.species === 'sheep' ? 2 : 24),
+      notes: r.notes || '',
+      inseminationDate: r.inseminationDate
+    });
+  });
+
+  docRecords.forEach(d => {
+    if (!cowMap.has(d.tagNo)) {
+      cowMap.set(d.tagNo, {
+        tagNo: d.tagNo,
+        name: d.animalName || 'İsimsiz',
+        species: d.species || 'sigir',
+        status: 'tedavide',
+        dailyMilk: (d.species === 'koyun' ? 2 : 20),
+        notes: d.notes || '',
+        hasTreatment: true
+      });
+    }
+  });
+
+  const cows = Array.from(cowMap.values()).filter(c => {
+    if (!query) return true;
+    return c.tagNo.toLocaleLowerCase('tr-TR').includes(query) || c.name.toLocaleLowerCase('tr-TR').includes(query);
+  });
+
+  if (cows.length === 0) {
+    container.innerHTML = `<div class="card" style="grid-column:1/-1; text-align:center; padding:20px; color:var(--text-muted);">Aramanıza uygun küpe bulunamadı.</div>`;
+    return;
+  }
+
+  container.innerHTML = cows.map(c => `
+    <div class="card" style="border-left: 5px solid var(--primary); padding: 14px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <div>
+          <div style="font-size:1.15rem; font-weight:800; color:var(--text);">${c.name}</div>
+          <div style="font-size:0.85rem; font-weight:700; color:var(--primary);">${c.tagNo}</div>
+        </div>
+        <span class="badge" style="background:rgba(255,221,0,0.25); color:#856404; font-weight:800; padding:3px 8px;">
+          ${c.species === 'sheep' || c.species === 'koyun' ? '🐑 Koyun' : '🐮 Büyükbaş'}
+        </span>
+      </div>
+      <div style="display:flex; gap:12px; margin-top:10px; font-size:0.85rem; color:var(--text);">
+        <span>🥛 Günlük: <strong>~${c.dailyMilk} L</strong></span>
+        <span>•</span>
+        <span>Durum: <strong>${c.status === 'gebe' ? '🤰 Gebe' : (c.status === 'kuru_donem' ? '🛑 Kuru Dönem' : '🥛 Sağılır')}</strong></span>
+      </div>
+      <div style="display:flex; gap:8px; margin-top:12px;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('modal-new-doc-rec'); document.getElementById('new-doc-tag').value='${c.tagNo}'; document.getElementById('new-doc-name').value='${c.name}';">
+          💉 İlaç / İğne Yaz
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('modal-new-repro-rec'); document.getElementById('new-rep-tag').value='${c.tagNo}'; document.getElementById('new-rep-name').value='${c.name}';">
+          🍼 Tohumla
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderYetistiriciHealth() {
+  const container = document.getElementById('yet-ikas-cards-container');
+  if (!container) return;
+
+  const docRecords = (DB.doctor && DB.doctor.earTagRecords) ? DB.doctor.earTagRecords : [];
+  const now = Date.now();
+
+  const activeRecords = docRecords.filter(r => {
+    const t = new Date(r.treatmentDate).getTime();
+    const milk = (r.milkLockHours || 0) * 3600 * 1000;
+    const meat = (r.meatLockDays || 0) * 24 * 3600 * 1000;
+    return (t + milk > now) || (t + meat > now);
+  });
+
+  if (activeRecords.length === 0) {
+    container.innerHTML = `
+      <div class="card" style="grid-column:1/-1; background:rgba(40,167,69,0.1); border-left:5px solid #28a745; padding:18px;">
+        <h4 style="margin:0 0 4px 0; color:#28a745; font-weight:800;">✅ Müjde! Ahırında İlaç Kilitli Hayvan Yok</h4>
+        <p style="margin:0; font-size:0.88rem; color:var(--text);">Tüm hayvanların sütü güvenle tanka dökülebilir. Yeni iğne vurulduğunda yukarıdaki kırmızı butondan kilidi başlatabilirsiniz.</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = activeRecords.map(r => {
+    const t = new Date(r.treatmentDate).getTime();
+    const milkEnd = t + (r.milkLockHours || 0) * 3600 * 1000;
+    const remHours = Math.max(0, Math.ceil((milkEnd - now) / (3600 * 1000)));
+
+    return `
+      <div class="card" style="border-left: 5px solid var(--danger); padding:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <h4 style="margin:0; font-size:1.15rem; font-weight:800; color:var(--danger);">${r.tagNo} (${r.animalName || 'İnek'})</h4>
+            <div style="font-size:0.85rem; font-weight:700; color:var(--text); margin-top:2px;">İlaç: ${r.drugName}</div>
+          </div>
+          <span class="badge badge-danger">KİLİTLİ</span>
+        </div>
+        <div style="background:rgba(220,53,69,0.12); border-radius:4px; padding:10px; margin-top:10px; text-align:center;">
+          <div style="font-size:0.8rem; font-weight:700; color:var(--danger);">SÜTÜ TANKA DÖKME SÜRESİ:</div>
+          <div style="font-size:1.6rem; font-weight:900; color:var(--danger);">${remHours} SAAT KALDI</div>
+        </div>
+        <div style="font-size:0.82rem; color:var(--text-muted); margin-top:8px;">
+          Tedavi Tarihi: ${new Date(r.treatmentDate).toLocaleString('tr-TR')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderYetistiriciFeedCheckboxes() {
+  const container = document.getElementById('yet-feed-checkboxes');
+  if (!container) return;
+
+  const stapleFeeds = [
+    { id: 'yonca_kuru', name: 'Yonca Kuru Otu' },
+    { id: 'misir_silaji', name: 'Mısır Silajı' },
+    { id: 'bugday_samani', name: 'Buğday Samanı' },
+    { id: 'arpa_ezme', name: 'Arpa Ezmesi / Kırması' },
+    { id: 'misir_dane', name: 'Mısır Tane / Kırma' },
+    { id: 'akilli_yem_sut_21', name: '⭐ Akıllı Yem (21 HP Süt)' },
+    { id: 'fabrika_sut_19', name: 'Fabrika Süt Yemi (%19 HP)' },
+    { id: 'ptk_34', name: 'Pamuk Tohumu Küspesi (PTK)' },
+    { id: 'soya_44', name: 'Soya Küspesi (%44 HP)' },
+    { id: 'bugday_kepegi', name: 'Buğday Kepeği' },
+    { id: 'pancar_posasi_kuru', name: 'Şeker Pancarı Posası (Kuru)' },
+    { id: 'bikarbonat', name: 'Yem Sodası (Bikarbonat)' }
+  ];
+
+  container.innerHTML = stapleFeeds.map(f => `
+    <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; padding:6px 8px; border:1px solid var(--border); border-radius:4px; cursor:pointer; background:var(--card-bg);">
+      <input type="checkbox" class="yet-feed-check" value="${f.id}" style="width:auto; min-height:auto;">
+      <span>${f.name}</span>
+    </label>
+  `).join('');
+}
+
+function solveYetistiriciFeed() {
+  const cowCount = parseInt(document.getElementById('yet-feed-cow-count')?.value) || 1;
+  const checkedFeeds = Array.from(document.querySelectorAll('.yet-feed-check:checked')).map(cb => cb.value);
+  const animalType = document.getElementById('yet-feed-animal')?.value || 'sut_30';
+  const resultWrap = document.getElementById('yet-feed-result-wrap');
+  if (!resultWrap) return;
+
+  if (checkedFeeds.length === 0) {
+    showToast("Lütfen ambarınızda olan en az 2-3 yem işaretleyiniz!", "toast-warning");
+    return;
+  }
+
+  const allFeeds = getAllFeeds();
+  const activeFeeds = allFeeds.filter(f => checkedFeeds.includes(f.id));
+
+  let inekBasiSaman = checkedFeeds.includes('bugday_samani') ? 1.5 : 0;
+  let inekBasiYonca = checkedFeeds.includes('yonca_kuru') ? 3.5 : (inekBasiSaman > 0 ? 0 : 2.5);
+  let inekBasiSilaj = checkedFeeds.includes('misir_silaji') ? (animalType.includes('sut') ? 18.0 : 12.0) : 0;
+  let inekBasiArpa = checkedFeeds.includes('arpa_ezme') ? (animalType === 'sut_30' ? 4.5 : 3.0) : 0;
+  let inekBasiFabrika = (checkedFeeds.includes('akilli_yem_sut_21') || checkedFeeds.includes('fabrika_sut_19')) ? (animalType === 'sut_30' ? 6.0 : 4.0) : 0;
+  let inekBasiKuspe = (checkedFeeds.includes('ptk_34') || checkedFeeds.includes('soya_44')) ? 2.0 : 0;
+
+  // Fallbacks if user selected other items
+  if (inekBasiSaman === 0 && inekBasiYonca === 0 && inekBasiSilaj === 0) {
+    inekBasiYonca = 4.0;
+  }
+  if (inekBasiArpa === 0 && inekBasiFabrika === 0 && inekBasiKuspe === 0) {
+    inekBasiFabrika = 5.0;
+  }
+
+  const items = [];
+  if (inekBasiSilaj > 0) items.push({ name: 'Mısır Silajı', inekKg: inekBasiSilaj, vagonKg: inekBasiSilaj * cowCount });
+  if (inekBasiYonca > 0) items.push({ name: 'Yonca Kuru Otu', inekKg: inekBasiYonca, vagonKg: inekBasiYonca * cowCount });
+  if (inekBasiSaman > 0) items.push({ name: 'Buğday Samanı', inekKg: inekBasiSaman, vagonKg: inekBasiSaman * cowCount });
+  if (inekBasiArpa > 0) items.push({ name: 'Arpa Ezmesi / Kırma', inekKg: inekBasiArpa, vagonKg: inekBasiArpa * cowCount });
+  if (inekBasiFabrika > 0) items.push({ name: 'Süt / Akıllı Fabrika Yemi', inekKg: inekBasiFabrika, vagonKg: inekBasiFabrika * cowCount });
+  if (inekBasiKuspe > 0) items.push({ name: 'Protein Küspesi (PTK / Soya)', inekKg: inekBasiKuspe, vagonKg: inekBasiKuspe * cowCount });
+
+  resultWrap.style.display = 'block';
+  resultWrap.innerHTML = `
+    <div style="background:rgba(255,221,0,0.12); border:2px solid var(--primary); border-radius:4px; padding:16px;">
+      <h4 style="margin:0 0 10px 0; font-weight:800; color:var(--text); font-size:1.15rem;">
+        📋 Hazırlanan Yem Dağıtım Tablosu (${cowCount} Baş Hayvan İçin):
+      </h4>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; font-size:0.90rem;">
+          <thead>
+            <tr style="background:var(--primary); color:#000;">
+              <th style="padding:8px; text-align:left;">Yem Maddesi</th>
+              <th style="padding:8px; text-align:center;">1 Hayvanın Günlük Payı</th>
+              <th style="padding:8px; text-align:right;">🚜 Karma Vagonuna Atılacak Toplam</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${items.map(it => `
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:8px; font-weight:700;">${it.name}</td>
+                <td style="padding:8px; text-align:center; font-weight:800; color:var(--primary);">${it.inekKg.toFixed(1)} kg</td>
+                <td style="padding:8px; text-align:right; font-weight:800; color:var(--text);">${it.vagonKg.toFixed(0)} kg</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:12px; font-size:0.88rem; color:var(--text-muted); line-height:1.5;">
+        💡 <strong>Önemli Tavsiye:</strong> Yemleri önce kaba yemler (saman, yonca), sonra silaj ve en son unlu ezmeleri dökecek şekilde vagonda karıştırınız.
+      </div>
+    </div>
+  `;
+  resultWrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function calcYetistiriciRepro() {
+  const dateVal = document.getElementById('yet-repro-date')?.value;
+  const tagVal = document.getElementById('yet-repro-tag')?.value || 'İnek';
+  const wrap = document.getElementById('yet-repro-result-wrap');
+  if (!dateVal || !wrap) {
+    showToast("Lütfen tohumlama tarihini seçiniz!", "toast-warning");
+    return;
+  }
+
+  const base = new Date(dateVal);
+  const addDays = (d) => {
+    const res = new Date(base);
+    res.setDate(res.getDate() + d);
+    return res.toLocaleDateString('tr-TR');
+  };
+
+  const d35 = addDays(35);
+  const d220 = addDays(220);
+  const d250 = addDays(250);
+  const d280 = addDays(283);
+
+  document.getElementById('yet-date-35').textContent = d35;
+  document.getElementById('yet-date-220').textContent = d220;
+  document.getElementById('yet-date-250').textContent = d250;
+  document.getElementById('yet-date-280').textContent = d280;
+
+  wrap.style.display = 'block';
+
+  // Save to reproduction DB
+  DB.reproduction.records.unshift({
+    id: "rep_" + Date.now(),
+    tagNo: tagVal,
+    name: tagVal,
+    species: "cattle",
+    inseminationDate: dateVal,
+    ultrasoundDate: d35,
+    dryOffDate: d220,
+    vaccineDate: d250,
+    expectedCalvingDate: d280,
+    status: "gebe",
+    notes: "Yetiştirici arayüzünden kaydedildi."
+  });
+  saveDatabase();
+  showToast("Tohumlama kaydı başarıyla takvime işlendi!", "toast-success");
+  wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderYetistiriciFirstAid() {
+  const sourceGrid = document.getElementById('protocol-cards-grid');
+  const targetGrid = document.getElementById('yet-firstaid-list');
+  if (sourceGrid && targetGrid && targetGrid.children.length === 0) {
+    targetGrid.innerHTML = sourceGrid.innerHTML;
+  }
+}
+
+function filterYetFirstAid() {
+  const query = (document.getElementById('yet-firstaid-search')?.value || '').trim().toLocaleLowerCase('tr-TR');
+  const cards = document.querySelectorAll('#yet-firstaid-list .protocol-card');
+  cards.forEach(card => {
+    const text = ((card.getAttribute('data-keywords') || '') + ' ' + card.innerText).toLocaleLowerCase('tr-TR');
+    card.style.display = (!query || text.includes(query)) ? 'flex' : 'none';
+  });
 }
 
 function switchMasterTab(tabId) {
@@ -2633,8 +3076,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=1.9.3').then((reg) => {
-      console.log('Tosun Paşa SW v1.9.3 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=2.0.0').then((reg) => {
+      console.log('Tosun Paşa SW v2.0.0 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {
@@ -2767,8 +3210,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Start live timers
   startIkasCountdown();
 
-  // Initial tab render
-  switchMasterTab('tab-home');
+  // Initial app render: Yeni Ana Sayfa (Giriş Portalı)
+  setAppMode('portal');
   updateHeroDashboardStats();
 
   // Request Web Notifications permission gently
