@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.0.5 - Yasal Bilgilendirme, KVKK & Sorumsuzluk Beyanı
-const CACHE_NAME = 'tosun-pasa-v2.0.5';
+// Sürüm 2.0.6 - Zooteknist Bölümü Başlık Sadeleştirmesi
+const CACHE_NAME = 'tosun-pasa-v2.0.6';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -18,7 +18,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW v2.0.5] Yeni önbellek yükleniyor:', CACHE_NAME);
+      console.log('[SW v2.0.6] Yeni önbellek yükleniyor:', CACHE_NAME);
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
