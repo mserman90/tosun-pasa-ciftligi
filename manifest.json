@@ -23,9 +23,9 @@
       "purpose": "any maskable"
     },
     {
-      "src": "noto-ox.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
+      "src": "tosun-pasa-logo.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
     }
   ]
 }

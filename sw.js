@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.0.9 - Kendi Yemini Hazırla Türkiye Yem Hammaddeleri ve Fabrika Yemleri Genişletmesi
-const CACHE_NAME = 'tosun-pasa-v2.0.9';
+// Sürüm 2.1.0 - Tosun Paşa Özgün Maskot Logo Entegrasyonu
+const CACHE_NAME = 'tosun-pasa-v2.1.0';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -8,9 +8,11 @@ const ASSETS_TO_CACHE = [
   './styles.css',
   './app.js',
   './manifest.json',
-  './noto-ox.svg',
+  './tosun-pasa-logo.png',
+  './favicon.png',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './noto-ox.svg'
 ];
 
 // Install Event: Cache assets and force activate
