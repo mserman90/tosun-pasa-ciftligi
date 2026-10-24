@@ -1,14 +1,17 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.1.1 - Daireyi Tam Dolduran Tosun Paşa Portre Logo Güncellemesi
-const CACHE_NAME = 'tosun-pasa-v2.1.1';
+// Sürüm 2.1.2 - Reklam Afişi ve Tanıtım Sayfası Eklentisi
+const CACHE_NAME = 'tosun-pasa-v2.1.2';
 
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './afis.html',
   './styles.css',
   './app.js',
   './manifest.json',
   './tosun-pasa-logo.png',
+  './reklam-afisi.jpg',
+  './qr-code.png',
   './favicon.png',
   './icon-192.png',
   './icon-512.png',
