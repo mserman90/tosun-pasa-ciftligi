@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.1.3 - Tam Mobil Uyum & Responsif İyileştirmeler
-const CACHE_NAME = 'tosun-pasa-v2.1.3';
+// Sürüm 2.1.4 - Bilimsel Doğruluk ve Zootekni Formülleri Denetimi
+const CACHE_NAME = 'tosun-pasa-v2.1.4';
 
 const ASSETS_TO_CACHE = [
   './',

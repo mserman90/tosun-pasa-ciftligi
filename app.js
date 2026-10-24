@@ -1425,12 +1425,36 @@ function loadSavedRecipeToMixer(recipeId) {
   showToast(`"${rec.name}" mikser vagon kantarına yüklendi!`, "toast-success");
 }
 
+function getTmrLoadingPriority(name) {
+  const n = (name || '').toLowerCase();
+  if (n.includes('saman') || (n.includes('kuru') && (n.includes('yonca') || n.includes('ot') || n.includes('çim')))) {
+    return 1; // 1. Kuru Kaba Yemler (Önce kıyılır)
+  }
+  if (n.includes('tuz') || n.includes('mermer') || n.includes('bikarbonat') || n.includes('premik') || n.includes('dcp') || n.includes('mcp') || n.includes('maya')) {
+    return 2; // 2. Mineraller & Premiksler
+  }
+  if (n.includes('dane') || n.includes('ezme') || n.includes('kırma') || n.includes('küspe') || n.includes('yem') || n.includes('kepek') || n.includes('ddgs')) {
+    return 3; // 3. Konsantre & Fabrika Yemleri
+  }
+  if (n.includes('silaj') || n.includes('posa') || n.includes('malt')) {
+    return 4; // 4. Silajlar & Yaş Yan Ürünler (En son girer, tozu bağlar)
+  }
+  if (n.includes('melas') || n.includes('su') || n.includes('şurup')) {
+    return 5; // 5. Sıvılar
+  }
+  return 3;
+}
+
 function setupMixerWithIngredients(ingredients) {
   const herd = parseInt(document.getElementById('mixer-herd-size').value) || 50;
   mixerState.herdSize = herd;
   mixerState.currentStepIndex = 0;
   mixerState.cumulativeWeight = 0;
-  mixerState.steps = ingredients.map(ing => ({
+
+  // Bilimsel TMR Dolum Sıralaması (Kuru Kaba -> Mineral -> Kesif -> Silaj/Yaş Yem)
+  const sortedIngredients = [...ingredients].sort((a, b) => getTmrLoadingPriority(a.name) - getTmrLoadingPriority(b.name));
+
+  mixerState.steps = sortedIngredients.map(ing => ({
     name: ing.name,
     singleAnimalKg: ing.amountKg,
     targetKg: Math.round(ing.amountKg * herd * 10) / 10,
@@ -1633,18 +1657,18 @@ function calculateLiveWeightCAAG() {
   let weightKg = 0;
   let formulaDesc = "";
 
-  if (formula === 'schoorl') {
-    // Schoorl Formülü: (Göğüs cm)^2 / 300 (veya küçükbaş için ölçek)
-    weightKg = (chestCm * chestCm) / 300;
-    formulaDesc = "Schoorl Standardı: Göğüs² / 300";
+  if (formula === 'chest_only' || formula === 'schoorl') {
+    // Yalnızca Göğüs Çevresi (Zootekni Kübik Regresyonu: Göğüs³ / 12600)
+    weightKg = Math.pow(chestCm, 3) / 12600;
+    formulaDesc = "Yalnızca Göğüs Çevresi Formülü: Göğüs³ / 12600";
   } else {
-    // Standart Zootekni Formülü: (Göğüs cm)^2 * Uzunluk cm / 10838
+    // Standart Schaeffer Formülü: (Göğüs cm)² × Uzunluk cm / 10838
     if (isNaN(lengthCm) || lengthCm < 50) {
       resultBox.innerHTML = `<div class="alert alert-warning">Bu formül için lütfen Vücut Uzunluğu (cm) değerini de giriniz.</div>`;
       return;
     }
     weightKg = (chestCm * chestCm * lengthCm) / 10838;
-    formulaDesc = "Klasik Zootekni Formülü: (Göğüs² × Uzunluk) / 10838";
+    formulaDesc = "Schaeffer Formülü: (Göğüs² × Uzunluk) / 10838";
   }
 
   const minTolerance = weightKg * 0.95;
@@ -3424,7 +3448,7 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=2.1.3').then((reg) => {
+    navigator.serviceWorker.register('./sw.js?v=2.1.4').then((reg) => {
       console.log('Tosun Paşa SW v2.0.6 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
