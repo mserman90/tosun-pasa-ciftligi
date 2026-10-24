@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.0.0 - Yeni Ana Sayfa Portalı (Zooteknist & Yetiştirici Girişleri)
-const CACHE_NAME = 'tosun-pasa-v2.0.0';
+// Sürüm 2.0.1 - Yeni Ana Sayfa Portalı (Zooteknist & Yetiştirici Girişleri)
+const CACHE_NAME = 'tosun-pasa-v2.0.1';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -18,7 +18,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW v2.0.0] Yeni önbellek yükleniyor:', CACHE_NAME);
+      console.log('[SW v2.0.1] Yeni önbellek yükleniyor:', CACHE_NAME);
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
