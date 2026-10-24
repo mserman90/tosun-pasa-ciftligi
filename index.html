@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1.9.2">
+  <link rel="stylesheet" href="styles.css?v=1.9.3">
 </head>
 <body>
 
@@ -382,7 +382,7 @@
             🩸 Akut Meme İltihabı (Mastitis)
           </button>
           <button type="button" class="btn btn-secondary btn-sm" style="margin-left:auto;" onclick="jumpToDoctor('sub-doc-firstaid')">
-            Tüm Acil Protokoller ➔
+            Tüm Acil Protokoller (15) ➔
           </button>
         </div>
       </div>
@@ -419,7 +419,7 @@
             </p>
             <ul class="hero-module-features">
               <li>✅ Soru-cevaplı karar ağacı & olasılık skoru</li>
-              <li>✅ Acil ilk yardım altın protokolleri</li>
+              <li>✅ 15 Acil ilk yardım altın protokolü & arama</li>
               <li>✅ Canlı İKAS süt & et arınma süresi kilidi</li>
               <li>✅ Sıvı sağaltımı & Brix kolostrum testi</li>
             </ul>
@@ -573,7 +573,7 @@
         <button type="button" class="sub-nav-btn active" data-section="sub-doc-diag" onclick="switchSubNav('tab-doctor', 'sub-doc-diag')">🎯 Saha Ön Teşhisi</button>
         <button type="button" class="sub-nav-btn" data-section="sub-doc-ikas" onclick="switchSubNav('tab-doctor', 'sub-doc-ikas')">⏱️ Canlı İKAS Kilidi</button>
         <button type="button" class="sub-nav-btn" data-section="sub-doc-fluid" onclick="switchSubNav('tab-doctor', 'sub-doc-fluid')">💧 Sıvı & Kolostrum</button>
-        <button type="button" class="sub-nav-btn" data-section="sub-doc-firstaid" onclick="switchSubNav('tab-doctor', 'sub-doc-firstaid')">🚨 Acil Protokoller</button>
+        <button type="button" class="sub-nav-btn" data-section="sub-doc-firstaid" onclick="switchSubNav('tab-doctor', 'sub-doc-firstaid')">🚨 Acil Protokoller (15)</button>
       </div>
 
       <!-- 1. Saha Ön Teşhisi Section -->
@@ -761,49 +761,385 @@
       <div id="sub-doc-firstaid" class="sub-section" style="display:none;">
         <div class="card">
           <div class="card-header">
-            <span class="card-title">🚨 Acil İlk Yardım Altın Protokolleri</span>
-            <span class="badge badge-danger">Hayati Müdahale</span>
+            <div>
+              <span class="card-title">🚨 Acil İlk Yardım Altın Protokolleri</span>
+              <p class="card-desc" style="margin: 4px 0 0 0;">Veteriner hekim işletmenize ulaşana kadar altın dakikaları kazanın; hayvanınızı hayatta tutacak sahada kanıtlanmış 15 acil müdahale protokolü.</p>
+            </div>
+            <span class="badge badge-danger">15 Hayati Protokol</span>
           </div>
 
-          <div class="grid-2">
-            <div class="card" style="border-left: 4px solid var(--danger);">
-              <h4 style="color:var(--danger); font-weight:800;">1. Akut Timpani (Şişme) Protokolü</h4>
-              <ul style="padding-left:18px; font-size:0.84rem; line-height:1.6; margin-top:8px;">
-                <li>Hayvanı derhal rampaya veya başı yukarıda olacak eğimli bir yere çekin.</li>
-                <li>Ağzına tahta takoz bağlayarak geğirmeyi teşvik edin.</li>
-                <li>Mide sondası takın; gaz çıkışı yoksa (köpüklü şişme) 200 ml Dimetikon veya 0.5 L sıvı ayçiçek yağı içirin.</li>
-                <li>Hayvan nefes alamıyor ve asfiksi (morarma) başladıysa sol açlık çukuruna Trokar uygulayın.</li>
-              </ul>
+          <!-- Arama & Kategori Filtresi Barı -->
+          <div class="feed-search-wrap" style="margin-top: 10px; margin-bottom: 14px;">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <div style="position: relative; flex: 1; min-width: 220px;">
+                <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 0.95rem; color: var(--text-muted); pointer-events: none;">🔍</span>
+                <input type="text" id="firstaid-search-input" placeholder="Protokol veya belirti ara (Örn: şişme, doğum, zehirlenme, kanama, felç, kuzu, buzağı...)" style="padding-left: 32px; min-height: 38px; border-radius: 4px;" oninput="filterFirstAidProtocols()">
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="clearFirstAidSearch()" title="Aramayı Temizle" style="min-height: 38px; padding: 4px 12px;">
+                ✕ Temizle
+              </button>
+              <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); white-space: nowrap;">
+                Görüntülenen: <strong id="protocol-visible-count" style="color:var(--text);">15</strong> / 15
+              </span>
             </div>
 
-            <div class="card" style="border-left: 4px solid var(--warning);">
-              <h4 style="color:var(--warning); font-weight:800;">2. Rumen Asidozu (Tane Çarpması)</h4>
-              <ul style="padding-left:18px; font-size:0.84rem; line-height:1.6; margin-top:8px;">
-                <li>Önündeki tüm arpa, mısır ve unlu yemleri derhal toplayın; sadece kaliteli kuru saman verin.</li>
-                <li>300-400 gr Sodyum Bikarbonat'ı (yemek sodası) 5 litre ılık suda eritip sondayla içirin.</li>
-                <li>Veteriner hekimle damar içi izotonik bikarbonat serum ve B1 vitamini uygulayın.</li>
-                <li>Sağlıklı inekten 2-4 L taze rumen sıvısı nakli (transfaunasyon) faunayı hızla toparlar.</li>
-              </ul>
+            <!-- Kategori Filtre Butonları -->
+            <div style="display: flex; gap: 6px; overflow-x: auto; margin-top: 8px; padding-bottom: 2px;">
+              <button type="button" class="protocol-filter-btn active" data-cat="all" onclick="filterFirstAidCategory('all')">Tümü (15)</button>
+              <button type="button" class="protocol-filter-btn" data-cat="sindirim" onclick="filterFirstAidCategory('sindirim')">🌾 Mide & Sindirim (5)</button>
+              <button type="button" class="protocol-filter-btn" data-cat="dogum" onclick="filterFirstAidCategory('dogum')">🍼 Doğum & Buzağı (4)</button>
+              <button type="button" class="protocol-filter-btn" data-cat="zehirlenme" onclick="filterFirstAidCategory('zehirlenme')">⚠️ Zehirlenme & Şok (3)</button>
+              <button type="button" class="protocol-filter-btn" data-cat="travma" onclick="filterFirstAidCategory('travma')">🩸 Kanama & Travma (3)</button>
+            </div>
+          </div>
+
+          <!-- Protokol Kartları Grid (15 Adet) -->
+          <div id="protocol-cards-grid" class="grid-2">
+
+            <!-- 1. Akut Timpani (Şişme) -->
+            <div class="protocol-card border-danger" data-category="sindirim" data-keywords="timpani şişme gaz köpük yonca trokar sonda nefes darlığı sol açlık çukuru">
+              <div class="protocol-header">
+                <h4 class="protocol-title">1. 🎈 Akut Timpani (Köpüklü & Gazlı Şişme)</h4>
+                <span class="protocol-badge protocol-badge-danger">Hayati Acil (Dakikalar)</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Sol açlık çukuru davul gibi gergin ve şiş, hızlı nefes, ağız açık, dil dışarıda, gözler büyümüş, morarma (asfiksi).
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Hayvanı derhal başı yukarıda olacak eğimli bir rampaya veya yükseltiye alın.</li>
+                  <li>Ağzına tahta takoz veya gem bağlayarak sürekli çiğneme ve geğirme refleksini uyarın.</li>
+                  <li>Mide sondası takın; gaz çıkmıyorsa (köpüklü şişme) 200 ml Dimetikon veya 0.5 L sıvı ayçiçek yağı içirin.</li>
+                  <li>Boğulma ve morarma başladıysa sol açlık çukurunun en kabarık noktasına Trokar batırıp gazı yavaşça boşaltın.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Şişmiş hayvanı asla koşturmayın veya yatırmayın; karın organları ciğere baskı yaparak kalbi durdurur!
+              </div>
             </div>
 
-            <div class="card" style="border-left: 4px solid var(--danger);">
-              <h4 style="color:var(--danger); font-weight:800;">3. Hipokalsemi (Doğum Felci)</h4>
-              <ul style="padding-left:18px; font-size:0.84rem; line-height:1.6; margin-top:8px;">
-                <li>Kalsiyum Boroglukonat serumunu vücut sıcaklığına (38°C) kadar ılık suya daldırarak ısıtın.</li>
-                <li>Damar içine (juguler ven) ÇOK YAVAŞ şekilde (en az 15-20 dakikada) akıtın.</li>
-                <li>Kalp atışlarını stetoskop veya el ile göğüsten dinleyin; aritmi veya hızlanma olursa akışı durdurun.</li>
-                <li>Hayvanı göğüs üstü dik pozisyonda tutun, asla yan yatmasına izin vermeyin.</li>
-              </ul>
+            <!-- 2. Rumen Asidozu -->
+            <div class="protocol-card border-warning" data-category="sindirim" data-keywords="asidoz un çarpması tane yem arpa buğday mısır ekşi ishal yemek sodası bikarbonat">
+              <div class="protocol-header">
+                <h4 class="protocol-title">2. 🌽 Rumen Asidozu (Un & Tane Yem Çarpması)</h4>
+                <span class="protocol-badge protocol-badge-warning">Acil Müdahale</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Depoya girip aşırı tahıl yeme, sendeleme, diş gıcırdatma, sarı-gri ekşi kokulu cıvık ishal, yemi tamamen reddetme.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Önündeki tüm arpa, buğday, mısır ve unlu yemleri derhal toplayın; sadece kaliteli kuru buğday samanı verin.</li>
+                  <li>300-400 gr Sodyum Bikarbonat'ı (yemek sodası) 5-8 litre ılık suda eritip mide sondasıyla içirin.</li>
+                  <li>Sağlıklı bir inekten 2-4 L taze rumen sıvısı nakli (transfaunasyon) yaptırarak mide mikrobiyotasını kurtarın.</li>
+                  <li>Veteriner hekimle damar içi izotonik bikarbonat serum ve sinir sistemi için B1 vitamini (Tiamin) uygulayın.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Hayvana asla şekerli su, melas veya süt vermeyin; asidi katlayarak midenin delinmesine yol açar!
+              </div>
             </div>
 
-            <div class="card" style="border-left: 4px solid var(--primary);">
-              <h4 style="color:var(--primary); font-weight:800;">4. Enterotoksemi (Çelerme / Kuzu)</h4>
-              <ul style="padding-left:18px; font-size:0.84rem; line-height:1.6; margin-top:8px;">
-                <li>Kuzularda konsantre tane yemi derhal yarı yarıya kesin, kaba yem miktarını artırın.</li>
-                <li>Semptom gösteren canlı hayvanlara acil Enterotoksemi Antiserumu uygulayın.</li>
-                <li>Sürüdeki tüm sağlıklı toklu ve kuzuları Çelerme Aşısı ile aşılayın (21 gün sonra tekrar aşı).</li>
-              </ul>
+            <!-- 3. Hipokalsemi (Doğum Felci) -->
+            <div class="protocol-card border-danger" data-category="dogum" data-keywords="hipokalsemi doğum felci süt humması kalsiyum kalkamama soğuk kulak titreme">
+              <div class="protocol-header">
+                <h4 class="protocol-title">3. 🛑 Hipokalsemi (Süt Humması / Doğum Felci)</h4>
+                <span class="protocol-badge protocol-badge-danger">Hayati Acil</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Doğumdan hemen sonra ineğin ayağa kalkamaması, boynunu 'S' şeklinde göğse yaslaması, kulakların ve burnun buz gibi soğuk olması.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Kalsiyum Boroglukonat serumunu vücut sıcaklığına (38°C) kadar ılık suya daldırarak ısıtın.</li>
+                  <li>Damar içine (juguler boyun veni) ÇOK YAVAŞ şekilde (en az 15-20 dakikada) akıtın.</li>
+                  <li>Uygulama anında kalbi elinizle veya stetoskopla dinleyin; ritim bozulursa serumu derhal durdurun.</li>
+                  <li>Hayvanı göğüs üstü dik pozisyonda tutun, altına bol saman koyun ve bacaklarını ovalayın.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Soğuk kalsiyumu hızlıca damardan basmayın (kalp durur)! Hayvanı asla yan yatırmayın (akciğere kusmuk kaçar).
+              </div>
             </div>
+
+            <!-- 4. Uterus Prolapsusu (Rahim Fırlaması) -->
+            <div class="protocol-card border-danger" data-category="dogum" data-keywords="prolapsus rahim fırlaması döl yatağı döş çıkması doğum sonrası kanama çilek et torbası">
+              <div class="protocol-header">
+                <h4 class="protocol-title">4. 🚨 Uterus Prolapsusu (Döl Yatağı / Rahim Fırlaması)</h4>
+                <span class="protocol-badge protocol-badge-danger">Hayati Acil (Dakikalar)</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Doğumun hemen ardından devasa kırmızı, çilek benzeri pütürlü et torbası şeklindeki döl yatağının tamamen dışarı sarkması.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Döl yatağını asla yerde çamurda bırakmayın! Temiz, ılık suyla ıslatılmış çarşafın üstüne alıp iki kişi havada tutun.</li>
+                  <li>Üzerine bolca sofra şekeri veya tuz serpin; şeker suyu çekerek devasa şişliği (ödemi) hızla küçültür.</li>
+                  <li>İneğin arka bacaklarını yüksekte tutun. Veteriner hekim gelene kadar rahmin kurumasını ve yırtılmasını önleyin.</li>
+                  <li>Rahmin geri itilmesini sadece epidural anestezi altında uzman veteriner hekim yapmalıdır.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Döl yatağını kuru bezle tutmayın ve zorlayarak çekiştirmeyin; ana atardamar yırtılırsa hayvan 3 dakikada iç kanamadan ölür!
+              </div>
+            </div>
+
+            <!-- 5. Güç Doğum & Ters Geliş -->
+            <div class="protocol-card border-warning" data-category="dogum" data-keywords="güç doğum distosi ters geliş baş dönmesi ayak gelmesi buzağılama kayganlaştırıcı">
+              <div class="protocol-header">
+                <h4 class="protocol-title">5. 🐮 Güç Doğum & Ters/Çapraz Geliş (Distosi)</h4>
+                <span class="protocol-badge protocol-badge-warning">Acil Müdahale</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> İnek 2 saattir şiddetli ıkındığı halde buzağı ilerlemiyor; sadece burun gelmiş bacaklar yok veya tek bacak içerde kıvrılmış.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Kollarınızı ve ineğin vulva bölgesini ılık sabunlu suyla yıkayıp temizleyin.</li>
+                  <li>Doğum kanalına bolca kayganlaştırıcı jel veya temiz sıvı yağ boca edin (kuru çekmek rahmi yırtar).</li>
+                  <li>Baş dönmüşse buzağıyı hafifçe içeri geri itip başı ön ayakların arasına yönlendirin.</li>
+                  <li>Doğum halatını ayak bilek ekleminin üstünden bağlayın ve SADECE anne ıkındıkça arka bacaklara doğru aşağı açıyla çekin.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Asla traktörle veya caraskalla asılmayın; anneyi felç eder, rahmi parçalar, yavruyu içeride boğarsınız!
+              </div>
+            </div>
+
+            <!-- 6. Boğulma & Yemek Borusu Tıkanması -->
+            <div class="protocol-card border-danger" data-category="sindirim" data-keywords="boğulma yemek borusu tıkanması patates elma pancar salya sol açlık çukuru gaz">
+              <div class="protocol-header">
+                <h4 class="protocol-title">6. 🥔 Yemek Borusu Tıkanması (Patates, Elma, Pancar)</h4>
+                <span class="protocol-badge protocol-badge-danger">Hayati Acil</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Hayvan aniden gözlerini belertir, ağızdan aşırı salya akar, öğürür, yutkunamaz ve sol tarafı hızla gazla şişmeye başlar.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Sol boyun oluğunu elle yoklayarak tıkanıklık yapan sert cismin yerini tespit edin.</li>
+                  <li>Ağza tahta takoz koyup elle ulaşılabiliyorsa cismi ağızdan çekip çıkarmayı deneyin.</li>
+                  <li>Cisim derindeyse ağızdan 100 ml sıvı ayçiçek yağı içirip boyun boyunca yukarıya ağza doğru masajla itin.</li>
+                  <li>Şişme nefesi tıkarsa derhal sol açlık çukuruna Trokar batırıp hayvanın boğulmasını önleyin.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Tıkanıklık varken hayvana su veya ilaç içirmeye çalışmayın; sıvı doğrudan akciğere dolup boğar!
+              </div>
+            </div>
+
+            <!-- 7. Toksik Koli Mastitisi -->
+            <div class="protocol-card border-danger" data-category="dogum" data-keywords="toksik mastitis koli mastitisi meme şişliği bozuk süt titreme ateş pıhtı kanlı süt">
+              <div class="protocol-header">
+                <h4 class="protocol-title">7. 🩸 Toksik / Akut Mastitis (Koli Mastitisi & Toksik Şok)</h4>
+                <span class="protocol-badge protocol-badge-danger">Hayati Acil</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> İneğin titremesi, ateşi, tek meme lobunun taş gibi kızarık, şiş ve morumsu olması, sütten sarı su ve pıhtı gelmesi.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>O meme lobunu saat başı son damlasına kadar sağarak içerdeki zehirli toksinleri dışarı atın (sütü ASLA tanka dökmeyin).</li>
+                  <li>Meme lobuna hortumla 15 dakika soğuk su tutun veya buz torbası ile masaj yapın.</li>
+                  <li>Veteriner hekim kontrolünde sistemik geniş spektrumlu antibiyotik ve güçlü NSAID ağrı kesici (Flunixin) başlatın.</li>
+                  <li>Süt ve et arınma süresini (İKAS) uygulamada başlatın ve hayvana bol temiz ılık su sağlayın.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> İltihaplı memeyi "nasılsa bozuk" diye sağmadan bırakmayın; bakteri toksinleri kana karışırsa hayvan 24 saatte ölür!
+              </div>
+            </div>
+
+            <!-- 8. Buzağı Asfiksi (Nefes Alamama) -->
+            <div class="protocol-card border-danger" data-category="dogum" data-keywords="buzağı boğulma asfiksi nefes alamama yeni doğan kalp masajı soğuk su kulak balgam">
+              <div class="protocol-header">
+                <h4 class="protocol-title">8. 🫁 Yenidoğan Buzağı Asfiksi (Solunum Durması)</h4>
+                <span class="protocol-badge protocol-badge-danger">Hayati Acil (İlk 3 Dakika)</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Zor doğum sonrası buzağının nefes almaması, dilin morarması, ağız ve burunda yoğun amniyon sıvısı/balgam.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Ağız ve burun deliklerindeki balgamı parmağınızla veya temiz bir bezle hızla sıyırıp boşaltın.</li>
+                  <li>Kulak kepçesinin içine soğuk su dökün veya burun deliğinin içine temiz bir saman çöpü batırarak hapşırma refleksini tetikleyin.</li>
+                  <li>Göğüs kafesine iki elle ritmik baskı uygulayarak yapay solunum ve kalp masajı yapın.</li>
+                  <li>Buzağıyı göğüs üstü dik pozisyonda oturtun, altına kuru saman serip havluyla sertçe kurulayın.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Buzağıyı ayaklarından baş aşağı havaya kaldırıp dakikalarca sallamayın; karın organları ciğerlere basarak solunumu kilitler!
+              </div>
+            </div>
+
+            <!-- 9. Şiddetli Kanama & Travma -->
+            <div class="protocol-card border-danger" data-category="travma" data-keywords="kanama boynuz kırılması fışkırma tampon turnike göbek kordonu tentürdiyot koter">
+              <div class="protocol-header">
+                <h4 class="protocol-title">9. 🩸 Şiddetli Kanama & Travma (Boynuz Kırılması, Göbek Kanaması)</h4>
+                <span class="protocol-badge protocol-badge-danger">Hayati Acil</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Boynuz kökünden veya damardan fışkırır tarzda durmayan kan akması, buzağının göbeğinden sürekli kan sızması.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Kanayan noktanın tam üzerine temiz gazlı bez veya havlu ile 10-15 dakika HİÇ KALDIRMADAN sıkı baskı (tampon) uygulayın.</li>
+                  <li>Boynuz kırıklarında boynuzun tabanına lastik veya sıkı ip turnike sarın ya da yakma koter uygulayın.</li>
+                  <li>Buzağı göbek kordonu kanıyorsa karından 3 parmak mesafeden temiz pamuk ipliğiyle sıkıca düğümleyip bol tentürdiyot sürün.</li>
+                  <li>Aşırı kan kaybında hayvana serum takılması ve K vitamini desteği için acilen veteriner hekimi çağırın.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Kanayan yerdeki pıhtıyı temizleyeceğim diye kazımayın; pıhtıyı kaldırırsanız kanama yeniden alevlenir!
+              </div>
+            </div>
+
+            <!-- 10. Sıcak Çarpması & Hipertermi -->
+            <div class="protocol-card border-warning" data-category="zehirlenme" data-keywords="sıcak çarpması hipertermi hararet yaz ahırı soluma dil dışarıda salya fan soğutma">
+              <div class="protocol-header">
+                <h4 class="protocol-title">10. ☀️ Sıcak Çarpması & Hipertermi (Aşırı Ahır Harareti)</h4>
+                <span class="protocol-badge protocol-badge-warning">Acil Müdahale</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Dakikada 80'i aşan aşırı hızlı soluk alıp verme, dilin dışarı sarkması, yoğun salya, ateşin 40.5°C'yi geçmesi, sendeleme.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Hayvanı acilen doğrudan gölgelik, havadar ve rüzgar alan serin bir bölmeye çekin.</li>
+                  <li>Başına, boynuna ve bacaklarına hortumla soğuk su sıkın; ahır fanlarını son hızda çalıştırın.</li>
+                  <li>Bol serin içme suyu ve içine tuz/sodyum bikarbonat karıştırılmış elektrolitli su verin.</li>
+                  <li>Rektal dereceyi takip edin; 39.5°C'ye düşene kadar ıslak havlu kompresine devam edin.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Sıcak çarpmış hayvanın sırtına ve göğsüne birden kova dolusu buzlu su dökmeyin; ani damar şokuyla kalp durmasına yol açar!
+              </div>
+            </div>
+
+            <!-- 11. Üre & Zehirli Ot Zehirlenmesi -->
+            <div class="protocol-card border-danger" data-category="zehirlenme" data-keywords="üre zehirlenmesi amonyak gübre zehirli ot sirke kömür titreme kasılma">
+              <div class="protocol-header">
+                <h4 class="protocol-title">11. 🧪 Üre & Kimyasal Zehirlenmesi (Amonyak Şoku)</h4>
+                <span class="protocol-badge protocol-badge-danger">Hayati Acil</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Yemdeki ürenin topaklanması veya gübre çuvalı yenmesi sonucu kas titremesi, ağızdan köpük, gevişin durması, böğürme, yere düşme.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>ANINDA 2 ila 4 litre elma veya üzüm sirkesini 10-15 litre buz gibi soğuk suyla karıştırıp sondayla hayvana içirin.</li>
+                  <li>Sirke, rümendeki pH'ı hızla düşürerek ölümcül amonyağın emilmesini kimyasal olarak kilitler.</li>
+                  <li>Ağızdan 200-300 gr aktif kömür süspansiyonu vererek kalan toksinlerin bağırsaktan emilmesini önleyin.</li>
+                  <li>Damardan kalsiyum ve magnezyum içeren serumlar için acil veteriner müdahalesi isteyin.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Üre zehirlenmesinde asla ılık/sıcak su veya unlu bulamaç vermeyin; üre parçalanmasını hızlandırıp hayvanı saniyeler içinde öldürür!
+              </div>
+            </div>
+
+            <!-- 12. Enterotoksemi (Çelerme / Kuzu) -->
+            <div class="protocol-card border-danger" data-category="sindirim" data-keywords="enterotoksemi çelerme kuzu toklu yumuşak böbrek başı geriye atma ölüm tane yem">
+              <div class="protocol-header">
+                <h4 class="protocol-title">12. 🐑 Enterotoksemi (Çelerme / Yumuşak Böbrek - Kuzu & Toklu)</h4>
+                <span class="protocol-badge protocol-badge-danger">Hayati Acil</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Sürünün en gürbüz, en iyi yem yiyen toklu ve kuzularında aniden nöbet, başı sırta doğru bükme (yay gibi gerilme), köpük ve saatler içinde ani ölüm.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Sürüdeki tane yemi (arpa/mısır/pelet) derhal yarıya indirin veya kesin, bol kaliteli kuru çayır otu verin.</li>
+                  <li>Ayakta kalan veya klinik belirti gösteren kuzulara derhal acil Enterotoksemi Antiserumu enjekte edin.</li>
+                  <li>Sürüdeki tüm sağlıklı hayvanlara vakit kaybetmeden Çelerme Aşısı uygulayın (21 gün sonra tekrar aşı).</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Kuzuların önüne serbest arpa bırakıp aşıyı ihmal etmeyin; çelerme her zaman sürünün en semiz ve en değerli hayvanını vurur!
+              </div>
+            </div>
+
+            <!-- 13. RPT (Mideye Çivi-Tel Batması) -->
+            <div class="protocol-card border-warning" data-category="sindirim" data-keywords="rpt donanım hastalığı tel çivi mıknatıs kambur duruş inilti döş ödemi">
+              <div class="protocol-header">
+                <h4 class="protocol-title">13. 🧲 RPT / Donanım Hastalığı (Mideye Tel-Çivi Batması)</h4>
+                <span class="protocol-badge protocol-badge-warning">Kritik Müdahale</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> İneğin sırtını kambur yapması, yokuş aşağı inmekten korkması, iniltili solunum, döş altında su toplaması (ödem).
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Hayvanın ön ayaklarını arka ayaklarından 15-20 cm yüksekte tutacak bir rampa veya platforma alın.</li>
+                  <li>Ağzından acilen kuvvetli bir Rumen Mıknatısı yutturun (mıknatıs midedeki teli yakalayarak organ delinmesini durdurur).</li>
+                  <li>Tüm sert dane yemleri kesin, sadece yumuşak taze ot ve saman verin.</li>
+                  <li>Enfeksiyonu baskılamak için veteriner hekim kontrolünde geniş spektrumlu antibiyotik uygulayın.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Hayvanı hızlı koşturmayın veya yokuş aşağı indirmeyin; tel diyaframı delip kalbe saplanabilir!
+              </div>
+            </div>
+
+            <!-- 14. Tetanoz -->
+            <div class="protocol-card border-warning" data-category="travma" data-keywords="tetanoz kastre yara çivi çene kilitlenmesi tahta at duruşu karanlık penisilin">
+              <div class="protocol-header">
+                <h4 class="protocol-title">14. 🐴 Tetanoz (Kastre, Göbek İltihabı & Çivi Yarası)</h4>
+                <span class="protocol-badge protocol-badge-warning">Kritik Bakım</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Kulakların dimdik kesilmesi, gözün önünde beyaz perde (üçüncü göz kapağı), vücudun kaskatı olması (tahta at duruşu), çenenin kilitlenmesi.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Hayvanı karanlık, tamamen sessiz ve bol samanlı bir ahıra alın (her tıkırtı ve ışık kasılma krizini tetikler).</li>
+                  <li>Tırnaktaki veya göbekteki yara odağını bulup oksijenli su ile yıkayarak mikrobu havayla temas ettirin.</li>
+                  <li>Acilen yüksek doz Tetanoz Antiserumu ve yüksek doz Penisilin uygulayın.</li>
+                  <li>Ağızdan beslenemeyen hayvana veteriner hekimle damar içi glikoz ve elektrolit serumu bağlayın.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Hayvanı aydınlık ve gürültülü yerde tutmayın; kas spazmları solunumu kilitler.
+              </div>
+            </div>
+
+            <!-- 15. Buzağı Soğuk Şoku (Hipotermi) -->
+            <div class="protocol-card border-danger" data-category="dogum" data-keywords="buzağı donma soğuk şoku hipotermi kış doğumu emmeme kolostrum lamba battaniye">
+              <div class="protocol-header">
+                <h4 class="protocol-title">15. ❄️ Yenidoğan Buzağı Soğuk Şoku (Hipotermi / Donma)</h4>
+                <span class="protocol-badge protocol-badge-danger">Hayati Acil</span>
+              </div>
+              <div class="protocol-section-box">
+                <strong>🚨 Belirtiler:</strong> Kışın doğan buzağının vücut ısısının 37°C'nin altına düşmesi, emme refleksinin kaybolması, vücudun titremesi, ayakların buz kesmesi.
+              </div>
+              <div class="protocol-section-box">
+                <strong>⚡ Altın İlk Yardım Adımları:</strong>
+                <ol style="padding-left:18px; margin:4px 0 0 0;">
+                  <li>Buzağıyı kuru havlularla sertçe ovalayarak kurulayın ve kan dolaşımını canlandırın.</li>
+                  <li>Kızılötesi ısıtıcı lamba altına alın veya ılık su bidonlarının ortasına yatırıp battaniyeye sarın.</li>
+                  <li>Ağızdan 38.5°C ılık kaliteli ilk ağız sütünü (kolostrum) mide sondasıyla yavaşça içirin.</li>
+                  <li>Ağır komada damar içi ılık %5 Dekstroz serumu uygulayın.</li>
+                </ol>
+              </div>
+              <div class="protocol-warning-box">
+                ⚠️ <strong>Ölümcül Hata:</strong> Donmak üzere olan buzağıyı doğrudan kaynar suya sokmayın; ani şoka ve ölüme yol açar. Isıyı kademeli olarak yükseltin.
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -1789,7 +2125,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=1.9.2"></script>
+  <script src="app.js?v=1.9.3"></script>
 
   <script>
     // Initialize default dates in modals

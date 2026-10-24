@@ -638,6 +638,47 @@ const DISEASE_DATABASE = [
   }
 ];
 
+// Acil İlk Yardım Altın Protokolleri Filtreleme & Arama Motoru
+let currentFirstAidCat = 'all';
+
+function filterFirstAidCategory(cat) {
+  currentFirstAidCat = cat;
+  document.querySelectorAll('.protocol-filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-cat') === cat);
+  });
+  filterFirstAidProtocols();
+}
+
+function filterFirstAidProtocols() {
+  const query = (document.getElementById('firstaid-search-input')?.value || '').trim().toLocaleLowerCase('tr-TR');
+  const cards = document.querySelectorAll('.protocol-card');
+  let matchCount = 0;
+
+  cards.forEach(card => {
+    const cat = card.getAttribute('data-category');
+    const text = ((card.getAttribute('data-keywords') || '') + ' ' + card.innerText).toLocaleLowerCase('tr-TR');
+
+    const catMatches = (currentFirstAidCat === 'all' || cat === currentFirstAidCat);
+    const searchMatches = (!query || text.includes(query));
+
+    if (catMatches && searchMatches) {
+      card.style.display = 'flex';
+      matchCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  const counterEl = document.getElementById('protocol-visible-count');
+  if (counterEl) counterEl.textContent = matchCount;
+}
+
+function clearFirstAidSearch() {
+  const input = document.getElementById('firstaid-search-input');
+  if (input) input.value = '';
+  filterFirstAidCategory('all');
+}
+
 // Saha Teşhis Hesaplayıcı Fonksiyonu
 function runCobanDoctorDiagnosis() {
   const species = document.getElementById('diag-species').value;
@@ -2592,8 +2633,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=1.9.2').then((reg) => {
-      console.log('Tosun Paşa SW v1.9.2 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=1.9.3').then((reg) => {
+      console.log('Tosun Paşa SW v1.9.3 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {

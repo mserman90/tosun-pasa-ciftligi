@@ -2109,3 +2109,159 @@ body.dark-mode .lazy-placeholder {
   display: inline-block;
 }
 
+/* Acil İlk Yardım Altın Protokolleri Stilleri */
+.protocol-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--danger);
+  border-radius: 4px !important;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.protocol-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-mode .protocol-card {
+  background: #161b22;
+  border-color: var(--border);
+}
+
+.protocol-card.border-danger {
+  border-left-color: var(--danger) !important;
+}
+
+.protocol-card.border-warning {
+  border-left-color: var(--warning) !important;
+}
+
+.protocol-card.border-primary {
+  border-left-color: var(--primary) !important;
+}
+
+.protocol-card.border-info {
+  border-left-color: #0288d1 !important;
+}
+
+.protocol-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.protocol-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.protocol-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.protocol-badge-danger {
+  background: rgba(220, 53, 69, 0.15);
+  color: #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.protocol-badge-warning {
+  background: rgba(255, 193, 7, 0.2);
+  color: #856404;
+  border: 1px solid rgba(255, 193, 7, 0.4);
+}
+
+body.dark-mode .protocol-badge-warning {
+  color: #ffc107;
+}
+
+.protocol-badge-info {
+  background: rgba(2, 136, 209, 0.15);
+  color: #0288d1;
+  border: 1px solid rgba(2, 136, 209, 0.3);
+}
+
+.protocol-section-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px !important;
+  padding: 8px 10px;
+  font-size: 0.83rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+body.dark-mode .protocol-section-box {
+  background: #0d1117;
+  border-color: var(--border);
+}
+
+.protocol-warning-box {
+  background: rgba(220, 53, 69, 0.08);
+  border: 1px solid rgba(220, 53, 69, 0.25);
+  border-radius: 4px !important;
+  padding: 8px 10px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #b71c1c;
+}
+
+body.dark-mode .protocol-warning-box {
+  background: rgba(220, 53, 69, 0.15);
+  color: #ff8a80;
+  border-color: rgba(220, 53, 69, 0.4);
+}
+
+.protocol-filter-btn {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 4px !important;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.protocol-filter-btn:hover {
+  border-color: var(--primary);
+  background: rgba(255, 221, 0, 0.08);
+}
+
+.protocol-filter-btn.active {
+  background: var(--primary);
+  color: #000000;
+  border-color: #e6c700;
+  font-weight: 800;
+  box-shadow: 0 1px 4px rgba(255, 221, 0, 0.3);
+}
+
+body.dark-mode .protocol-filter-btn {
+  background: #161b22;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+body.dark-mode .protocol-filter-btn.active {
+  background: var(--primary);
+  color: #000000;
+}
+
