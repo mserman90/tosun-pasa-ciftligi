@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.1.0 - Tosun Paşa Özgün Maskot Logo Entegrasyonu
-const CACHE_NAME = 'tosun-pasa-v2.1.0';
+// Sürüm 2.1.1 - Daireyi Tam Dolduran Tosun Paşa Portre Logo Güncellemesi
+const CACHE_NAME = 'tosun-pasa-v2.1.1';
 
 const ASSETS_TO_CACHE = [
   './',
