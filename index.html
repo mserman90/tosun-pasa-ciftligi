@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1.8.0">
+  <link rel="stylesheet" href="styles.css?v=1.9.0">
 </head>
 <body>
 
@@ -856,8 +856,43 @@
             </div>
           </div>
 
-          <label style="font-weight:700; margin-top:8px;">İşletmenizde Mevcut / Kullanılacak Yemler (Stok Seçimi):</label>
-          <div id="ration-feeds-selector" class="grid-3" style="max-height: 220px; overflow-y: auto; padding: 6px; border: 1px solid var(--border); border-radius: 4px; margin-top: 4px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; margin-top: 12px; gap: 6px;">
+            <label style="font-weight:700; margin-bottom: 0;">🌾 İşletmenizde Mevcut / Kullanılacak Yemler (Stok Seçimi):</label>
+            <span id="feed-selection-counter" style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">
+              Seçili: <strong id="selected-feed-count" style="color:var(--text); color:var(--primary-dark);">0</strong> / <span id="total-feed-count">0</span> yem
+            </span>
+          </div>
+
+          <!-- Yem Arama ve Kategori Filtresi (Servis Plan Stili) -->
+          <div class="feed-search-wrap">
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <div style="position: relative; flex: 1; min-width: 220px;">
+                <span style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 0.95rem; color: var(--text-muted); pointer-events: none;">🔍</span>
+                <input type="text" id="feed-search-input" placeholder="Yem adı ara (Örn: Akıllı yem, silaj, yonca, arpa, soya, pamuk, kepek...)" style="padding-left: 32px; min-height: 38px; border-radius: 4px;" oninput="filterFeedSelectionList()">
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="clearFeedSearch()" title="Aramayı Temizle" style="min-height: 38px; padding: 4px 10px;">
+                ✕ Temizle
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="toggleSelectAllFeeds(true)" title="Görünen Tüm Yemleri Seç" style="min-height: 38px; padding: 4px 10px;">
+                ☑️ Tümünü Seç
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="toggleSelectAllFeeds(false)" title="Görünenlerin Seçimini Kaldır" style="min-height: 38px; padding: 4px 10px;">
+                ◻️ Kaldır
+              </button>
+            </div>
+
+            <!-- Kategori Butonları -->
+            <div class="feed-category-pills" style="display: flex; gap: 6px; overflow-x: auto; margin-top: 8px; padding-bottom: 2px;">
+              <button type="button" class="btn-feed-filter active" data-cat="all" onclick="filterFeedCategory('all')">Tümü (<span id="cat-count-all">0</span>)</button>
+              <button type="button" class="btn-feed-filter" data-cat="karma" onclick="filterFeedCategory('karma')">⭐ Akıllı & Fabrika (<span id="cat-count-karma">0</span>)</button>
+              <button type="button" class="btn-feed-filter" data-cat="kaba" onclick="filterFeedCategory('kaba')">🌾 Kaba & Silaj (<span id="cat-count-kaba">0</span>)</button>
+              <button type="button" class="btn-feed-filter" data-cat="kesif" onclick="filterFeedCategory('kesif')">🌽 Tane & Enerji (<span id="cat-count-kesif">0</span>)</button>
+              <button type="button" class="btn-feed-filter" data-cat="sanayi" onclick="filterFeedCategory('sanayi')">🏭 Küspe & Sanayi (<span id="cat-count-sanayi">0</span>)</button>
+              <button type="button" class="btn-feed-filter" data-cat="mineral" onclick="filterFeedCategory('mineral')">🧪 Katkı & Mineral (<span id="cat-count-mineral">0</span>)</button>
+            </div>
+          </div>
+
+          <div id="ration-feeds-selector" class="grid-3" style="max-height: 280px; overflow-y: auto; padding: 8px; border: 1px solid var(--border); border-radius: 4px; margin-top: 4px; background: var(--card-bg);">
             <!-- Feeds populated dynamically -->
           </div>
 
@@ -1555,7 +1590,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=1.8.0"></script>
+  <script src="app.js?v=1.9.0"></script>
 
   <script>
     // Initialize default dates in modals

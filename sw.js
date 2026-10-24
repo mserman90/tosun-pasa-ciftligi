@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 1.8.0 - Servis Plan Signature Theme & Performance Lazy Load Engine
-const CACHE_NAME = 'tosun-pasa-v1.8.0';
+// Sürüm 1.9.0 - Genişletilmiş Türkiye Yem Kütüphanesi & Akıllı Yem Arama Motoru
+const CACHE_NAME = 'tosun-pasa-v1.9.0';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -18,7 +18,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW v1.8.0] Yeni önbellek yükleniyor:', CACHE_NAME);
+      console.log('[SW v1.9.0] Yeni önbellek yükleniyor:', CACHE_NAME);
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );

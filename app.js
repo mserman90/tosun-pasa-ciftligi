@@ -221,65 +221,273 @@ function formatNumber(num, decimals = 1) {
 }
 
 // =============================================================================
-// 3. SCIENTIFIC FEED INGREDIENTS DATABASE (45+ YEM HAMMADDESİ)
+// 3. SCIENTIFIC FEED INGREDIENTS DATABASE (TÜRKİYE'DE YAYGIN KULLANILAN YEMLER & AKILLI YEMLER)
 // =============================================================================
 const MASTER_FEED_DATABASE = [
-  // 1. Kaba Yemler
-  { id: "yonca_kuru", name: "Yonca Kuru Otu (%17 HP)", category: "kaba", km: 88, hp: 17.5, me: 2.15, ndf: 44, adf: 32, ca: 1.45, p: 0.28, price: 5.50 },
+  // 1. Kaba Yemler & Silajlar
+  { id: "yonca_kuru", name: "Yonca Kuru Otu (%17.5 HP)", category: "kaba", km: 88, hp: 17.5, me: 2.15, ndf: 44, adf: 32, ca: 1.45, p: 0.28, price: 5.50 },
   { id: "yonca_baslangic", name: "Yonca Kuru Otu (Erken Biçim %20 HP)", category: "kaba", km: 89, hp: 20.0, me: 2.30, ndf: 39, adf: 28, ca: 1.60, p: 0.32, price: 6.20 },
   { id: "korunga_kuru", name: "Korunga Kuru Otu", category: "kaba", km: 88, hp: 15.0, me: 2.10, ndf: 46, adf: 34, ca: 1.25, p: 0.25, price: 5.20 },
   { id: "misir_silaji", name: "Mısır Silajı (%32 KM, Dane Zengin)", category: "kaba", km: 32, hp: 8.2, me: 2.50, ndf: 43, adf: 26, ca: 0.25, p: 0.22, price: 2.60 },
+  { id: "misir_silaji_paket", name: "Paketli Mısır Silajı (Vakumlu Balya %33 KM)", category: "kaba", km: 33, hp: 8.4, me: 2.52, ndf: 42, adf: 25, ca: 0.26, p: 0.23, price: 3.10 },
   { id: "misir_silaji_nemli", name: "Mısır Silajı (%28 KM)", category: "kaba", km: 28, hp: 7.8, me: 2.40, ndf: 46, adf: 28, ca: 0.24, p: 0.20, price: 2.30 },
   { id: "ryegrass_silaji", name: "İtalyan Çimi (Ryegrass) Silajı", category: "kaba", km: 35, hp: 14.5, me: 2.35, ndf: 48, adf: 30, ca: 0.65, p: 0.35, price: 3.20 },
   { id: "ryegrass_kuru", name: "İtalyan Çimi (Ryegrass) Kuru Otu", category: "kaba", km: 88, hp: 13.5, me: 2.20, ndf: 52, adf: 33, ca: 0.60, p: 0.30, price: 4.80 },
   { id: "arpa_hasili_silaji", name: "Arpa Hasılı Silajı (Süt Olum)", category: "kaba", km: 34, hp: 10.5, me: 2.25, ndf: 50, adf: 32, ca: 0.40, p: 0.28, price: 2.50 },
-  { id: "bugday_samani", name: "Buğday Samanı (Beyaz)", category: "kaba", km: 90, hp: 3.5, me: 1.45, ndf: 74, adf: 50, ca: 0.38, p: 0.10, price: 2.20 },
+  { id: "yulaf_hasili_silaji", name: "Yulaf Hasılı Silajı", category: "kaba", km: 32, hp: 9.2, me: 2.15, ndf: 54, adf: 35, ca: 0.42, p: 0.26, price: 2.40 },
+  { id: "sorgum_silaji", name: "Sorgum-Sudan Otu Silajı", category: "kaba", km: 28, hp: 7.5, me: 2.20, ndf: 55, adf: 36, ca: 0.35, p: 0.20, price: 2.10 },
+  { id: "bugday_samani", name: "Buğday Samanı (Beyaz Saman)", category: "kaba", km: 90, hp: 3.5, me: 1.45, ndf: 74, adf: 50, ca: 0.38, p: 0.10, price: 2.20 },
   { id: "arpa_samani", name: "Arpa Samanı", category: "kaba", km: 89, hp: 4.2, me: 1.55, ndf: 71, adf: 48, ca: 0.42, p: 0.12, price: 2.40 },
-  { id: "cayir_kuru", name: "Çayır Kuru Otu (Doğal Mera)", category: "kaba", km: 88, hp: 9.5, me: 1.95, ndf: 58, adf: 38, ca: 0.55, p: 0.22, price: 4.00 },
+  { id: "yulaf_samani", name: "Yulaf Samanı", category: "kaba", km: 89, hp: 4.5, me: 1.60, ndf: 69, adf: 46, ca: 0.40, p: 0.14, price: 2.50 },
+  { id: "misir_sapi", name: "Mısır Sapı / Anız Samanı", category: "kaba", km: 88, hp: 4.0, me: 1.50, ndf: 68, adf: 44, ca: 0.40, p: 0.12, price: 1.80 },
+  { id: "aycicegi_sapi", name: "Ayçiçeği Tablası / Samanı", category: "kaba", km: 89, hp: 5.5, me: 1.60, ndf: 62, adf: 42, ca: 0.65, p: 0.15, price: 1.90 },
+  { id: "cayir_kuru", name: "Çayır Kuru Otu (Doğal Bozkır/Mera)", category: "kaba", km: 88, hp: 9.5, me: 1.95, ndf: 58, adf: 38, ca: 0.55, p: 0.22, price: 4.00 },
   { id: "fig_tahil_kuru", name: "Fiğ + Tahıl Karışımı Kuru Otu", category: "kaba", km: 87, hp: 14.0, me: 2.15, ndf: 49, adf: 34, ca: 0.95, p: 0.28, price: 5.00 },
   { id: "yulaf_kuru", name: "Yulaf Kuru Otu (Süt Olum)", category: "kaba", km: 88, hp: 8.5, me: 2.05, ndf: 56, adf: 36, ca: 0.45, p: 0.24, price: 4.20 },
-  { id: "sorgum_silaji", name: "Sorgum-Sudan Otu Silajı", category: "kaba", km: 28, hp: 7.5, me: 2.20, ndf: 55, adf: 36, ca: 0.35, p: 0.20, price: 2.10 },
+  { id: "sudan_otu_kuru", name: "Sudan Otu Kuru Otu", category: "kaba", km: 88, hp: 9.0, me: 1.95, ndf: 58, adf: 37, ca: 0.50, p: 0.22, price: 3.80 },
+  { id: "pancar_posasi_paket", name: "Paketli Şeker Pancarı Posası Silajı (Balya Küspe %24 KM)", category: "kaba", km: 24, hp: 9.2, me: 2.68, ndf: 44, adf: 22, ca: 0.88, p: 0.12, price: 2.20 },
+  { id: "elma_posasi_silaji", name: "Elma Posası Silajı (%22 KM)", category: "kaba", km: 22, hp: 6.5, me: 2.60, ndf: 42, adf: 28, ca: 0.18, p: 0.11, price: 1.30 },
+  { id: "domates_posasi_kuru", name: "Domates Posası Kuru (%22 HP)", category: "kaba", km: 88, hp: 22.0, me: 2.30, ndf: 54, adf: 40, ca: 0.35, p: 0.45, price: 4.50 },
+  { id: "narenciye_posasi", name: "Narenciye (Portakal/Limon) Posası Silajı", category: "kaba", km: 20, hp: 6.8, me: 2.75, ndf: 22, adf: 14, ca: 1.40, p: 0.12, price: 1.40 },
 
   // 2. Kesif / Tane Yemler (Enerji Kaynakları)
   { id: "arpa_ezme", name: "Arpa Ezmesi / Kırması", category: "kesif", km: 88, hp: 11.5, me: 2.85, ndf: 18, adf: 6, ca: 0.08, p: 0.36, price: 6.80 },
+  { id: "arpa_flake", name: "Buharda Pişirilmiş Arpa Flake", category: "kesif", km: 88, hp: 11.8, me: 2.95, ndf: 17, adf: 5, ca: 0.08, p: 0.36, price: 7.80 },
   { id: "misir_dane", name: "Mısır Dane (Öğütülmüş)", category: "kesif", km: 87, hp: 8.5, me: 3.15, ndf: 10, adf: 3, ca: 0.03, p: 0.28, price: 7.20 },
   { id: "misir_flake", name: "Buharda Pişirilmiş Mısır Flake", category: "kesif", km: 88, hp: 8.8, me: 3.30, ndf: 9, adf: 3, ca: 0.03, p: 0.28, price: 8.50 },
+  { id: "misir_nemli_kirma", name: "Nemli Mısır Tane Silajı (CCM %68 KM)", category: "kesif", km: 68, hp: 8.6, me: 3.25, ndf: 10, adf: 3, ca: 0.03, p: 0.27, price: 5.80 },
   { id: "bugday_dane", name: "Yemlik Buğday Kırması", category: "kesif", km: 88, hp: 12.5, me: 3.05, ndf: 12, adf: 4, ca: 0.06, p: 0.38, price: 7.40 },
   { id: "yulaf_dane", name: "Yulaf Dane (Kavuzlu)", category: "kesif", km: 89, hp: 11.0, me: 2.65, ndf: 30, adf: 14, ca: 0.10, p: 0.35, price: 6.50 },
   { id: "tritikale_dane", name: "Tritikale Dane Kırması", category: "kesif", km: 88, hp: 12.0, me: 2.95, ndf: 14, adf: 4, ca: 0.06, p: 0.34, price: 6.70 },
   { id: "cavdar_dane", name: "Çavdar Dane", category: "kesif", km: 88, hp: 10.5, me: 2.80, ndf: 15, adf: 4, ca: 0.07, p: 0.33, price: 6.40 },
+  { id: "pirinc_kirigi", name: "Çeltik / Pirinç Kırığı", category: "kesif", km: 88, hp: 8.2, me: 3.10, ndf: 8, adf: 2, ca: 0.04, p: 0.22, price: 7.00 },
 
   // 3. Protein Küspeleri & Sanayi Yan Ürünleri
   { id: "soya_44", name: "Soya Küspesi (%44 HP)", category: "sanayi", km: 89, hp: 44.0, me: 3.10, ndf: 14, adf: 9, ca: 0.32, p: 0.65, price: 17.50 },
   { id: "soya_48", name: "Soya Küspesi Kabuksuz (%48 HP)", category: "sanayi", km: 90, hp: 48.0, me: 3.25, ndf: 10, adf: 6, ca: 0.30, p: 0.68, price: 19.00 },
+  { id: "tam_yagli_soya", name: "Tam Yağlı Soya (Ekstrüde %36 HP, %18 Yağ)", category: "sanayi", km: 90, hp: 36.0, me: 3.75, ndf: 12, adf: 7, ca: 0.28, p: 0.58, price: 21.00 },
   { id: "ptk_34", name: "Pamuk Tohumu Küspesi (%34 HP)", category: "sanayi", km: 90, hp: 34.0, me: 2.45, ndf: 32, adf: 22, ca: 0.22, p: 1.05, price: 10.50 },
   { id: "ptk_28", name: "Pamuk Tohumu Küspesi (%28 HP)", category: "sanayi", km: 89, hp: 28.0, me: 2.25, ndf: 38, adf: 26, ca: 0.20, p: 0.90, price: 8.80 },
   { id: "atk_28", name: "Ayçiçeği Tohumu Küspesi (%28 HP)", category: "sanayi", km: 90, hp: 28.0, me: 2.10, ndf: 38, adf: 27, ca: 0.35, p: 1.00, price: 8.20 },
   { id: "atk_36", name: "Ayçiçeği Tohumu Küspesi Kabuksuz (%36 HP)", category: "sanayi", km: 91, hp: 36.0, me: 2.40, ndf: 26, adf: 18, ca: 0.38, p: 1.15, price: 10.80 },
-  { id: "kanola_kuspesi", name: "Kanola Küspesi (%36 HP)", category: "sanayi", km: 89, hp: 36.0, me: 2.55, ndf: 25, adf: 17, ca: 0.68, p: 1.10, price: 11.20 },
+  { id: "kanola_kuspesi", name: "Kanola / Kolza Küspesi (%36 HP)", category: "sanayi", km: 89, hp: 36.0, me: 2.55, ndf: 25, adf: 17, ca: 0.68, p: 1.10, price: 11.20 },
+  { id: "cigit_pamuk", name: "Bütün Pamuk Tohumu (Çiğit %22 HP, %18 Yağ)", category: "sanayi", km: 90, hp: 22.0, me: 3.20, ndf: 44, adf: 34, ca: 0.18, p: 0.60, price: 10.50 },
   { id: "misir_ddgs", name: "Mısır DDGS (%27 HP, Yüksek Enerji)", category: "sanayi", km: 90, hp: 27.5, me: 3.05, ndf: 32, adf: 13, ca: 0.15, p: 0.75, price: 11.50 },
+  { id: "misir_gluteni_20", name: "Mısır Glüteni Yemi (CGF %21 HP)", category: "sanayi", km: 89, hp: 21.0, me: 2.80, ndf: 35, adf: 12, ca: 0.12, p: 0.95, price: 8.60 },
+  { id: "misir_glüteni_60", name: "Mısır Glüten Unu (%60 HP)", category: "sanayi", km: 90, hp: 60.0, me: 3.50, ndf: 8, adf: 4, ca: 0.08, p: 0.50, price: 23.00 },
+  { id: "keten_tohumu_kuspesi", name: "Keten Tohumu Küspesi (%32 HP)", category: "sanayi", km: 90, hp: 32.0, me: 2.70, ndf: 28, adf: 16, ca: 0.40, p: 0.85, price: 13.00 },
+  { id: "aspir_kuspesi", name: "Aspir Tohumu Küspesi (%24 HP)", category: "sanayi", km: 90, hp: 24.0, me: 1.95, ndf: 48, adf: 36, ca: 0.30, p: 0.70, price: 7.00 },
   { id: "bugday_kepegi", name: "Buğday Kepeği (Geniş Yaprak)", category: "sanayi", km: 88, hp: 15.5, me: 2.25, ndf: 42, adf: 13, ca: 0.14, p: 1.15, price: 5.20 },
   { id: "razmol", name: "Razmol / İnce Kepek", category: "sanayi", km: 88, hp: 14.5, me: 2.40, ndf: 34, adf: 10, ca: 0.12, p: 0.95, price: 5.40 },
-  { id: "pancar_posasi_yas", name: "Şeker Pancarı Posası (Yaş %18 KM)", category: "sanayi", km: 18, hp: 9.0, me: 2.65, ndf: 46, adf: 23, ca: 0.85, p: 0.10, price: 1.40 },
+  { id: "bonkalite", name: "Bonkalite (Buğday İçi / İnce Unsu)", category: "sanayi", km: 88, hp: 14.0, me: 2.70, ndf: 22, adf: 6, ca: 0.10, p: 0.75, price: 6.20 },
+  { id: "pancar_posasi_yas", name: "Şeker Pancarı Posası (Yaş Küspe %18 KM)", category: "sanayi", km: 18, hp: 9.0, me: 2.65, ndf: 46, adf: 23, ca: 0.85, p: 0.10, price: 1.40 },
   { id: "pancar_posasi_kuru", name: "Şeker Pancarı Posası Pelet (%88 KM)", category: "sanayi", km: 88, hp: 9.2, me: 2.70, ndf: 45, adf: 22, ca: 0.90, p: 0.11, price: 6.80 },
   { id: "melas_pancar", name: "Şeker Pancarı Melası (%75 KM)", category: "sanayi", km: 75, hp: 8.5, me: 2.75, ndf: 0, adf: 0, ca: 0.80, p: 0.08, price: 5.80 },
-  { id: "bira_posasi_yas", name: "Bira Posası (Yaş %24 KM, %26 HP)", category: "sanayi", km: 24, hp: 26.0, me: 2.60, ndf: 46, adf: 20, ca: 0.32, p: 0.55, price: 2.80 },
-  { id: "misir_glüteni_60", name: "Mısır Glüten Unu (%60 HP)", category: "sanayi", km: 90, hp: 60.0, me: 3.50, ndf: 8, adf: 4, ca: 0.08, p: 0.50, price: 23.00 },
+  { id: "bira_posasi_yas", name: "Bira Posası (Yaş Malt %24 KM, %26 HP)", category: "sanayi", km: 24, hp: 26.0, me: 2.60, ndf: 46, adf: 20, ca: 0.32, p: 0.55, price: 2.80 },
 
-  // 4. Mineraller, Tamponlar ve Katkılar
+  // 4. Akıllı Yemler & Karma Fabrika Yemleri (Hazır Konsantreler)
+  { id: "akilli_yem_sut_21", name: "Akıllı Yem (Bypass Proteinli Yüksek Verim Süt - 21 HP / 2.80 ME)", category: "karma", km: 89, hp: 21.0, me: 2.80, ndf: 28, adf: 16, ca: 1.10, p: 0.60, price: 13.50 },
+  { id: "akilli_yem_besi_16", name: "Akıllı Yem (Hızlı Gelişim Besi Pelet - 16 HP / 2.85 ME)", category: "karma", km: 89, hp: 16.0, me: 2.85, ndf: 26, adf: 14, ca: 0.95, p: 0.55, price: 12.80 },
+  { id: "akilli_yem_gecis", name: "Akıllı Yem (Geçiş Dönemi / Doğuma Hazırlık - 17 HP / 2.70 ME)", category: "karma", km: 89, hp: 17.0, me: 2.70, ndf: 30, adf: 17, ca: 0.80, p: 0.50, price: 14.00 },
+  { id: "fabrika_sut_18", name: "Standart Süt Yemi (18 HP / 2.60 ME)", category: "karma", km: 88, hp: 18.0, me: 2.60, ndf: 32, adf: 18, ca: 1.00, p: 0.55, price: 11.50 },
+  { id: "fabrika_sut_19", name: "Süt Yemi (19 HP / 2.70 ME)", category: "karma", km: 88, hp: 19.0, me: 2.70, ndf: 30, adf: 17, ca: 1.05, p: 0.58, price: 12.20 },
+  { id: "fabrika_sut_20", name: "Enerji-Protein Süt Yemi (20 HP / 2.75 ME)", category: "karma", km: 89, hp: 20.0, me: 2.75, ndf: 29, adf: 16, ca: 1.10, p: 0.60, price: 12.90 },
+  { id: "fabrika_besi_baslangic", name: "Besi Başlangıç Yemi (16 HP / 2.70 ME)", category: "karma", km: 88, hp: 16.0, me: 2.70, ndf: 30, adf: 16, ca: 0.90, p: 0.50, price: 11.20 },
+  { id: "fabrika_besi_gelistirme", name: "Besi Geliştirme Yemi (14 HP / 2.75 ME)", category: "karma", km: 88, hp: 14.0, me: 2.75, ndf: 28, adf: 15, ca: 0.85, p: 0.48, price: 10.80 },
+  { id: "fabrika_besi_bitiris", name: "Besi Bitiriş Yemi (13 HP / 2.85 ME)", category: "karma", km: 88, hp: 13.0, me: 2.85, ndf: 25, adf: 13, ca: 0.80, p: 0.45, price: 11.00 },
+  { id: "fabrika_duve", name: "Düve Büyütme Yemi (15 HP / 2.50 ME)", category: "karma", km: 88, hp: 15.0, me: 2.50, ndf: 34, adf: 19, ca: 0.95, p: 0.50, price: 10.50 },
+  { id: "fabrika_kuru_donem", name: "Kuru Dönem Gebe İnek Yemi (14 HP / 2.40 ME)", category: "karma", km: 88, hp: 14.0, me: 2.40, ndf: 36, adf: 20, ca: 0.60, p: 0.45, price: 10.20 },
+  { id: "fabrika_buzagi_baslangic", name: "Buzağı Başlangıç Pelet Yemi (18 HP / 2.85 ME)", category: "karma", km: 89, hp: 18.0, me: 2.85, ndf: 22, adf: 11, ca: 1.20, p: 0.65, price: 13.80 },
+  { id: "fabrika_buzagi_buyutme", name: "Buzağı Büyütme Yemi (16 HP / 2.75 ME)", category: "karma", km: 88, hp: 16.0, me: 2.75, ndf: 26, adf: 14, ca: 1.10, p: 0.60, price: 12.00 },
+  { id: "fabrika_kuzu_baslangic", name: "Kuzu Başlangıç Pelet Yemi (18 HP / 2.80 ME)", category: "karma", km: 89, hp: 18.0, me: 2.80, ndf: 24, adf: 12, ca: 1.15, p: 0.60, price: 13.20 },
+  { id: "fabrika_kuzu_buyutme", name: "Kuzu Büyütme Yemi (16 HP / 2.75 ME)", category: "karma", km: 88, hp: 16.0, me: 2.75, ndf: 26, adf: 14, ca: 1.05, p: 0.55, price: 12.00 },
+  { id: "fabrika_toklu_besi", name: "Toklu Besi Yemi (14 HP / 2.70 ME)", category: "karma", km: 88, hp: 14.0, me: 2.70, ndf: 28, adf: 15, ca: 0.90, p: 0.50, price: 11.20 },
+
+  // 5. Mineraller, Tamponlar ve Özel Katkılar
   { id: "mermer_tozu", name: "Mermer Tozu (Kalsiyum Karbonat %38 Ca)", category: "mineral", km: 99, hp: 0.0, me: 0.0, ndf: 0, adf: 0, ca: 38.0, p: 0.0, price: 1.50 },
   { id: "dcp", name: "Dikalsiyum Fosfat (DCP %24 Ca, %18 P)", category: "mineral", km: 99, hp: 0.0, me: 0.0, ndf: 0, adf: 0, ca: 24.0, p: 18.0, price: 28.00 },
-  { id: "yem_tuzu", name: "Yem Tuzu (Sodyum Klorür)", category: "mineral", km: 99, hp: 0.0, me: 0.0, ndf: 0, adf: 0, ca: 0.0, p: 0.0, price: 2.00 },
-  { id: "bikarbonat", name: "Sodyum Bikarbonat (Rumen Tamponu)", category: "mineral", km: 99, hp: 0.0, me: 0.0, ndf: 0, adf: 0, ca: 0.0, p: 0.0, price: 12.00 },
+  { id: "mcp", name: "Monokalsiyum Fosfat (MCP %16 Ca, %22.7 P)", category: "mineral", km: 99, hp: 0.0, me: 0.0, ndf: 0, adf: 0, ca: 16.0, p: 22.7, price: 32.00 },
+  { id: "yem_tuzu", name: "Yem Tuzu (Sodyum Klorür NaCl)", category: "mineral", km: 99, hp: 0.0, me: 0.0, ndf: 0, adf: 0, ca: 0.0, p: 0.0, price: 2.00 },
+  { id: "kaya_tuzu", name: "Kaya Tuzu (Yalama Taşı / Granül)", category: "mineral", km: 99, hp: 0.0, me: 0.0, ndf: 0, adf: 0, ca: 0.0, p: 0.0, price: 3.50 },
+  { id: "bikarbonat", name: "Sodyum Bikarbonat (Yem Sodası / Rumen Tamponu)", category: "mineral", km: 99, hp: 0.0, me: 0.0, ndf: 0, adf: 0, ca: 0.0, p: 0.0, price: 12.00 },
   { id: "magnezyum_oksit", name: "Magnezyum Oksit (MgO %56 Mg)", category: "mineral", km: 99, hp: 0.0, me: 0.0, ndf: 0, adf: 0, ca: 0.0, p: 0.0, price: 16.00 },
   { id: "canli_maya", name: "Canlı Maya Kültürü (S. cerevisiae)", category: "mineral", km: 95, hp: 35.0, me: 1.5, ndf: 0, adf: 0, ca: 0.2, p: 0.4, price: 95.00 },
-  { id: "yemlik_ure", name: "Yemlik Üre (%46 Azot, NPN)", category: "mineral", km: 99, hp: 287.0, me: 0.0, ndf: 0, adf: 0, ca: 0.0, p: 0.0, price: 22.00 },
+  { id: "bypass_yag", name: "Bypass Yağı (Rumen Korunmuş Kalsiyum Sabunu - %84 Yağ)", category: "mineral", km: 99, hp: 0.0, me: 6.50, ndf: 0, adf: 0, ca: 9.0, p: 0.0, price: 58.00 },
+  { id: "toksin_baglayici", name: "Geniş Spektrumlu Toksin Bağlayıcı", category: "mineral", km: 95, hp: 0.0, me: 0.0, ndf: 0, adf: 0, ca: 2.0, p: 0.0, price: 75.00 },
+  { id: "yemlik_ure", name: "Yemlik Üre (%46 Azot, NPN Eşdeğeri %287 HP)", category: "mineral", km: 99, hp: 287.0, me: 0.0, ndf: 0, adf: 0, ca: 0.0, p: 0.0, price: 22.00 },
   { id: "vit_min_premiksi", name: "Besi/Süt Vitamin-Mineral Premiksi", category: "mineral", km: 98, hp: 0.0, me: 0.0, ndf: 0, adf: 0, ca: 18.0, p: 4.0, price: 45.00 }
 ];
 
 function getAllFeeds() {
   const custom = (DB.ration && DB.ration.customFeeds) ? DB.ration.customFeeds : [];
   return [...MASTER_FEED_DATABASE, ...custom];
+}
+
+// =============================================================================
+// YEM SEÇİMİ, DİNAMİK ARAMA VE KATEGORİ FİLTRELEME MOTORU
+// =============================================================================
+let currentFeedCategory = 'all';
+
+function populateFeedSelectionList() {
+  const feedListContainer = document.getElementById('ration-feeds-selector');
+  if (!feedListContainer) return;
+
+  const allFeeds = getAllFeeds();
+
+  // Kategori sayaçlarını güncelle
+  const counts = {
+    all: allFeeds.length,
+    karma: allFeeds.filter(f => f.category === 'karma').length,
+    kaba: allFeeds.filter(f => f.category === 'kaba').length,
+    kesif: allFeeds.filter(f => f.category === 'kesif').length,
+    sanayi: allFeeds.filter(f => f.category === 'sanayi').length,
+    mineral: allFeeds.filter(f => f.category === 'mineral').length
+  };
+
+  for (const [k, v] of Object.entries(counts)) {
+    const el = document.getElementById(`cat-count-${k}`);
+    if (el) el.textContent = v;
+  }
+  const totEl = document.getElementById('total-feed-count');
+  if (totEl) totEl.textContent = allFeeds.length;
+
+  // Önceden seçilmiş yemleri hatırla
+  const previouslyChecked = new Set(
+    Array.from(document.querySelectorAll('.feed-check:checked')).map(cb => cb.value)
+  );
+
+  // İlk yüklemede popüler yemleri varsayılan olarak seç
+  const useDefaults = previouslyChecked.size === 0;
+  const defaultCheckedIds = [
+    'yonca_kuru', 'misir_silaji', 'bugday_samani',
+    'arpa_ezme', 'misir_dane', 'ptk_34', 'soya_44',
+    'bugday_kepegi', 'mermer_tozu', 'yem_tuzu', 'bikarbonat',
+    'akilli_yem_sut_21'
+  ];
+
+  feedListContainer.innerHTML = allFeeds.map(f => {
+    const isChecked = useDefaults ? defaultCheckedIds.includes(f.id) : previouslyChecked.has(f.id);
+    const isAkilli = f.id.startsWith('akilli_');
+    const isKarma = f.category === 'karma';
+
+    let catBadge = '';
+    if (isAkilli) {
+      catBadge = `<span class="badge" style="background:#ffdd00; color:#000000; font-size:0.65rem; padding:1px 5px; font-weight:800;">AKILLI</span>`;
+    } else if (isKarma) {
+      catBadge = `<span class="badge" style="background:rgba(255,221,0,0.25); color:#856404; font-size:0.65rem; padding:1px 4px;">FABRİKA</span>`;
+    }
+
+    return `
+      <label class="feed-item-card ${isChecked ? 'is-selected' : ''}" data-feed-id="${f.id}" data-category="${f.category}" data-feed-name="${f.name.toLocaleLowerCase('tr-TR')}">
+        <input type="checkbox" class="feed-check" value="${f.id}" ${isChecked ? 'checked' : ''} style="width:auto; min-height:auto; margin-top:2px;" onchange="handleFeedCheckChange(this)">
+        <div class="feed-item-content">
+          <div class="feed-item-name">
+            <span>${f.name}</span>
+            ${catBadge}
+          </div>
+          <div class="feed-item-meta">
+            <span>💰 <strong>${f.price.toFixed(2)}</strong> TL/kg</span>
+            <span>•</span>
+            <span>🥩 %${f.hp} HP</span>
+            <span>•</span>
+            <span>⚡ ${f.me.toFixed(2)} ME</span>
+          </div>
+        </div>
+      </label>
+    `;
+  }).join('');
+
+  updateFeedSelectionCounter();
+}
+
+function handleFeedCheckChange(cb) {
+  const card = cb.closest('.feed-item-card');
+  if (card) {
+    if (cb.checked) {
+      card.classList.add('is-selected');
+    } else {
+      card.classList.remove('is-selected');
+    }
+  }
+  updateFeedSelectionCounter();
+}
+
+function updateFeedSelectionCounter() {
+  const checked = document.querySelectorAll('.feed-check:checked').length;
+  const counterEl = document.getElementById('selected-feed-count');
+  if (counterEl) counterEl.textContent = checked;
+}
+
+function filterFeedSelectionList() {
+  const searchInput = document.getElementById('feed-search-input');
+  const query = searchInput ? searchInput.value.trim().toLocaleLowerCase('tr-TR') : '';
+  const cards = document.querySelectorAll('.feed-item-card');
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const cat = card.dataset.category;
+    const name = card.dataset.feedName || '';
+
+    const matchesCat = (currentFeedCategory === 'all' || cat === currentFeedCategory);
+    const matchesSearch = !query || name.includes(query) || (query === 'akilli' && name.includes('akıllı'));
+
+    if (matchesCat && matchesSearch) {
+      card.style.display = 'flex';
+      visibleCount++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  const selector = document.getElementById('ration-feeds-selector');
+  let emptyMsg = document.getElementById('feed-empty-search-msg');
+  if (visibleCount === 0) {
+    if (!emptyMsg) {
+      emptyMsg = document.createElement('div');
+      emptyMsg.id = 'feed-empty-search-msg';
+      emptyMsg.style.cssText = 'grid-column: 1 / -1; padding: 18px; text-align: center; color: var(--text-muted); font-size: 0.9rem;';
+      emptyMsg.innerHTML = `⚠️ "<strong>${query}</strong>" aramasıyla eşleşen yem bulunamadı. <button type="button" class="btn btn-secondary btn-sm" onclick="clearFeedSearch()" style="margin-left:8px; padding:3px 8px;">Aramayı Temizle</button>`;
+      selector.appendChild(emptyMsg);
+    } else {
+      emptyMsg.style.display = 'block';
+    }
+  } else if (emptyMsg) {
+    emptyMsg.style.display = 'none';
+  }
+}
+
+function filterFeedCategory(cat) {
+  currentFeedCategory = cat;
+  document.querySelectorAll('.btn-feed-filter').forEach(btn => {
+    if (btn.dataset.cat === cat) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+  filterFeedSelectionList();
+}
+
+function clearFeedSearch() {
+  const searchInput = document.getElementById('feed-search-input');
+  if (searchInput) {
+    searchInput.value = '';
+    searchInput.focus();
+  }
+  filterFeedSelectionList();
+}
+
+function toggleSelectAllFeeds(selectState) {
+  const visibleCards = Array.from(document.querySelectorAll('.feed-item-card')).filter(c => c.style.display !== 'none');
+  visibleCards.forEach(card => {
+    const cb = card.querySelector('.feed-check');
+    if (cb) {
+      cb.checked = selectState;
+      if (selectState) card.classList.add('is-selected');
+      else card.classList.remove('is-selected');
+    }
+  });
+  updateFeedSelectionCounter();
 }
 
 // =============================================================================
@@ -877,9 +1085,9 @@ function solveRationOptimization() {
     return;
   }
 
-  // Kaba ve kesif ayrımı
+  // Kaba ve kesif ayrımı (Karma ve Akıllı yemler kesif sınıfına dahil edilir)
   const forageFeeds = activeFeeds.filter(f => f.category === 'kaba');
-  const concentrateFeeds = activeFeeds.filter(f => f.category === 'kesif' || f.category === 'sanayi');
+  const concentrateFeeds = activeFeeds.filter(f => f.category === 'kesif' || f.category === 'sanayi' || f.category === 'karma');
   const mineralFeeds = activeFeeds.filter(f => f.category === 'mineral');
 
   if (forageFeeds.length === 0) {
@@ -921,11 +1129,20 @@ function solveRationOptimization() {
   let remainingConcKm = targetConcKm - 0.25; // mineraller için pay bırak
   if (remainingConcKm < 0) remainingConcKm = 0.5;
 
-  const proteinFeeds = concentrateFeeds.filter(f => f.hp >= 25);
-  const energyFeeds = concentrateFeeds.filter(f => f.hp < 25);
+  const proteinFeeds = concentrateFeeds.filter(f => f.hp >= 24);
+  const energyFeeds = concentrateFeeds.filter(f => f.hp < 24);
 
-  let energyPortionKm = remainingConcKm * 0.70;
-  let proteinPortionKm = remainingConcKm * 0.30;
+  let energyPortionKm = 0;
+  let proteinPortionKm = 0;
+
+  if (proteinFeeds.length > 0 && energyFeeds.length > 0) {
+    energyPortionKm = remainingConcKm * 0.70;
+    proteinPortionKm = remainingConcKm * 0.30;
+  } else if (proteinFeeds.length > 0) {
+    proteinPortionKm = remainingConcKm;
+  } else if (energyFeeds.length > 0) {
+    energyPortionKm = remainingConcKm;
+  }
 
   if (energyFeeds.length > 0) {
     energyFeeds.forEach((feed, idx) => {
@@ -2384,8 +2601,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=1.8.0').then((reg) => {
-      console.log('Tosun Paşa SW v1.8.0 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=1.9.0').then((reg) => {
+      console.log('Tosun Paşa SW v1.9.0 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {
@@ -2500,27 +2717,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (toggleBtn) toggleBtn.innerHTML = `☀️ <span class="btn-label">Gündüz</span>`;
   }
 
-  // Populate Feed Selection Checkboxes in Ration Module
-  const feedListContainer = document.getElementById('ration-feeds-selector');
-  if (feedListContainer) {
-    const allFeeds = getAllFeeds();
-    feedListContainer.innerHTML = allFeeds.map(f => {
-      // Default checked for staple feeds
-      const isDefaultChecked = ['yonca_kuru', 'misir_silaji', 'bugday_samani', 'arpa_ezme', 'misir_dane', 'ptk_34', 'soya_44', 'bugday_kepegi', 'mermer_tozu', 'yem_tuzu', 'bikarbonat'].includes(f.id);
-      return `
-        <label style="display:flex; align-items:center; gap:8px; font-size:0.85rem; padding:4px 6px; border:1px solid var(--border); border-radius:4px; cursor:pointer;">
-          <input type="checkbox" class="feed-check" value="${f.id}" ${isDefaultChecked ? 'checked' : ''} style="width:auto; min-height:auto;">
-          <span>${f.name} <small style="color:var(--text-muted);">(${f.price} TL/kg)</small></span>
-        </label>
-      `;
-    }).join('');
-  }
+  // Populate Feed Selection Checkboxes in Ration Module with Search & Filters
+  populateFeedSelectionList();
 
-  // Populate Pearson dropdowns
+  // Populate Pearson dropdowns (Alfabetik Türkçe sıralı)
   const pearsonA = document.getElementById('pearson-feed-a');
   const pearsonB = document.getElementById('pearson-feed-b');
   if (pearsonA && pearsonB) {
-    const allFeeds = getAllFeeds();
+    const allFeeds = getAllFeeds().slice().sort((a, b) => a.name.localeCompare(b.name, 'tr-TR'));
     const options = allFeeds.map(f => `<option value="${f.id}">${f.name} (%${f.hp} HP)</option>`).join('');
     pearsonA.innerHTML = options;
     pearsonB.innerHTML = options;

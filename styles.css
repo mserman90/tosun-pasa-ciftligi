@@ -373,7 +373,124 @@ input, select, textarea {
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(18, 140, 126, 0.2);
+  box-shadow: 0 0 0 2px rgba(255, 221, 0, 0.25);
+}
+
+/* Feed Selection & Search Box */
+.feed-search-wrap {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px !important;
+  padding: 10px 12px;
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+
+body.dark-mode .feed-search-wrap {
+  background: #161b22;
+  border-color: var(--border);
+}
+
+.feed-item-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.83rem;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px !important;
+  background: var(--card-bg);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.feed-item-card:hover {
+  border-color: var(--primary);
+  background: rgba(255, 221, 0, 0.06);
+}
+
+.feed-item-card.is-selected {
+  border-color: var(--primary);
+  background: rgba(255, 221, 0, 0.12);
+}
+
+body.dark-mode .feed-item-card {
+  background: #161b22;
+  border-color: var(--border);
+}
+
+body.dark-mode .feed-item-card:hover {
+  background: rgba(255, 221, 0, 0.1);
+  border-color: var(--primary);
+}
+
+body.dark-mode .feed-item-card.is-selected {
+  border-color: var(--primary);
+  background: rgba(255, 221, 0, 0.18);
+}
+
+.feed-item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.feed-item-name {
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.feed-item-meta {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.btn-feed-filter {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px !important;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.btn-feed-filter:hover {
+  border-color: var(--primary);
+  background: rgba(255, 221, 0, 0.08);
+}
+
+.btn-feed-filter.active {
+  background: var(--primary);
+  color: #000000;
+  border-color: #e6c700;
+  font-weight: 800;
+  box-shadow: 0 1px 4px rgba(255, 221, 0, 0.3);
+}
+
+body.dark-mode .btn-feed-filter {
+  background: #161b22;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+body.dark-mode .btn-feed-filter.active {
+  background: var(--primary);
+  color: #000000;
 }
 
 label {
