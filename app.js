@@ -2399,7 +2399,32 @@ function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.classList.add('active');
+    if (modalId === 'modal-help-guide') {
+      const targetGuide = (typeof currentAppMode !== 'undefined' && currentAppMode === 'zooteknist') ? 'zooteknist' : 'yetistirici';
+      switchGuideTab(targetGuide);
+    }
   }
+}
+
+function switchGuideTab(target) {
+  const yetBtn = document.getElementById('btn-guide-tab-yet');
+  const zooBtn = document.getElementById('btn-guide-tab-zoo');
+  const yetSection = document.getElementById('guide-section-yetistirici');
+  const zooSection = document.getElementById('guide-section-zooteknist');
+
+  if (target === 'zooteknist') {
+    if (zooBtn) zooBtn.classList.add('active');
+    if (yetBtn) yetBtn.classList.remove('active');
+    if (zooSection) zooSection.style.display = 'block';
+    if (yetSection) yetSection.style.display = 'none';
+  } else {
+    if (yetBtn) yetBtn.classList.add('active');
+    if (zooBtn) zooBtn.classList.remove('active');
+    if (yetSection) yetSection.style.display = 'block';
+    if (zooSection) zooSection.style.display = 'none';
+  }
+  const modalBody = document.querySelector('#modal-help-guide .modal-body');
+  if (modalBody) modalBody.scrollTop = 0;
 }
 
 function closeModal(modalId) {
@@ -3076,7 +3101,7 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=2.0.7').then((reg) => {
+    navigator.serviceWorker.register('./sw.js?v=2.0.8').then((reg) => {
       console.log('Tosun Paşa SW v2.0.6 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();

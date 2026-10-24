@@ -902,9 +902,63 @@ body.dark-mode .metric-val {
   background: rgba(0, 0, 0, 0.02);
 }
 
-/* Çiftlik Sistemi Kullanım Kılavuzu Stilleri */
+/* Kullanım Kılavuzu Stilleri */
 #modal-help-guide .modal-content {
-  max-width: 880px;
+  max-width: 920px;
+}
+
+.guide-mode-nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.guide-mode-btn {
+  flex: 1;
+  padding: 10px 14px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  border-radius: 4px !important;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.guide-mode-btn:hover {
+  background: rgba(255, 221, 0, 0.12);
+  color: var(--text);
+}
+
+.guide-mode-btn.active {
+  background: #ffdd00 !important;
+  color: #000000 !important;
+  border-color: #e6c700 !important;
+  box-shadow: 0 2px 8px rgba(255, 221, 0, 0.35);
+}
+
+body.dark-mode .guide-mode-btn {
+  background: #1e242b;
+  border-color: #30363d;
+  color: #8b949e;
+}
+
+body.dark-mode .guide-mode-btn:hover {
+  background: #283038;
+  color: #ffffff;
+}
+
+body.dark-mode .guide-mode-btn.active {
+  background: #ffdd00 !important;
+  color: #000000 !important;
+  border-color: #e6c700 !important;
 }
 
 .guide-step-card {

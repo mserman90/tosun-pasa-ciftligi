@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.0.7">
+  <link rel="stylesheet" href="styles.css?v=2.0.8">
 </head>
 <body>
 
@@ -208,7 +208,7 @@
             🍼 Buzağı Takvimi
           </button>
           <button type="button" class="yet-tab-btn" onclick="openModal('modal-help-guide')">
-            ℹ️ Çiftçi Kılavuzu
+            ℹ️ Kullanım Kılavuzu
           </button>
         </div>
       </div>
@@ -1828,217 +1828,363 @@
   <div id="modal-help-guide" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title">ℹ️ Çiftlik Sistemi Kullanım Kılavuzu</div>
+        <div class="modal-title">Kullanım Kılavuzu</div>
         <button type="button" class="btn-close-modal" onclick="closeModal('modal-help-guide')">&times;</button>
       </div>
       <div class="modal-body" style="font-size:0.92rem; line-height:1.65; max-height: 75vh; overflow-y: auto;">
         
-        <!-- Giriş Karşılama Kartı -->
-        <div style="background: rgba(255, 221, 0, 0.15); border: 2px solid var(--primary); border-radius: 4px; padding: 14px 16px; margin-bottom: 16px;">
-          <h4 style="margin: 0 0 6px 0; font-size: 1.15rem; color: var(--text); font-weight: 800; display:flex; align-items:center; gap:8px;">
-            🌾 Değerli Üreticimiz, Çiftçi Kardeşim Hoş Geldin!
-          </h4>
-          <p style="margin: 0; font-size: 0.92rem; color: var(--text);">
-            Bu uygulama; dağda, merada, yaylada veya bodrum ahırında <strong>telefonun hiç çekmediği, internetin olmadığı yerlerde bile</strong> tıkır tıkır çalışan senin <strong>cebindeki akıllı veterinerin, yem uzmanı zooteknistin ve çiftlik defterindir.</strong> Defter kalem arama derdine, yanlış yem verip para batırmaya ve ilaçlı sütü mandıraya döküp ceza yemeye son verir.
-          </p>
+        <!-- Kılavuz Mod Seçici (Yetiştirici vs Zooteknist) -->
+        <div class="guide-mode-nav">
+          <button type="button" id="btn-guide-tab-yet" class="guide-mode-btn active" onclick="switchGuideTab('yetistirici')">
+            🌾 Yetiştirici Kılavuzu (Pratik & Sade)
+          </button>
+          <button type="button" id="btn-guide-tab-zoo" class="guide-mode-btn" onclick="switchGuideTab('zooteknist')">
+            🔬 Zooteknist Kılavuzu (Bilimsel & Teknik)
+          </button>
         </div>
 
-        <!-- 1. BÖLÜM: ÜST ÇUBUKTAKİ DÜĞMELER -->
-        <div class="guide-step-card">
-          <div class="guide-step-title">
-            <span>1️⃣ Ekranın En Üstündeki Düğmeler Ne İşe Yarar?</span>
-          </div>
-          <div class="guide-step-desc">
-            <ul style="padding-left: 20px; margin: 6px 0;">
-              <li style="margin-bottom: 8px;">
-                <strong>🐂 Tosun Paşa Çiftliği Logosu & Yazısı:</strong> Hangi sayfada veya bölümde olursan ol, kaybolursan bu yazıya veya öküz resmine dokun; seni hemen ilk açılış ekranına (çiftlik özetine) geri getirir.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>📱 Uygulamayı Yükle:</strong> Telefonuna uygulamayı kaydeder. Bir kere dokunduğunda internetin hiç olmasa bile uygulama tıpkı WhatsApp gibi telefonunun ana ekranından tek dokunuşla açılır.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>🌙 / ☀️ Gece & Gündüz Modu:</strong> Gece ahıra girdiğinde telefonun beyaz ışığı gözünü yakmasın, hayvanları ürkütmesin diye ekranı karartır. Gündüz güneş altındayken rahat okunsun diye açık sarı-beyaz renge çevirir.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>📥 Yedek İndir:</strong> Telefonun bozulur, suya düşer veya yenisini alırsan hayvan kayıtların, doğumların, aşıların kaybolmasın diye çiftliğinin güvenli bir kopyasını telefonuna dosya olarak indirir.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>📤 Geri Yükle:</strong> Yeni telefon aldığında indirdiğin o yedek dosyasını seçip tüm hayvanlarını tek tıkla geri getirmeni sağlar.
-              </li>
-              <li>
-                <strong>ℹ️ Kılavuz:</strong> Şu an okuduğun bu yardım kitabını açar, takıldığında sana yol gösterir.
-              </li>
-            </ul>
-          </div>
-        </div>
+        <!-- ===================================================================
+             1. YETİŞTİRİCİ KULLANIM KILAVUZU
+             =================================================================== -->
+        <div id="guide-section-yetistirici">
 
-        <!-- 2. BÖLÜM: ANA EKRAN VE GÖSTERGELER -->
-        <div class="guide-step-card">
-          <div class="guide-step-title">
-            <span>2️⃣ Ana Ekran (Çiftliğin Nabzı & Gösterge Paneli)</span>
-          </div>
-          <div class="guide-step-desc">
-            <ul style="padding-left: 20px; margin: 6px 0;">
-              <li style="margin-bottom: 8px;">
-                <strong>📊 Büyük Sayaçlar:</strong> Çiftliğinde toplam kaç hayvanın var, kaç inek sağılıyor, kaç tane besi tosunu ve buzağı var bir bakışta gösterir.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>🚨 Kırmızı İKAS Uyarısı (Tehlike Alarmı):</strong> İğne vurulmuş, sütü veya eti ilaçlı bir inek varsa burada kırmızı kutu yanar. <em>"Sakın bu ineğin sütünü tanka dökme, mandıra ceza keser!"</em> diye seni uyarır.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>🍼 Sarı Doğum & Kuruluk Uyarısı:</strong> Doğumu yaklaşan veya sağımdan kesilip dinlendirilmesi gereken (kuruya alınacak) inekleri sana gün gün hatırlatır.
-              </li>
-              <li>
-                <strong>⚡ Hızlı Düğmeler:</strong> Menüler arasında dolaşmadan tek dokunuşla yeni hayvan kaydetmeni veya hemen yem hesabı yapmanı sağlar.
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 3. BÖLÜM: SÜRÜ YÖNETİMİ -->
-        <div class="guide-step-card">
-          <div class="guide-step-title">
-            <span>3️⃣ 🐮 Sürü Yönetimi (İnek, Tosun ve Buzağı Defteri)</span>
-          </div>
-          <div class="guide-step-desc">
-            <p style="margin: 0 0 8px 0;">Eski usul kağıt defter tutmaya son verir; hayvanlarının tüm geçmişini hafızasında saklar:</p>
-            <ul style="padding-left: 20px; margin: 6px 0;">
-              <li style="margin-bottom: 8px;">
-                <strong>🔍 Küpe Arama Kutusu:</strong> İneğin kulağındaki sarı küpe numarasını (mesela 4567) veya ineğe taktığın ismi (Kınalı, Sarıkız, Paşa) yazıp anında hayvanın kartını bulursun.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>➕ Yeni Hayvan Ekle Düğmesi:</strong> Yeni buzağı doğduğunda veya pazardan hayvan aldığında; küpesini, doğum tarihini, ırkını (Simental, Holstein, Montofon vb.) ve ne kadar süt verdiğini kaydedersin.
-              </li>
-              <li>
-                <strong>📋 Hayvan Kartı:</strong> Hayvanın adına dokunduğunda; kaç litre süt verdiği, ne aşı vurulduğu ve ne zaman tohumlandığı tek sayfada açılır.
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 4. BÖLÜM: SAĞLIK REHBERİ & İKAS -->
-        <div class="guide-step-card">
-          <div class="guide-step-title">
-            <span>4️⃣ 🩺 Sağlık Rehberi & İKAS (Hayat Kurtaran Bölüm)</span>
-          </div>
-          <div class="guide-step-desc">
-            <ul style="padding-left: 20px; margin: 6px 0;">
-              <li style="margin-bottom: 8px;">
-                <strong>🚑 Hastalık Teşhis & İlk Yardım:</strong> İnek birden davul gibi şişti mi (şişme/gaz), ateşi mi çıktı, buzağı ishal mi oldu? Veteriner hekim köye gelene kadar hayvan telef olmasın diye yapman gereken acil müdahaleleri sade Türkçe ile anlatır.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>🛑 İKAS (İlaç Kalıntı Arınma Süresi) Nedir?:</strong> İneğe antibiyotik veya parazit iğnesi vurduğunda ilaç süte ve ete geçer. Bu ilacın vücuttan tamamen temizlenmesi için geçmesi gereken zamana İKAS denir. Bu süre dolmadan sütü tanka dökersen mandıra sütü döktürür, ağır para cezası yazar, insan sağlığı tehlikeye girer.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>⏱️ Canlı Geri Sayım Saati:</strong> İlacı sisteme kaydettiğin an saat saniye saniye geriye sayar (Örn: <em>"Kalan: 2 gün 14 saat"</em>). Süre bitene kadar kilit kırmızı yanar. Süre dolunca yeşile döner ve <em>"Artık sütü tanka dökebilirsin"</em> der.
-              </li>
-              <li>
-                <strong>➕ Yeni Tedavi Ekle:</strong> Hangi hayvana hangi iğneyi vurduğunu ve reçetesindeki arınma saatini yazıp kaydetmeni sağlar.
-              </li>
-            </ul>
-          </div>
-          <div class="guide-box-tip">
-            💡 <strong>Altın Kural:</strong> İğne vurduğun ineğin ayağına mutlaka kırmızı ip bağla ve buradaki İKAS saatini başlat; mandıra testinde başın ağrımasın!
-          </div>
-        </div>
-
-        <!-- 5. BÖLÜM: RASYON REHBERİ -->
-        <div class="guide-step-card">
-          <div class="guide-step-title">
-            <span>5️⃣ 🌾 Rasyon Rehberi (En Ucuz Yemle En Çok Süt & Et Hesabı)</span>
-          </div>
-          <div class="guide-step-desc">
-            <p style="margin: 0 0 8px 0;">
-              <strong>Rasyon Nedir?:</strong> İneğin 24 saatte yemesi gereken samanın, silajın, arpanın ve küspenin tartılmış günlük tabağıdır. Kafadan yem verirsen hayvan ya zayıflar ya midesi ekşir (asidoz olur) ya da boşuna para yakarsın.
-            </p>
-            <ul style="padding-left: 20px; margin: 6px 0;">
-              <li style="margin-bottom: 8px;">
-                <strong>🎯 1. Hayvanını Seç:</strong> Günde 20 litre mi, 25 litre mi, 30 litre mi süt veren inek? Yoksa günde 1.5 kilo et tutacak besi tosunu mu? Hayvan grubunu seçersin.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>🔍 2. Yem Arama ve Seçme Kutusu:</strong> Kendi ambarında hangi yemler varsa arama kutusuna yazıp seçersin (Örn: yonca, mısır silajı, arpa ezmesi, buğday samanı, pamuk tohumu küspesi, akıllı yem). <em>Başlangıçta hiçbir yem seçili gelmez; sadece kendi elindeki yemleri işaretlersin.</em>
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>⭐ Akıllı Yemler & Fabrika Yemleri:</strong> Türkiye'de satılan hazır fabrika yemleri ile midede eriyip kaybolmayan, doğrudan bağırsağa geçip süte ve ete dönüşen (Bypass proteinli) yeni nesil akıllı yemler de listeye eklenmiştir.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>🧮 3. "Rasyonu Optimize Et" Düğmesi:</strong> Buna bastığında matematik motoru çalışır: "En az parayı harcayarak bu hayvana günde kaç kilo saman, kaç kilo silaj, kaç kilo arpa vermelisin?" kuruşu kuruşuna ekrana döker.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>🚜 4. Mikser / Karma Vagonu Tablosu:</strong> Ahırda 10 ineğin varsa, yem karma vagonuna toplam kaç kilo saman, kaç kürek silaj, kaç kilo ezme dökeceğini senin yerine otomatik çarpar, hazır liste verir.
-              </li>
-              <li>
-                <strong>⚖️ 5. Pearson Karesi:</strong> İki çuval yemi (mesela arpa ile küspeyi) birbirine karıştırıp tam istediğin fabrika yemi ayarına getirmek için kullanılan pratik terazi hesabıdır.
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 6. BÖLÜM: ÜRETİM & DÖL VERİMİ REHBERİ -->
-        <div class="guide-step-card">
-          <div class="guide-step-title">
-            <span>6️⃣ 🍼 Üretim Rehberi (Tohumlama & Buzağı Takvimi)</span>
-          </div>
-          <div class="guide-step-desc">
-            <p style="margin: 0 0 8px 0;">İneğe tohum attırdığın günü buraya yazarsın; sistem 9 ay 10 gün boyunca senin yerine gün sayar:</p>
-            <ul style="padding-left: 20px; margin: 6px 0;">
-              <li style="margin-bottom: 8px;">
-                <strong>🔍 35. Gün (Ultrason Kontrolü):</strong> "Veterineri çağır, ultrasonla inek tuttu mu baktır, boşuna bekleme" der.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>🛑 220. Gün (Kuruya Alma):</strong> "Bu ineğin sütünü artık sağma, memesini dinlendir" der. Böylece anne dinlenir, karnındaki yavru son iki ayda iki kat büyür.
-              </li>
-              <li style="margin-bottom: 8px;">
-                <strong>💉 250. Gün (Anne Aşısı):</strong> "Anneye buzağı ishal aşısı vurdur" der. Böylece doğacak yavru anne sütünden bağışıklık alır, doğar doğmaz ishalden ölmez.
-              </li>
-              <li>
-                <strong>🎯 280. Gün (Doğum Alarmı):</strong> "Doğum yaklaştı, ineği temiz ve bol samanlı doğum bölmesine al" der.
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 7. BÖLÜM: YEM BİTKİLERİ & TARLA -->
-        <div class="guide-step-card">
-          <div class="guide-step-title">
-            <span>7️⃣ 🌱 Yem Bitkileri & Tarla Rehberi</span>
-          </div>
-          <div class="guide-step-desc">
-            <ul style="padding-left: 20px; margin: 6px 0;">
-              <li style="margin-bottom: 8px;">
-                <strong>🌾 Tarla Tohum Karışım Hesabı:</strong> Tarlaya yonca, yulaf, fiğ ekerken dönüme kaç kilo tohum atacaksın, otlar birbirini boğmasın diye nasıl karıştıracaksın hesaplar.
-              </li>
-              <li>
-                <strong>♨️ Mikrodalgada Silaj Nem Testi:</strong> Silajı fazla sulu basarsan çürür kokar, kuru basarsan küflenir hayvanı zehirler. Evdeki mikrodalga fırında 5 dakikada silajın tavını ölçmeni sağlar.
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- 8. BÖLÜM: RAPORLAR VE YEDEKLEME -->
-        <div class="guide-step-card">
-          <div class="guide-step-title">
-            <span>8️⃣ 📊 Raporlar & Çiftlik Özeti</span>
-          </div>
-          <div class="guide-step-desc">
-            <p style="margin: 0;">
-              Çiftliğinin aylık toplam yem masrafını, sürüdeki gebe ve sağılan hayvan oranını gösterir; istersen yazıcıdan çıktı almanı veya Excel dosyası olarak kaydetmeni sağlar.
+          <!-- Giriş Karşılama Kartı -->
+          <div style="background: rgba(255, 221, 0, 0.15); border: 2px solid var(--primary); border-radius: 4px; padding: 14px 16px; margin-bottom: 16px;">
+            <h4 style="margin: 0 0 6px 0; font-size: 1.15rem; color: var(--text); font-weight: 800; display:flex; align-items:center; gap:8px;">
+              🌾 Değerli Üreticimiz, Çiftçi Kardeşim Hoş Geldiniz!
+            </h4>
+            <p style="margin: 0; font-size: 0.92rem; color: var(--text);">
+              Bu uygulama; dağda, merada, yaylada veya bodrum ahırında <strong>telefonun hiç çekmediği, internetin olmadığı yerlerde bile</strong> tıkır tıkır çalışan sizin <strong>cebinizdeki akıllı çiftlik defteriniz, veteriner ilk yardım ve yem danışmanınızdır.</strong> Defter kalem arama derdine, yanlış yem verip para batırmaya ve ilaçlı sütü mandıraya döküp ceza yemeye son verir.
             </p>
           </div>
+
+          <!-- 1. BÖLÜM: ÜST ÇUBUKTAKİ DÜĞMELER -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>1️⃣ Ekranın En Üstündeki Düğmeler Ne İşe Yarar?</span>
+            </div>
+            <div class="guide-step-desc">
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🐂 Tosun Paşa Logosu & Başlık:</strong> Hangi sayfada veya bölümde olursanız olun bu başlığa veya logoya dokunduğunuzda sizi doğrudan ana ekranınıza geri getirir.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🚪 Ana Sayfa:</strong> Giriş kapısına döner; isterseniz Yetiştirici veya Zooteknist girişini yeniden seçmenizi sağlar.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🔄 Tazele:</strong> Uygulamaya yeni bir güncelleme veya özellik geldiğinde tek tıkla en güncel sürümü yükler.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>💾 Veri Merkezi:</strong> Telefon bozulur, suya düşer veya yenisi alınırsa hayvan kayıtları kaybolmasın diye çiftliğin güvenli bir kopyasını telefona dosya olarak indirir (Yedek İndir) veya eski yedeği geri yükler (Geri Yükle).
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>📲 Yükle:</strong> Uygulamayı telefonunuza kaydeder. Bir kere dokunduğunuzda internetiniz hiç olmasa bile uygulama tıpkı WhatsApp gibi telefonunuzun ana ekranından tek dokunuşla açılır.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🌙 / ☀️ Gece & Gündüz Modu:</strong> Gece ahıra girdiğinizde telefonun beyaz ışığı gözünüzü yakmasın, hayvanları ürkütmesin diye ekranı karartır. Gündüz güneş altında açık sarı-beyaz renge çevirir.
+                </li>
+                <li>
+                  <strong>ℹ️ Kullanım Kılavuzu:</strong> Şu an okuduğunuz yardım kitabını açar, takıldığınız her konuda yol gösterir.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2. BÖLÜM: ÇİFTLİĞİM ANA EKRANI -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>2️⃣ 🏠 Çiftliğim (Ana Ekran & Göstergeler)</span>
+            </div>
+            <div class="guide-step-desc">
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>📊 Büyük Durum Sayaçları:</strong> Çiftliğinizde toplam kaç hayvanınız var, kaç inek sağılıyor, tahmini günlük kaç litre süt çıkıyor ve kaç hayvan ilaçlı bir bakışta gösterir.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🚨 Kırmızı İKAS Uyarısı (Tehlike Alarmı):</strong> İğne vurulmuş, sütü veya eti ilaçlı bir inek varsa burada kırmızı kutu yanar: <em>"DİKKAT! Ahırında ilaçlı süt kilidi var! İğneli ineğin sütünü sakın tanka dökme, mandıra ceza yazar!"</em> uyarısı verir.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>📅 Yaklaşan Doğumlar & Dinlendirilecek (Kuruya Alınacak) İnekler:</strong> Doğumu yaklaşan veya sağımdan kesilip dinlendirilmesi gereken inekleri gün gün hatırlatır.
+                </li>
+                <li>
+                  <strong>⚡ 4 Büyük Hızlı Eylem Kartı:</strong> Menüler arasında kaybolmadan tek dokunuşla Yeni Hayvan Ekle, İğne/İlaç Kilidi Başlat, Kendi Yemini Hazırla ve Tohumlama Takvimi açmanızı sağlar.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 3. BÖLÜM: KÜPELERİM (SÜRÜ DEFTERİ) -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>3️⃣ 🐮 Küpelerim (Hayvan Defteri & Takip)</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin: 0 0 8px 0;">Eski usul kağıt defter tutmaya son verir; ahırınızdaki her hayvanın geçmişini hafızasında saklar:</p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🔍 Küpe Arama Kutusu:</strong> İneğin kulağındaki sarı küpe numarasını (mesela 4567) veya hayvanın ismini (Kınalı, Sarıkız, Paşa) yazıp anında hayvanın kartına ulaşırsınız.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>➕ Yeni Hayvan Ekle:</strong> Yeni buzağı doğduğunda veya pazardan hayvan aldığınızda; küpesini, doğum tarihini, ırkını (Simental, Holstein, Montofon vb.) ve süt miktarını saniyeler içinde kaydedersiniz.
+                </li>
+                <li>
+                  <strong>📋 Hayvan Kartı:</strong> Hayvanın adına dokunduğunuzda; kaç litre süt verdiği, ne aşı vurulduğu, ne zaman tohumlandığı tek sayfada açılır.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 4. BÖLÜM: SAĞLIK & İLAÇ KİLİDİ (İKAS) -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>4️⃣ 🚨 Sağlık & Canlı İlaç Kilidi (İKAS)</span>
+            </div>
+            <div class="guide-step-desc">
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🛑 İKAS (İlaç Kalıntı Arınma Süresi) Nedir?:</strong> İneğe antibiyotik veya parazit iğnesi vurduğunuzda ilaç süte ve ete geçer. Bu ilacın vücuttan tamamen temizlenmesi için geçmesi gereken zamana İKAS denir. Süre dolmadan sütü tanka dökerseniz mandıra sütü döktürür, ağır para cezası yazar, insan sağlığı riske girer.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>⏱️ Canlı Geri Sayım Saati:</strong> İğne yaptığınız hayvanı sisteme eklediğiniz an saat saniye saniye geriye sayar (Örn: <em>"Kalan: 2 gün 14 saat"</em>). Süre bitene kadar kilit kırmızı yanar. Süre dolunca yeşile döner ve <em>"Artık sütü tanka dökebilirsiniz"</em> der.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>➕ Yeni İlaç Kilidi Başlat:</strong> Hayvanı seçip reçetedeki süt ve et arınma saatini girerek kilidi başlatırsınız.
+                </li>
+                <li>
+                  <strong>🚑 15 Acil İlk Yardım Altın Protokolü:</strong> Gaz şişmesi (timpani), doğum felci (yattı kalkmıyor), yem çarpması (asidoz), buzağı ishalleri ve kuzu acillerinde veteriner hekim köye gelene kadar hayvan telef olmasın diye yapmanız gereken hayat kurtaran adımları sade Türkçe ile anlatır.
+                </li>
+              </ul>
+            </div>
+            <div class="guide-box-tip">
+              💡 <strong>Altın Kural:</strong> İğne vurduğunuz ineğin ayağına mutlaka kırmızı ip bağlayın ve buradaki İKAS saatini başlatın; mandıra testinde başınız ağrımasın!
+            </div>
+          </div>
+
+          <!-- 5. BÖLÜM: KENDİ YEMİNİ HAZIRLA -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>5️⃣ 🌾 Kendi Yemini Hazırla (Pratik Günlük Dağıtım)</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin: 0 0 8px 0;">
+                İneğin 24 saatte yemesi gereken samanın, silajın, arpanın ve küspenin tartılmış günlük tabağıdır. Kafadan yem verirseniz hayvan ya zayıflar ya midesi ekşir (asidoz olur) ya da boşuna paranız heba olur.
+              </p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🎯 Hayvan Grubunu Seçin:</strong> Günde 20 litre, 25 litre, 30 litre süt veren inek mi yoksa besi tosunu mu? Seçiminizi yapın.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🌾 Yemlerinizi İşaretleyin:</strong> Ambarınızda hangi yemler varsa (yonca, mısır silajı, buğday samanı, arpa ezmesi, küspe, fabrika yemi) kutucukları işaretleyin.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>⚖️ İnek Başı ve Vagon Hesabı:</strong> İnek başına ve toplam mikser vagonuna kaçar kilo saman, kaç kürek silaj, kaç kilo ezme dökeceğinizi sistem otomatik hesaplar.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 6. BÖLÜM: BUZAĞI TAKVİMİ -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>6️⃣ 🍼 Buzağı Takvimi (Tohumlama & Gebelik Gün Sayacı)</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin: 0 0 8px 0;">İneğe tohum attırdığınız günü buraya yazarsınız; sistem 9 ay 10 gün boyunca sizin yerinize gün sayar:</p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🔍 1. Adım: 35. Gün (Ultrason Muayenesi):</strong> Veteriner hekimi çağırın, inek tutmuş mu baktırın; boşuna 9 ay beklemeyin.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🛑 2. Adım: 220. Gün (Kuruya Alma):</strong> İneğin memesini sağmayı bırakın; anne dinlensin, buzağı son iki ayda iki kat büyüsün.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>💉 3. Adım: 250. Gün (Anne Aşısı):</strong> Anneye buzağı ishal aşısı vurdurun ki doğacak yavru ilk ağız sütünden bağışıklık alsın, ishalden ölmesin.
+                </li>
+                <li>
+                  <strong>🎯 4. Adım: 280. Gün (Doğum Günü):</strong> Doğum yaklaştı, ineği temiz ve bol samanlı doğum bölmesine alın.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 7. BÖLÜM: ÇİFTÇİMİZE 5 ALTIN KURAL -->
+          <div style="background: rgba(255, 221, 0, 0.18); border: 2px dashed #e6c700; border-radius: 4px; padding: 14px 16px; margin-top: 14px;">
+            <h5 style="margin: 0 0 8px 0; font-size: 1rem; font-weight: 800; color: var(--text);">
+              🌟 Bereketli Kazanç İçin Çiftçimize 5 Altın Öğüt:
+            </h5>
+            <ol style="padding-left: 20px; margin: 0; font-size: 0.90rem; line-height: 1.6;">
+              <li><strong>İnternet Yoksa Korkmayın:</strong> Bu uygulama dağda, yaylada internetsiz de cebinizde tam çalışır.</li>
+              <li><strong>Günde 2 Dakika Ayırın:</strong> Vurulan iğneyi, tohumlanan ineği hemen buraya kaydedin.</li>
+              <li><strong>İlaçlı Sütü Tanka Dökmeyin:</strong> Kırmızı İKAS kilidi bitmeden sütü tanka karıştırmayın.</li>
+              <li><strong>Yemi Göz Kararı Değil Tartarak Verin:</strong> "Kendi Yemini Hazırla" bölümündeki kilolara uyarsanız paranız cebinizde kalır.</li>
+              <li><strong>Haftada Bir Yedek Alın:</strong> Pazar günleri üst menüdeki <em>"Veri Merkezi"</em>ne girip <em>"Yedek İndir"</em> ile telefonunuza bir kopya kaydedin.</li>
+            </ol>
+          </div>
+
         </div>
 
-        <!-- 9. BÖLÜM: ÇİFTÇİMİZE 5 ALTIN KURAL -->
-        <div style="background: rgba(255, 221, 0, 0.18); border: 2px dashed #e6c700; border-radius: 4px; padding: 14px 16px; margin-top: 14px;">
-          <h5 style="margin: 0 0 8px 0; font-size: 1rem; font-weight: 800; color: var(--text);">
-            🌟 Bereketli Kazanç İçin Çiftçimize 5 Altın Öğüt:
-          </h5>
-          <ol style="padding-left: 20px; margin: 0; font-size: 0.90rem; line-height: 1.6;">
-            <li><strong>İnternet Yoksa Korkma:</strong> Bu uygulama dağda, yaylada internetsiz de cebinde çalışır.</li>
-            <li><strong>Günde 2 Dakika Ayır:</strong> Vurulan aşıyı, tohumlanan ineği hemen buraya kaydet.</li>
-            <li><strong>İlaçlı Sütü Tanka Dökme:</strong> Kırmızı İKAS kilidi bitmeden sütü tanka karıştırma.</li>
-            <li><strong>Yemi Göz Kararı Değil Tartarak Ver:</strong> Rasyon bölümündeki kilolara uyarsan paran cebinde kalır.</li>
-            <li><strong>Haftada Bir Yedek Al:</strong> Pazar günleri üstteki <em>"Yedek İndir"</em> düğmesine basıp telefonuna bir kopya kaydet.</li>
-          </ol>
+        <!-- ===================================================================
+             2. ZOOTEKNİST & UZMAN KULLANIM KILAVUZU
+             =================================================================== -->
+        <div id="guide-section-zooteknist" style="display:none;">
+
+          <!-- Zooteknist Giriş & Metodoloji Kartı -->
+          <div style="background: rgba(24, 27, 30, 0.05); border: 1px solid var(--border); border-left: 5px solid var(--primary); border-radius: 4px; padding: 14px 18px; margin-bottom: 16px;">
+            <h4 style="margin: 0 0 6px 0; font-size: 1.15rem; color: var(--text); font-weight: 800; display:flex; align-items:center; gap:8px;">
+              🔬 Zooteknist & Veteriner Hekim Teknik Çalışma Kılavuzu
+            </h4>
+            <p style="margin: 0; font-size: 0.90rem; color: var(--text-muted); line-height: 1.6;">
+              Tosun Paşa Çiftliği Uzman Modülü; <strong>NASEM & NRC 2021 süt ve besi besleme standartları</strong>, Doğrusal Programlama (LP Simplex) matrisi, biyometrik sürü modellemesi, objektif veteriner triyaj karar ağaçları ve agronomi mühendisliği hesaplamalarını <strong>%100 çevrimdışı (offline-first PWA)</strong> mimaride sunar.
+            </p>
+          </div>
+
+          <!-- 1. BÖLÜM: YÖNETİM PANELİ & CANLI VERİ ENTEGRASYONU -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>1️⃣ 🏠 Zooteknist Yönetim Paneli & Canlı KPI Mimarisi</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin:0 0 8px 0;">Yönetim paneli, tarayıcının yerel veri tabanından (LocalStorage) derlenen anlık işletme metriklerini dinamik olarak hesaplar:</p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>⏱️ Aktif İKAS İlaç Kilidi:</strong> Arınma süresi (süt saat / et gün) henüz dolmamış aktif tedavi altındaki baş sayısını ve kritik biyogüvenlik eşiğini gösterir.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🍼 Gebe & Döl Dağılımı:</strong> Sürü kütüğündeki reprodüktif durum dağılımını (gebe, kuruda, doğumu yakın) filtreleyerek sunar.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🌾 Kayıtlı Rasyon Ambarı:</strong> İşletmede daha önce simüle edilip kaydedilmiş onaylı rasyon formüllerinin adet bilgisini verir.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🚜 Ekili Tarla & Kaba Yem Alanı:</strong> Agronomi modülünde kayıtlı parsel ve tarlaların toplam dekar alanını hesaplar.
+                </li>
+                <li>
+                  <strong>🚨 Hızlı Saha Triyaj Butonları:</strong> Akut Timpani, Rumen Asidozu, Hipokalsemi ve Akut Mastitis olgularında doğrudan ilgili ilk yardım protokolüne tek tıkla yönlendirir.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2. BÖLÜM: SAĞLIK REHBERİ, TRİYAJ & İKAS -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>2️⃣ 🩺 Sağlık Rehberi, Saha Triyajı & Klinik Karar Ağacı</span>
+            </div>
+            <div class="guide-step-desc">
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🎯 Soru-Cevaplı Triyaj Karar Ağacı:</strong> Sahada gözlenen semptomların (sol açlık çukurluğu gerginliği, rektal ısı, dehidrasyon, rumen motilitesi vb.) ağırlıklı korelasyon katsayılarıyla olasılık yüzdesini hesaplar ve ayırıcı tanı risk seviyesini (Düşük / Orta / Yüksek) raporlar.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>⏱️ Canlı İKAS (İlaç Kalıntı Arınma Süresi) Kalkanı:</strong> Uygulanan etken maddenin (antibiyotik, NSAID, antiparaziter) süt ve et arınma sürelerini çift kilit sayacı ile saniye saniye izler. Risk bitene kadar kilit kaldırılmaz; süresi dolan kayıtlar arşivlenir.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>💧 Dehidrasyon & Sıvı Sağaltımı Formülasyonu:</strong> Enoftalmus (göz çöküklüğü mm), deri turgor elastikiyeti (sn) ve kılcal damar dolum süresi (CRT) parametreleriyle toplam sıvı açığını hesaplar:
+                  <div style="background:var(--border); padding:6px 12px; border-radius:4px; margin:6px 0; font-family:monospace; font-size:0.85rem;">
+                    Kayıp Hacim (L) = Canlı Ağırlık (kg) × Dehidrasyon (%) + İdame (50 mL/kg/gün)
+                  </div>
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🍼 Brix Refraktometre Kolostrum Kalite Analizi:</strong> Yeni doğan buzağı yönetiminde ilk 2-4 saatte verilecek kolostrumun % Brix değerine göre IgG konsantrasyonunu derecelendirir (>%22 Brix ≈ >50 g/L IgG ile kaliteli; &lt;%18 Brix yetersiz).
+                </li>
+                <li>
+                  <strong>🚨 15 Acil İlk Yardım Altın Protokolü:</strong> Trokar uygulaması ve dekompresyon, rumen pH tamponlama, intravenöz kalsiyum infüzyon hızı ve kalp oskültasyonu gibi kritik adımları kategorize ve aranabilir kütüphane halinde sunar.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 3. BÖLÜM: BİLİMSEL RASYON OPTİMİZASYONU -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>3️⃣ 🌾 Rasyon Rehberi: NASEM / NRC 2021 LP Simplex Optimizasyonu</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin:0 0 8px 0;">Rasyon modülü, doğrusal programlama matematiği ile besin madde kısıtlarını sağlayarak rasyon maliyetini minimize eder (Least-Cost Formulation):</p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🤖 Doğrusal Programlama (Simplex) Robotu:</strong> Seçilen fizyolojik grup kısıtlarına (Kuru Madde KM, Ham Protein HP, Net Enerji Laktasyon NE<sub>L</sub> / Besi NE<sub>G</sub>, Ham Selüloz HS, Kalsiyum Ca, Fosfor P) göre en uygun yem kombinasyonunu çözer.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🌾 83 Kalem Genişletilmiş Yem Kütüphanesi:</strong> Kaba yemler, dane yemler, endüstriyel yan ürünler, karma fabrika yemleri, mısır glüteni ve bypass proteinli akıllı yem çeşitleri. Kullanıcı dilediğinde ambarındaki özel yem analizlerini sisteme ekleyebilir.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>⚖️ Pearson Karesi Terazisi:</strong> İki hammadde arasında hedef protein veya enerji yoğunluğu dengesi kurmak için iki yönlü Pearson Karesi analitiği sunar.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>📏 CAAG Canlı Ağırlık & Göğüs Çevresi:</strong> Ölçü şeridi (göğüs çevresi cm) üzerinden canlı ağırlığı biyoistatistiksel regresyonla tahmin eder; hedeflenen günlük canlı ağırlık artışına (CAAG) göre besin madde ihtiyacını günceller.
+                </li>
+                <li>
+                  <strong>🚜 TMR Mikser Vagon Kantarı & Dara Sıfırlama:</strong> Çözümlenen rasyon reçetesi tek tıkla kantar moduna aktarılır. Mikser başında her yemin darası ayrı ayrı sıfırlanarak (tare reset) operatörün homojen karışım hazırlaması denetlenir.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 4. BÖLÜM: REPRODÜKSİYON & DÖL VERİMİ -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>4️⃣ 🍼 Üretim Rehberi: Biyolojik Reprodüksiyon Çarkları</span>
+            </div>
+            <div class="guide-step-desc">
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🐂 283 Günlük Büyükbaş İnek Çarkı:</strong> Tohumlama tarihini baz alarak 21. gün östrus dönüşü, 35-45. gün ultrasonik gebelik kontrolü, 220. gün kuruya alma & meme içi sızdırmazlık (teat seal), 250. gün maternal E.coli/Rotavirus/Coronavirus aşılaması ve 280-283. gün buzağılama tarihlerini dinamik ilerleme çubuğu ile görselleştirir.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>⏰ AM-PM Kuralı:</strong> Östrusun tespit edildiği zamana (sabah/akşam) göre LH pikini yakalayan en yüksek döllenme yüzdeli suni tohumlama saat penceresini belirler.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🐑 150 Günlük Küçükbaş Koç Katımı Takvimi:</strong> Koyun ve keçilerde 150 günlük gebelik süreci, ikizlik ultrason muayenesi ve doğum hazırlığı takvimini hesaplar.
+                </li>
+                <li>
+                  <strong>📈 Damızlık İlk Tohumlama Eşik Testi:</strong> Düvelerde erişkin ırk canlı ağırlığının en az %55-60'ı ve optimal vücut kondisyon skoru (BCS 3.0-3.25) eşiğini denetler.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 5. BÖLÜM: AGRONOMİ & YEM BİTKİLERİ -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>5️⃣ 🌱 Yem Bitkileri & Tarla Agronomi Mühendisliği</span>
+            </div>
+            <div class="guide-step-desc">
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🌾 İdeal Tohumluk Karışım & Torba Robotu:</strong> Baklagil-buğdaygil karışımlarında (örneğin Macar fiği + tritikale, yonca + domuz ayrığı) tohum saflığı, çimlenme yüzdesi ve bin dane ağırlığı parametreleriyle dönüme atılacak net tohum miktarını hesaplar.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>♨️ Mikrodalga Fırında Kuru Madde (KM) / Nem Testi:</strong> Sahada silaj basımı veya balyalama öncesinde mikrodalga yöntemiyle 5 dakikalık kademeli kurutma yaparak kaba yemin kuru madde yüzdesini laboratuvar hassasiyetinde belirler (Hedef mısır silajı nemi: %65-70).
+                </li>
+                <li>
+                  <strong>📐 Hendek / Kelepçe Silo Tonaj & Hacim Hesabı:</strong> Trapez kesitli hendek silolarda taban, tavan genişliği, yükseklik ve uzunluk ölçüleriyle silo geometrik hacmini ($m^3$) ve sıkıştırma yoğunluğuna göre (ortalama 650-750 kg/m<sup>3</sup>) net silaj rezervini hesaplar.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 6. BÖLÜM: VERİ BAĞIMSIZLIĞI & OFFLINE-FIRST -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>6️⃣ 🔒 Veri Bağımsızlığı, Güvenlik & Offline-First Mimarisi</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin:0 0 8px 0;">Tosun Paşa Çiftliği yerel öncelikli (Offline-First) prensibiyle çalışır:</p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>Sıfır Dış Sunucu Bağımlılığı:</strong> Tüm sürü, rasyon, tedavi ve tarla kayıtları kullanıcının tarayıcısında (IndexedDB / LocalStorage) şifreli olarak barındırılır.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>Tam Veri Taşınabilirliği:</strong> "Veri Merkezi" üzerinden tek tıkla tüm işletme verisi şifreli JSON formatında dışa aktarılabilir; veya hayvan kütüğü Excel uyumlu CSV tablosu halinde analiz için indirilebilir.
+                </li>
+                <li>
+                  <strong>Kesintisiz Saha Kullanımı:</strong> Service Worker önbelleklemesi sayesinde baz istasyonunun çekmediği kör noktalarda bile hesaplamalar sıfır gecikmeyle yürütülür.
+                </li>
+              </ul>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -2198,7 +2344,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.0.7"></script>
+  <script src="app.js?v=2.0.8"></script>
 
   <script>
     // Initialize default dates in modals
