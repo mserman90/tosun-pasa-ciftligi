@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=1.9.1">
+  <link rel="stylesheet" href="styles.css?v=1.9.2">
 </head>
 <body>
 
@@ -1419,23 +1419,222 @@
   <div id="modal-help-guide" class="modal-overlay">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title">ℹ️ Çiftlik Sistemi Kullanım Kılavuzu</div>
+        <div class="modal-title">ℹ️ Çiftlik Sistemi Kullanım Kılavuzu (Çiftçi El Kitabı)</div>
         <button type="button" class="btn-close-modal" onclick="closeModal('modal-help-guide')">&times;</button>
       </div>
-      <div class="modal-body" style="font-size:0.88rem; line-height:1.6;">
-        <h4 class="section-card-title">Tosun Paşa Çiftliği Felsefesi</h4>
-        <p>Bu sistem dağda, merada, bodrum ahırında internet bağlantısı olmadan veteriner hekimlik ve zootekni bilimiyle çiftçiyi buluşturmak üzere geliştirilmiştir.</p>
+      <div class="modal-body" style="font-size:0.92rem; line-height:1.65; max-height: 75vh; overflow-y: auto;">
         
-        <h5 style="margin-top:12px; font-weight:700;">Modüllerin Kullanımı:</h5>
-        <ul style="padding-left:20px; margin-top:6px;">
-          <li><strong>Sağlık Rehberi:</strong> Hayvan hastalandığında veteriner gelene kadar ilk yardım sağlar. İlaç girildiğinde İKAS kilidi saniye saniye geri sayar.</li>
-          <li><strong>Rasyon Rehberi:</strong> Simplex matematik algoritmasıyla hayvanın enerji ve protein ihtiyacını karşılarken en ucuz yem reçetesini oluşturur ve mikser vagonuna aktarır.</li>
-          <li><strong>Üretim Rehberi:</strong> Tohumlama tarihinden itibaren ultrason, kuruya alma, anne aşısı ve doğum tarihlerini otomatik hesaplar.</li>
-          <li><strong>Yem Bitkileri:</strong> Doğru tohum karışımları ve mikrodalgada silaj nem testiyle kaba yem israfını önler.</li>
-        </ul>
+        <!-- Giriş Karşılama Kartı -->
+        <div style="background: rgba(255, 221, 0, 0.15); border: 2px solid var(--primary); border-radius: 4px; padding: 14px 16px; margin-bottom: 16px;">
+          <h4 style="margin: 0 0 6px 0; font-size: 1.15rem; color: var(--text); font-weight: 800; display:flex; align-items:center; gap:8px;">
+            🌾 Değerli Üreticimiz, Çiftçi Kardeşim Hoş Geldin!
+          </h4>
+          <p style="margin: 0; font-size: 0.92rem; color: var(--text);">
+            Bu uygulama; dağda, merada, yaylada veya bodrum ahırında <strong>telefonun hiç çekmediği, internetin olmadığı yerlerde bile</strong> tıkır tıkır çalışan senin <strong>cebindeki akıllı veterinerin, yem uzmanı zooteknistin ve çiftlik defterindir.</strong> Defter kalem arama derdine, yanlış yem verip para batırmaya ve ilaçlı sütü mandıraya döküp ceza yemeye son verir.
+          </p>
+        </div>
+
+        <!-- 1. BÖLÜM: ÜST ÇUBUKTAKİ DÜĞMELER -->
+        <div class="guide-step-card">
+          <div class="guide-step-title">
+            <span>1️⃣ Ekranın En Üstündeki Düğmeler Ne İşe Yarar?</span>
+          </div>
+          <div class="guide-step-desc">
+            <ul style="padding-left: 20px; margin: 6px 0;">
+              <li style="margin-bottom: 8px;">
+                <strong>🐂 Tosun Paşa Çiftliği Logosu & Yazısı:</strong> Hangi sayfada veya bölümde olursan ol, kaybolursan bu yazıya veya öküz resmine dokun; seni hemen ilk açılış ekranına (çiftlik özetine) geri getirir.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>📱 Uygulamayı Yükle:</strong> Telefonuna uygulamayı kaydeder. Bir kere dokunduğunda internetin hiç olmasa bile uygulama tıpkı WhatsApp gibi telefonunun ana ekranından tek dokunuşla açılır.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>🌙 / ☀️ Gece & Gündüz Modu:</strong> Gece ahıra girdiğinde telefonun beyaz ışığı gözünü yakmasın, hayvanları ürkütmesin diye ekranı karartır. Gündüz güneş altındayken rahat okunsun diye açık sarı-beyaz renge çevirir.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>📥 Yedek İndir:</strong> Telefonun bozulur, suya düşer veya yenisini alırsan hayvan kayıtların, doğumların, aşıların kaybolmasın diye çiftliğinin güvenli bir kopyasını telefonuna dosya olarak indirir.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>📤 Geri Yükle:</strong> Yeni telefon aldığında indirdiğin o yedek dosyasını seçip tüm hayvanlarını tek tıkla geri getirmeni sağlar.
+              </li>
+              <li>
+                <strong>ℹ️ Kılavuz:</strong> Şu an okuduğun bu yardım kitabını açar, takıldığında sana yol gösterir.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 2. BÖLÜM: ANA EKRAN VE GÖSTERGELER -->
+        <div class="guide-step-card">
+          <div class="guide-step-title">
+            <span>2️⃣ Ana Ekran (Çiftliğin Nabzı & Gösterge Paneli)</span>
+          </div>
+          <div class="guide-step-desc">
+            <ul style="padding-left: 20px; margin: 6px 0;">
+              <li style="margin-bottom: 8px;">
+                <strong>📊 Büyük Sayaçlar:</strong> Çiftliğinde toplam kaç hayvanın var, kaç inek sağılıyor, kaç tane besi tosunu ve buzağı var bir bakışta gösterir.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>🚨 Kırmızı İKAS Uyarısı (Tehlike Alarmı):</strong> İğne vurulmuş, sütü veya eti ilaçlı bir inek varsa burada kırmızı kutu yanar. <em>"Sakın bu ineğin sütünü tanka dökme, mandıra ceza keser!"</em> diye seni uyarır.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>🍼 Sarı Doğum & Kuruluk Uyarısı:</strong> Doğumu yaklaşan veya sağımdan kesilip dinlendirilmesi gereken (kuruya alınacak) inekleri sana gün gün hatırlatır.
+              </li>
+              <li>
+                <strong>⚡ Hızlı Düğmeler:</strong> Menüler arasında dolaşmadan tek dokunuşla yeni hayvan kaydetmeni veya hemen yem hesabı yapmanı sağlar.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 3. BÖLÜM: SÜRÜ YÖNETİMİ -->
+        <div class="guide-step-card">
+          <div class="guide-step-title">
+            <span>3️⃣ 🐮 Sürü Yönetimi (İnek, Tosun ve Buzağı Defteri)</span>
+          </div>
+          <div class="guide-step-desc">
+            <p style="margin: 0 0 8px 0;">Eski usul kağıt defter tutmaya son verir; hayvanlarının tüm geçmişini hafızasında saklar:</p>
+            <ul style="padding-left: 20px; margin: 6px 0;">
+              <li style="margin-bottom: 8px;">
+                <strong>🔍 Küpe Arama Kutusu:</strong> İneğin kulağındaki sarı küpe numarasını (mesela 4567) veya ineğe taktığın ismi (Kınalı, Sarıkız, Paşa) yazıp anında hayvanın kartını bulursun.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>➕ Yeni Hayvan Ekle Düğmesi:</strong> Yeni buzağı doğduğunda veya pazardan hayvan aldığında; küpesini, doğum tarihini, ırkını (Simental, Holstein, Montofon vb.) ve ne kadar süt verdiğini kaydedersin.
+              </li>
+              <li>
+                <strong>📋 Hayvan Kartı:</strong> Hayvanın adına dokunduğunda; kaç litre süt verdiği, ne aşı vurulduğu ve ne zaman tohumlandığı tek sayfada açılır.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 4. BÖLÜM: SAĞLIK REHBERİ & İKAS -->
+        <div class="guide-step-card">
+          <div class="guide-step-title">
+            <span>4️⃣ 🩺 Sağlık Rehberi & İKAS (Hayat Kurtaran Bölüm)</span>
+          </div>
+          <div class="guide-step-desc">
+            <ul style="padding-left: 20px; margin: 6px 0;">
+              <li style="margin-bottom: 8px;">
+                <strong>🚑 Hastalık Teşhis & İlk Yardım:</strong> İnek birden davul gibi şişti mi (şişme/gaz), ateşi mi çıktı, buzağı ishal mi oldu? Veteriner hekim köye gelene kadar hayvan telef olmasın diye yapman gereken acil müdahaleleri sade Türkçe ile anlatır.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>🛑 İKAS (İlaç Kalıntı Arınma Süresi) Nedir?:</strong> İneğe antibiyotik veya parazit iğnesi vurduğunda ilaç süte ve ete geçer. Bu ilacın vücuttan tamamen temizlenmesi için geçmesi gereken zamana İKAS denir. Bu süre dolmadan sütü tanka dökersen mandıra sütü döktürür, ağır para cezası yazar, insan sağlığı tehlikeye girer.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>⏱️ Canlı Geri Sayım Saati:</strong> İlacı sisteme kaydettiğin an saat saniye saniye geriye sayar (Örn: <em>"Kalan: 2 gün 14 saat"</em>). Süre bitene kadar kilit kırmızı yanar. Süre dolunca yeşile döner ve <em>"Artık sütü tanka dökebilirsin"</em> der.
+              </li>
+              <li>
+                <strong>➕ Yeni Tedavi Ekle:</strong> Hangi hayvana hangi iğneyi vurduğunu ve reçetesindeki arınma saatini yazıp kaydetmeni sağlar.
+              </li>
+            </ul>
+          </div>
+          <div class="guide-box-tip">
+            💡 <strong>Altın Kural:</strong> İğne vurduğun ineğin ayağına mutlaka kırmızı ip bağla ve buradaki İKAS saatini başlat; mandıra testinde başın ağrımasın!
+          </div>
+        </div>
+
+        <!-- 5. BÖLÜM: RASYON REHBERİ -->
+        <div class="guide-step-card">
+          <div class="guide-step-title">
+            <span>5️⃣ 🌾 Rasyon Rehberi (En Ucuz Yemle En Çok Süt & Et Hesabı)</span>
+          </div>
+          <div class="guide-step-desc">
+            <p style="margin: 0 0 8px 0;">
+              <strong>Rasyon Nedir?:</strong> İneğin 24 saatte yemesi gereken samanın, silajın, arpanın ve küspenin tartılmış günlük tabağıdır. Kafadan yem verirsen hayvan ya zayıflar ya midesi ekşir (asidoz olur) ya da boşuna para yakarsın.
+            </p>
+            <ul style="padding-left: 20px; margin: 6px 0;">
+              <li style="margin-bottom: 8px;">
+                <strong>🎯 1. Hayvanını Seç:</strong> Günde 20 litre mi, 25 litre mi, 30 litre mi süt veren inek? Yoksa günde 1.5 kilo et tutacak besi tosunu mu? Hayvan grubunu seçersin.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>🔍 2. Yem Arama ve Seçme Kutusu:</strong> Kendi ambarında hangi yemler varsa arama kutusuna yazıp seçersin (Örn: yonca, mısır silajı, arpa ezmesi, buğday samanı, pamuk tohumu küspesi, akıllı yem). <em>Başlangıçta hiçbir yem seçili gelmez; sadece kendi elindeki yemleri işaretlersin.</em>
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>⭐ Akıllı Yemler & Fabrika Yemleri:</strong> Türkiye'de satılan hazır fabrika yemleri ile midede eriyip kaybolmayan, doğrudan bağırsağa geçip süte ve ete dönüşen (Bypass proteinli) yeni nesil akıllı yemler de listeye eklenmiştir.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>🧮 3. "Rasyonu Optimize Et" Düğmesi:</strong> Buna bastığında matematik motoru çalışır: "En az parayı harcayarak bu hayvana günde kaç kilo saman, kaç kilo silaj, kaç kilo arpa vermelisin?" kuruşu kuruşuna ekrana döker.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>🚜 4. Mikser / Karma Vagonu Tablosu:</strong> Ahırda 10 ineğin varsa, yem karma vagonuna toplam kaç kilo saman, kaç kürek silaj, kaç kilo ezme dökeceğini senin yerine otomatik çarpar, hazır liste verir.
+              </li>
+              <li>
+                <strong>⚖️ 5. Pearson Karesi:</strong> İki çuval yemi (mesela arpa ile küspeyi) birbirine karıştırıp tam istediğin fabrika yemi ayarına getirmek için kullanılan pratik terazi hesabıdır.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 6. BÖLÜM: ÜRETİM & DÖL VERİMİ REHBERİ -->
+        <div class="guide-step-card">
+          <div class="guide-step-title">
+            <span>6️⃣ 🍼 Üretim Rehberi (Tohumlama & Buzağı Takvimi)</span>
+          </div>
+          <div class="guide-step-desc">
+            <p style="margin: 0 0 8px 0;">İneğe tohum attırdığın günü buraya yazarsın; sistem 9 ay 10 gün boyunca senin yerine gün sayar:</p>
+            <ul style="padding-left: 20px; margin: 6px 0;">
+              <li style="margin-bottom: 8px;">
+                <strong>🔍 35. Gün (Ultrason Kontrolü):</strong> "Veterineri çağır, ultrasonla inek tuttu mu baktır, boşuna bekleme" der.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>🛑 220. Gün (Kuruya Alma):</strong> "Bu ineğin sütünü artık sağma, memesini dinlendir" der. Böylece anne dinlenir, karnındaki yavru son iki ayda iki kat büyür.
+              </li>
+              <li style="margin-bottom: 8px;">
+                <strong>💉 250. Gün (Anne Aşısı):</strong> "Anneye buzağı ishal aşısı vurdur" der. Böylece doğacak yavru anne sütünden bağışıklık alır, doğar doğmaz ishalden ölmez.
+              </li>
+              <li>
+                <strong>🎯 280. Gün (Doğum Alarmı):</strong> "Doğum yaklaştı, ineği temiz ve bol samanlı doğum bölmesine al" der.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 7. BÖLÜM: YEM BİTKİLERİ & TARLA -->
+        <div class="guide-step-card">
+          <div class="guide-step-title">
+            <span>7️⃣ 🌱 Yem Bitkileri & Tarla Rehberi</span>
+          </div>
+          <div class="guide-step-desc">
+            <ul style="padding-left: 20px; margin: 6px 0;">
+              <li style="margin-bottom: 8px;">
+                <strong>🌾 Tarla Tohum Karışım Hesabı:</strong> Tarlaya yonca, yulaf, fiğ ekerken dönüme kaç kilo tohum atacaksın, otlar birbirini boğmasın diye nasıl karıştıracaksın hesaplar.
+              </li>
+              <li>
+                <strong>♨️ Mikrodalgada Silaj Nem Testi:</strong> Silajı fazla sulu basarsan çürür kokar, kuru basarsan küflenir hayvanı zehirler. Evdeki mikrodalga fırında 5 dakikada silajın tavını ölçmeni sağlar.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 8. BÖLÜM: RAPORLAR VE YEDEKLEME -->
+        <div class="guide-step-card">
+          <div class="guide-step-title">
+            <span>8️⃣ 📊 Raporlar & Çiftlik Özeti</span>
+          </div>
+          <div class="guide-step-desc">
+            <p style="margin: 0;">
+              Çiftliğinin aylık toplam yem masrafını, sürüdeki gebe ve sağılan hayvan oranını gösterir; istersen yazıcıdan çıktı almanı veya Excel dosyası olarak kaydetmeni sağlar.
+            </p>
+          </div>
+        </div>
+
+        <!-- 9. BÖLÜM: ÇİFTÇİMİZE 5 ALTIN KURAL -->
+        <div style="background: rgba(255, 221, 0, 0.18); border: 2px dashed #e6c700; border-radius: 4px; padding: 14px 16px; margin-top: 14px;">
+          <h5 style="margin: 0 0 8px 0; font-size: 1rem; font-weight: 800; color: var(--text);">
+            🌟 Bereketli Kazanç İçin Çiftçimize 5 Altın Öğüt:
+          </h5>
+          <ol style="padding-left: 20px; margin: 0; font-size: 0.90rem; line-height: 1.6;">
+            <li><strong>İnternet Yoksa Korkma:</strong> Bu uygulama dağda, yaylada internetsiz de cebinde çalışır.</li>
+            <li><strong>Günde 2 Dakika Ayır:</strong> Vurulan aşıyı, tohumlanan ineği hemen buraya kaydet.</li>
+            <li><strong>İlaçlı Sütü Tanka Dökme:</strong> Kırmızı İKAS kilidi bitmeden sütü tanka karıştırma.</li>
+            <li><strong>Yemi Göz Kararı Değil Tartarak Ver:</strong> Rasyon bölümündeki kilolara uyarsan paran cebinde kalır.</li>
+            <li><strong>Haftada Bir Yedek Al:</strong> Pazar günleri üstteki <em>"Yedek İndir"</em> düğmesine basıp telefonuna bir kopya kaydet.</li>
+          </ol>
+        </div>
+
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="closeModal('modal-help-guide')">Anladım</button>
+        <button type="button" class="btn btn-primary" onclick="closeModal('modal-help-guide')" style="font-weight: 800; padding: 8px 24px;">Anladım, Kılavuzu Kapat</button>
       </div>
     </div>
   </div>
@@ -1590,7 +1789,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=1.9.1"></script>
+  <script src="app.js?v=1.9.2"></script>
 
   <script>
     // Initialize default dates in modals

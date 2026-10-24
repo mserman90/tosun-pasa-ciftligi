@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 1.9.1 - Genişletilmiş Türkiye Yem Kütüphanesi & Akıllı Yem Arama Motoru
-const CACHE_NAME = 'tosun-pasa-v1.9.1';
+// Sürüm 1.9.2 - Kapsamlı Çiftçi El Kitabı & Sistematik Kullanım Kılavuzu
+const CACHE_NAME = 'tosun-pasa-v1.9.2';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -18,7 +18,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('[SW v1.9.1] Yeni önbellek yükleniyor:', CACHE_NAME);
+      console.log('[SW v1.9.2] Yeni önbellek yükleniyor:', CACHE_NAME);
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );

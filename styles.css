@@ -902,6 +902,78 @@ body.dark-mode .metric-val {
   background: rgba(0, 0, 0, 0.02);
 }
 
+/* Çiftlik Sistemi Kullanım Kılavuzu Stilleri */
+#modal-help-guide .modal-content {
+  max-width: 880px;
+}
+
+.guide-step-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--primary);
+  border-radius: 4px !important;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+body.dark-mode .guide-step-card {
+  background: #161b22;
+  border-color: var(--border);
+  border-left-color: var(--primary);
+}
+
+.guide-step-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.guide-step-desc {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.guide-box-tip {
+  background: rgba(255, 221, 0, 0.12);
+  border: 1px solid rgba(255, 221, 0, 0.35);
+  border-radius: 4px !important;
+  padding: 10px 14px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--text);
+  margin-top: 8px;
+}
+
+body.dark-mode .guide-box-tip {
+  background: rgba(255, 221, 0, 0.08);
+  border-color: rgba(255, 221, 0, 0.25);
+}
+
+.guide-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 221, 0, 0.2);
+  color: #856404;
+  border: 1px solid rgba(255, 221, 0, 0.4);
+  border-radius: 4px !important;
+  padding: 2px 8px;
+  font-weight: 700;
+  font-size: 0.78rem;
+}
+
+body.dark-mode .guide-pill-badge {
+  background: rgba(255, 221, 0, 0.15);
+  color: #ffdd00;
+}
+
 /* Toast Messages */
 .toast-container {
   position: fixed;
