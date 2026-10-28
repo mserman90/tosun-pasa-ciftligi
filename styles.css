@@ -185,6 +185,102 @@ html, body {
   border-color: var(--primary);
 }
 
+/* Header Ayarlar Dropdown Menüsü */
+.settings-dropdown-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.settings-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 280px;
+  background: var(--card-bg);
+  border: 1.5px solid rgba(255, 221, 0, 0.45);
+  border-radius: 4px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  z-index: 1000;
+  padding: 6px;
+  animation: fadeIn 0.15s ease-in-out;
+}
+
+body.dark-mode .settings-dropdown-menu {
+  background: #161b22;
+  border-color: rgba(255, 221, 0, 0.4);
+}
+
+.settings-dropdown-header {
+  padding: 8px 10px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.settings-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.15s ease;
+  min-height: 48px;
+}
+
+.settings-item:hover, .settings-item:focus-visible {
+  background: rgba(255, 221, 0, 0.14);
+  color: var(--primary);
+  outline: none;
+}
+
+body.dark-mode .settings-item {
+  color: #f0f6fc;
+}
+
+body.dark-mode .settings-item:hover, body.dark-mode .settings-item:focus-visible {
+  background: rgba(255, 221, 0, 0.18);
+  color: #ffdd00;
+}
+
+.settings-item-icon {
+  font-size: 1.3rem;
+  min-width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-item-text {
+  flex: 1;
+}
+
+.settings-item-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.settings-item-desc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+body.dark-mode .settings-item-desc {
+  color: #8b949e;
+}
+
 /* Master Navigation Tabs */
 .master-tabs-container {
   background-color: var(--header-bg);
@@ -1398,6 +1494,11 @@ button, .btn, .sub-nav-btn, .tab-btn {
     min-height: 36px;
     padding: 4px 6px;
     font-size: 0.80rem;
+  }
+  .settings-dropdown-menu {
+    min-width: 250px;
+    max-width: calc(100vw - 16px);
+    right: -4px;
   }
 
   /* Portal Giriş Ekranı */

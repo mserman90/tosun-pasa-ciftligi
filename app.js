@@ -3454,6 +3454,38 @@ function toggleDarkMode() {
   }
 }
 
+// Üst Menü Ayarlar Dropdown Kontrolü
+function toggleSettingsMenu(event) {
+  if (event) event.stopPropagation();
+  const menu = document.getElementById('settings-dropdown-menu');
+  const btn = document.getElementById('btn-settings-toggle');
+  if (!menu) return;
+  const isShown = menu.style.display === 'block';
+  menu.style.display = isShown ? 'none' : 'block';
+  if (btn) btn.setAttribute('aria-expanded', isShown ? 'false' : 'true');
+}
+
+function closeSettingsMenu() {
+  const menu = document.getElementById('settings-dropdown-menu');
+  const btn = document.getElementById('btn-settings-toggle');
+  if (menu) menu.style.display = 'none';
+  if (btn) btn.setAttribute('aria-expanded', 'false');
+}
+
+// Menü dışına veya ESC'ye basıldığında kapat
+document.addEventListener('click', (e) => {
+  const wrap = document.querySelector('.settings-dropdown-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    closeSettingsMenu();
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeSettingsMenu();
+  }
+});
+
 // =============================================================================
 // 10. PWA KURULUMU, SERVİS ÇALIŞANI (SW) & BAŞLATMA
 // =============================================================================
@@ -3489,8 +3521,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=2.2.2').then((reg) => {
-      console.log('Tosun Paşa SW v2.0.6 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=2.2.3').then((reg) => {
+      console.log('Tosun Paşa SW v2.2.3 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {

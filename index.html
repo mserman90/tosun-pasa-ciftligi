@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.2.2">
+  <link rel="stylesheet" href="styles.css?v=2.2.3">
 </head>
 <body class="dark-mode">
 
@@ -50,15 +50,36 @@
         </button>
       </div>
 
-      <button type="button" class="btn-header" onclick="forceAppUpdate()" title="Yeni Sürümü Yükle ve Önbelleği Temizle">
-        🔄 <span class="btn-label">Tazele</span>
-      </button>
-      <button type="button" class="btn-header" onclick="openModal('modal-data-center')">
-        💾 <span class="btn-label">Veri Merkezi</span>
-      </button>
-      <button type="button" id="btn-pwa-install" class="btn-header" onclick="installPWA()" title="Uygulamayı Cihazınıza Yükleyin (PWA)">
-        📲 <span class="btn-label">Yükle</span>
-      </button>
+      <!-- Ayarlar Dropdown Menüsü (Tazele, Veri Merkezi, Yükle) -->
+      <div class="settings-dropdown-wrap">
+        <button type="button" id="btn-settings-toggle" class="btn-header" onclick="toggleSettingsMenu(event)" title="Ayarlar ve Araçlar Menüsü" aria-haspopup="true" aria-expanded="false">
+          ⚙️ <span class="btn-label">Ayarlar</span>
+        </button>
+        <div id="settings-dropdown-menu" class="settings-dropdown-menu" style="display: none;">
+          <div class="settings-dropdown-header">⚙️ Sistem & Veri Araçları</div>
+          <button type="button" class="settings-item" onclick="forceAppUpdate(); closeSettingsMenu();" title="Yeni Sürümü Yükle ve Önbelleği Temizle">
+            <span class="settings-item-icon">🔄</span>
+            <div class="settings-item-text">
+              <div class="settings-item-title">Sürümü Tazele</div>
+              <div class="settings-item-desc">Önbelleği temizler, son sürümü yükler</div>
+            </div>
+          </button>
+          <button type="button" class="settings-item" onclick="openModal('modal-data-center'); closeSettingsMenu();" title="Merkezi Çiftlik Veri İstasyonu">
+            <span class="settings-item-icon">💾</span>
+            <div class="settings-item-text">
+              <div class="settings-item-title">Veri Merkezi (Yedek)</div>
+              <div class="settings-item-desc">JSON/Excel tam çiftlik yedeği al veya yükle</div>
+            </div>
+          </button>
+          <button type="button" id="btn-pwa-install" class="settings-item" onclick="installPWA(); closeSettingsMenu();" title="Uygulamayı Cihazınıza Yükleyin (PWA)">
+            <span class="settings-item-icon">📲</span>
+            <div class="settings-item-text">
+              <div class="settings-item-title">Telefona Yükle (PWA)</div>
+              <div class="settings-item-desc">Ana ekrana uygulama olarak kur</div>
+            </div>
+          </button>
+        </div>
+      </div>
       <button type="button" class="btn-header" onclick="openModal('modal-help-guide')">
         ℹ️ <span class="btn-label">Kılavuz</span>
       </button>
@@ -2484,7 +2505,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.2.2"></script>
+  <script src="app.js?v=2.2.3"></script>
 
   <script>
     // Initialize default dates in modals

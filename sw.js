@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.2.2 - Varsayılan Gece/Karanlık Mod Entegrasyonu
-const CACHE_NAME = 'tosun-pasa-v2.2.2';
+// Sürüm 2.2.3 - Ayarlar Açılır Menüsü Entegrasyonu
+const CACHE_NAME = 'tosun-pasa-v2.2.3';
 
 const ASSETS_TO_CACHE = [
   './',
