@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.2.0 - Dairy Farm 3D Entegrasyonu & 3D Çiftlik Simülasyonu
-const CACHE_NAME = 'tosun-pasa-v2.2.0';
+// Sürüm 2.2.1 - Uygulama içi gereksiz Kullanım Kılavuzu butonunun kaldırılması
+const CACHE_NAME = 'tosun-pasa-v2.2.1';
 
 const ASSETS_TO_CACHE = [
   './',
