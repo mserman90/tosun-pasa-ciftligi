@@ -3489,7 +3489,7 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=2.2.1').then((reg) => {
+    navigator.serviceWorker.register('./sw.js?v=2.2.2').then((reg) => {
       console.log('Tosun Paşa SW v2.0.6 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
@@ -3598,10 +3598,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-tab="tab-doctor"]').forEach(el => {
     el.innerHTML = '🩺 Sağlık Rehberi';
   });
-  // Theme check
-  if (localStorage.getItem('tosun_dark_mode') === '1') {
+  // Theme check (Varsayılan: Karanlık / Gece Modu)
+  const savedTheme = localStorage.getItem('tosun_dark_mode');
+  const toggleBtn = document.getElementById('btn-theme-toggle');
+  if (savedTheme === '0') {
+    document.body.classList.remove('dark-mode');
+    if (toggleBtn) toggleBtn.innerHTML = `🌙 <span class="btn-label">Gece Modu</span>`;
+  } else {
     document.body.classList.add('dark-mode');
-    const toggleBtn = document.getElementById('btn-theme-toggle');
     if (toggleBtn) toggleBtn.innerHTML = `☀️ <span class="btn-label">Gündüz</span>`;
   }
 

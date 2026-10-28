@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.2.1 - Uygulama içi gereksiz Kullanım Kılavuzu butonunun kaldırılması
-const CACHE_NAME = 'tosun-pasa-v2.2.1';
+// Sürüm 2.2.2 - Varsayılan Gece/Karanlık Mod Entegrasyonu
+const CACHE_NAME = 'tosun-pasa-v2.2.2';
 
 const ASSETS_TO_CACHE = [
   './',
