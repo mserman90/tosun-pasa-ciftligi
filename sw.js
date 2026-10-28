@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.2.6 - Giriş Portalı Sadeleştirildi & Temiz Buton Kartları Tasarlandı
-const CACHE_NAME = 'tosun-pasa-v2.2.6';
+// Sürüm 2.2.7 - Biyogüvenlik, İnsan, Hayvan ve Ekipman Hareketleri 3D Simülasyona Entegre Edildi
+const CACHE_NAME = 'tosun-pasa-v2.2.7';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -17,8 +17,8 @@ const ASSETS_TO_CACHE = [
   './icon-512.png',
   './noto-ox.svg',
   './sim3d/index.html',
-  './sim3d/assets/index-CqNOCFhl.js',
-  './sim3d/assets/index-DLC2NspB.css'
+  './sim3d/assets/index-DAZjeNUp.js',
+  './sim3d/assets/index-B4NWg3p-.css'
 ];
 
 // Install Event: Cache assets and force activate
