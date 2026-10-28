@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.3.1 - Kullanım Kılavuzu 3D Simülasyon, Lojistik, Biyogüvenlik ve Standartlarla Güncellendi
-const CACHE_NAME = 'tosun-pasa-v2.3.1';
+// Sürüm 2.3.2 - Yetiştirici Modu 3. Adım Yem Seçim Paneli Yenilendi ve Orantılandı
+const CACHE_NAME = 'tosun-pasa-v2.3.2';
 
 const ASSETS_TO_CACHE = [
   './',

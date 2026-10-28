@@ -2997,9 +2997,48 @@ function setYetistiriciFeedCategory(cat) {
   renderYetistiriciFeedCheckboxes();
 }
 
+function updateYetistiriciCategoryBadges() {
+  const allFeeds = getAllFeeds();
+  const catBtns = document.querySelectorAll('.yet-cat-btn');
+  if (!catBtns.length) return;
+  const counts = {
+    all: allFeeds.length,
+    kaba: allFeeds.filter(f => f.category === 'kaba').length,
+    kesif: allFeeds.filter(f => f.category === 'kesif').length,
+    sanayi: allFeeds.filter(f => f.category === 'sanayi').length,
+    karma: allFeeds.filter(f => f.category === 'karma').length,
+    mineral: allFeeds.filter(f => f.category === 'mineral').length
+  };
+  catBtns.forEach(btn => {
+    const cat = btn.getAttribute('data-yetcat');
+    if (cat === 'all') btn.textContent = `Tümü (${counts.all})`;
+    else if (cat === 'kaba') btn.textContent = `🌾 Kaba Yemler (${counts.kaba})`;
+    else if (cat === 'kesif') btn.textContent = `🌽 Dane & Kırma (${counts.kesif})`;
+    else if (cat === 'sanayi') btn.textContent = `🏭 Küspeler (${counts.sanayi})`;
+    else if (cat === 'karma') btn.textContent = `⭐ Fabrika & Akıllı (${counts.karma})`;
+    else if (cat === 'mineral') btn.textContent = `🧂 Mineraller (${counts.mineral})`;
+  });
+}
+
 function filterYetistiriciFeeds() {
   const searchInput = document.getElementById('yet-feed-search');
   currentYetFeedSearch = searchInput ? searchInput.value.trim().toLowerCase() : '';
+  const clearBtn = document.getElementById('yet-feed-search-clear');
+  if (clearBtn) {
+    clearBtn.style.display = currentYetFeedSearch ? 'inline-flex' : 'none';
+  }
+  renderYetistiriciFeedCheckboxes();
+}
+
+function clearYetistiriciSearch() {
+  const searchInput = document.getElementById('yet-feed-search');
+  if (searchInput) {
+    searchInput.value = '';
+    searchInput.focus();
+  }
+  currentYetFeedSearch = '';
+  const clearBtn = document.getElementById('yet-feed-search-clear');
+  if (clearBtn) clearBtn.style.display = 'none';
   renderYetistiriciFeedCheckboxes();
 }
 
@@ -3016,11 +3055,38 @@ function onYetFeedToggle(cb) {
 
 function updateYetistiriciSelectedCount() {
   const badge = document.getElementById('yet-feed-selected-count');
+  const count = yetistiriciSelectedFeeds.size;
   if (badge) {
-    const count = yetistiriciSelectedFeeds.size;
     badge.textContent = `${count} Yem Seçildi`;
     badge.style.background = count > 0 ? 'var(--primary)' : 'var(--border)';
     badge.style.color = count > 0 ? '#000000' : 'var(--text-muted)';
+  }
+
+  // Kaba, kesif/fabrika ve mineral dağılımını hesapla
+  const allFeeds = getAllFeeds();
+  const selectedList = allFeeds.filter(f => yetistiriciSelectedFeeds.has(f.id));
+  const kabaCount = selectedList.filter(f => f.category === 'kaba').length;
+  const kesifCount = selectedList.filter(f => f.category === 'kesif' || f.category === 'karma' || f.category === 'sanayi').length;
+  const mineralCount = selectedList.filter(f => f.category === 'mineral').length;
+
+  const kabaEl = document.getElementById('yet-feed-kaba-stat');
+  if (kabaEl) kabaEl.textContent = `🌾 Kaba: ${kabaCount}`;
+  const kesifEl = document.getElementById('yet-feed-kesif-stat');
+  if (kesifEl) kesifEl.textContent = `🌽 Kesif/Fabrika: ${kesifCount}`;
+  const mineralEl = document.getElementById('yet-feed-mineral-stat');
+  if (mineralEl) mineralEl.textContent = `🧂 Mineral: ${mineralCount}`;
+
+  const tipEl = document.getElementById('yet-feed-summary-tip');
+  if (tipEl) {
+    if (count === 0) {
+      tipEl.innerHTML = `<span style="color:var(--text-muted);">💡 En az 1 kaba yem (yonca/silaj) ve 1 fabrika/dane yemi seçmeniz önerilir.</span>`;
+    } else if (kabaCount === 0 && kesifCount > 0) {
+      tipEl.innerHTML = `<span style="color:#e67e22; font-weight:700;">⚠️ Rumen sağlığı ve asidoz önleme için ambarınızdan mutlaka kaba yem (yonca/silaj/saman) ekleyin.</span>`;
+    } else if (kabaCount > 0 && kesifCount === 0) {
+      tipEl.innerHTML = `<span style="color:#f39c12; font-weight:700;">💡 Süt verimi ve enerji dengesi için en az bir fabrika veya dane yemi ekleyin.</span>`;
+    } else {
+      tipEl.innerHTML = `<span style="color:#2ecc71; font-weight:700;">✅ Harika denge! Rumen lifi ve enerji/protein kaynakları hazır.</span>`;
+    }
   }
 }
 
@@ -3062,6 +3128,8 @@ function renderYetistiriciFeedCheckboxes() {
   const container = document.getElementById('yet-feed-checkboxes');
   if (!container) return;
 
+  updateYetistiriciCategoryBadges();
+
   const allFeeds = getAllFeeds();
   let filtered = allFeeds;
 
@@ -3081,8 +3149,8 @@ function renderYetistiriciFeedCheckboxes() {
 
   if (filtered.length === 0) {
     container.innerHTML = `
-      <div style="grid-column: 1/-1; text-align:center; padding: 20px; color:var(--text-muted); font-size:0.9rem;">
-        🔍 Arama kriterinize uygun yem bulunamadı. Lütfen arama terimini değiştirin veya diğer kategorilere göz atın.
+      <div style="grid-column: 1/-1; text-align:center; padding: 25px 15px; color:var(--text-muted); font-size:0.9rem;">
+        🔍 Arama kriterinize uygun yem bulunamadı. Lütfen arama terimini değiştirin veya kategori filtresini sıfırlayın.
       </div>
     `;
     return;
@@ -3099,24 +3167,24 @@ function renderYetistiriciFeedCheckboxes() {
 
     let catBadge = '';
     if (isAkilli) {
-      catBadge = `<span class="badge" style="background:#ffdd00; color:#000000; font-size:0.68rem; font-weight:800; padding:1px 5px; border-radius:3px;">⭐ AKILLI YEM</span>`;
+      catBadge = `<span class="badge" style="background:#ffdd00; color:#000000; font-size:0.68rem; font-weight:800; padding:2px 6px; border-radius:3px; letter-spacing:0.3px;">⭐ AKILLI YEM</span>`;
     } else if (isFabrika) {
-      catBadge = `<span class="badge" style="background:rgba(255,221,0,0.25); color:#856404; font-size:0.68rem; font-weight:700; padding:1px 5px; border-radius:3px;">FABRİKA YEMİ</span>`;
+      catBadge = `<span class="badge" style="background:rgba(255,221,0,0.18); color:#ffd600; border:1px solid rgba(255,221,0,0.4); font-size:0.68rem; font-weight:700; padding:1px 6px; border-radius:3px;">FABRİKA YEMİ</span>`;
     } else if (isKaba) {
-      catBadge = `<span class="badge" style="background:rgba(40,167,69,0.15); color:#28a745; font-size:0.68rem; font-weight:700; padding:1px 5px; border-radius:3px;">KABA YEM</span>`;
+      catBadge = `<span class="badge" style="background:rgba(40,167,69,0.18); color:#2ecc71; border:1px solid rgba(46,204,113,0.35); font-size:0.68rem; font-weight:700; padding:1px 6px; border-radius:3px;">🌾 KABA YEM</span>`;
     } else if (isKesif) {
-      catBadge = `<span class="badge" style="background:rgba(253,126,20,0.15); color:#fd7e14; font-size:0.68rem; font-weight:700; padding:1px 5px; border-radius:3px;">DANE</span>`;
+      catBadge = `<span class="badge" style="background:rgba(253,126,20,0.18); color:#ff9f43; border:1px solid rgba(253,126,20,0.35); font-size:0.68rem; font-weight:700; padding:1px 6px; border-radius:3px;">🌽 DANE</span>`;
     } else if (isSanayi) {
-      catBadge = `<span class="badge" style="background:rgba(23,162,184,0.15); color:#17a2b8; font-size:0.68rem; font-weight:700; padding:1px 5px; border-radius:3px;">KÜSPE / YAN ÜRÜN</span>`;
+      catBadge = `<span class="badge" style="background:rgba(23,162,184,0.18); color:#00cfe8; border:1px solid rgba(0,207,232,0.35); font-size:0.68rem; font-weight:700; padding:1px 6px; border-radius:3px;">🏭 KÜSPE</span>`;
     } else if (isMineral) {
-      catBadge = `<span class="badge" style="background:rgba(108,117,125,0.15); color:#6c757d; font-size:0.68rem; font-weight:700; padding:1px 5px; border-radius:3px;">MİNERAL / TUZ</span>`;
+      catBadge = `<span class="badge" style="background:rgba(108,117,125,0.18); color:#a4b0be; border:1px solid rgba(164,176,190,0.35); font-size:0.68rem; font-weight:700; padding:1px 6px; border-radius:3px;">🧂 MİNERAL</span>`;
     }
 
     return `
       <label class="yet-feed-item-label ${isChecked ? 'selected' : ''}">
-        <input type="checkbox" class="yet-feed-check" value="${f.id}" ${isChecked ? 'checked' : ''} onchange="onYetFeedToggle(this)" style="margin-top:3px; cursor:pointer;">
+        <input type="checkbox" class="yet-feed-check" value="${f.id}" ${isChecked ? 'checked' : ''} onchange="onYetFeedToggle(this)">
         <div style="flex:1; min-width:0;">
-          <div style="font-weight:700; font-size:0.86rem; color:var(--text); line-height:1.25; margin-bottom:3px;">${f.name}</div>
+          <div style="font-weight:700; font-size:0.86rem; color:var(--text); line-height:1.25; margin-bottom:4px; word-break:break-word;">${f.name}</div>
           <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
             ${catBadge}
             <span style="font-size:0.72rem; color:var(--text-muted); font-weight:600;">%${f.hp || 0} HP • ${f.me || 0} ME</span>
@@ -3597,8 +3665,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=2.3.1').then((reg) => {
-      console.log('Tosun Paşa SW v2.3.1 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=2.3.2').then((reg) => {
+      console.log('Tosun Paşa SW v2.3.2 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {

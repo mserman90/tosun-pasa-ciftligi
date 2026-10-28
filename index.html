@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.3.1">
+  <link rel="stylesheet" href="styles.css?v=2.3.2">
 </head>
 <body class="dark-mode">
 
@@ -402,35 +402,78 @@
             </div>
           </div>
 
-          <div style="margin-top: 14px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-              <label style="font-weight: 800; font-size:1rem; margin:0;">3. Adım: Ambarınızdaki Yemleri ve Fabrika Yemlerini İşaretleyin:</label>
-              <span id="yet-feed-selected-count" class="badge" style="background:var(--primary); color:#000; font-weight:800; padding:4px 8px;">0 Yem Seçildi</span>
+          <!-- 3. Adım: Yem Seçim Paneli (Yapılandırılmış & Orantılı Kart) -->
+          <div class="yet-feed-step3-card">
+            <!-- Başlık ve Seçim Sayacı -->
+            <div class="yet-feed-step3-header">
+              <div class="yet-feed-step3-title-wrap">
+                <span class="yet-feed-step-badge">3. ADIM</span>
+                <div>
+                  <h4 class="yet-feed-step-title">Ambarınızdaki Yemleri ve Fabrika Yemlerini İşaretleyin</h4>
+                  <p class="yet-feed-step-desc">
+                    Elinizdeki kaba yemleri (yonca, silaj, saman) ve fabrikanızdan aldığınız yemleri seçin. Sistem otomatik dengeli rasyon kuracaktır.
+                  </p>
+                </div>
+              </div>
+              <div class="yet-feed-header-badges">
+                <span id="yet-feed-selected-count" class="badge yet-badge-counter">0 Yem Seçildi</span>
+              </div>
             </div>
 
             <!-- Hızlı Arama & Örnek Karma Butonları -->
-            <div style="display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap;">
-              <input type="text" id="yet-feed-search" placeholder="🔍 Yem ara... (Örn: yonca, arpa, mısır, süt yemi, küspe, saman, akıllı yem)" oninput="filterYetistiriciFeeds()" style="flex:1; min-width:220px; min-height:38px; padding:6px 12px; font-size:0.90rem; border:1px solid var(--border); border-radius:4px; background:var(--card-bg); color:var(--text);">
+            <div class="yet-feed-toolbar">
+              <div class="yet-feed-search-box">
+                <span class="yet-search-icon">🔍</span>
+                <input 
+                  type="text" 
+                  id="yet-feed-search" 
+                  placeholder="Yem ara... (Örn: yonca, arpa, mısır, süt yemi, küspe, saman, akıllı yem)" 
+                  oninput="filterYetistiriciFeeds()"
+                  aria-label="Yem ara"
+                >
+                <button type="button" id="yet-feed-search-clear" class="yet-search-clear" onclick="clearYetistiriciSearch()" title="Aramayı Temizle" style="display:none;">✕</button>
+              </div>
               
-              <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                <button type="button" class="btn btn-secondary btn-sm" onclick="quickSelectYetistiriciSample('sut')" title="Örnek Süt Yemi Karması">🥛 Örnek Süt Karması</button>
-                <button type="button" class="btn btn-secondary btn-sm" onclick="quickSelectYetistiriciSample('besi')" title="Örnek Besi Karması">🐂 Örnek Besi Karması</button>
-                <button type="button" class="btn btn-secondary btn-sm" onclick="clearYetistiriciFeeds()" title="Seçimleri Temizle">🧹 Temizle</button>
+              <div class="yet-feed-quick-actions">
+                <button type="button" class="btn btn-secondary btn-sm yet-quick-btn" onclick="quickSelectYetistiriciSample('sut')" title="Yonca, Silaj, Saman, Arpa ve Süt Yemi">
+                  🥛 Örnek Süt Karması
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm yet-quick-btn" onclick="quickSelectYetistiriciSample('besi')" title="Saman, Mısır, Arpa ve Besi Yemi">
+                  🐂 Örnek Besi Karması
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm yet-quick-btn" onclick="clearYetistiriciFeeds()" title="Tüm Seçimleri Temizle">
+                  🧹 Temizle
+                </button>
               </div>
             </div>
 
             <!-- Kategori Filtre Butonları -->
-            <div class="yet-feed-cat-bar" style="display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; margin-bottom:8px;">
+            <div class="yet-feed-cat-bar" role="tablist">
               <button type="button" class="yet-cat-btn active" data-yetcat="all" onclick="setYetistiriciFeedCategory('all')">Tümü (83)</button>
               <button type="button" class="yet-cat-btn" data-yetcat="kaba" onclick="setYetistiriciFeedCategory('kaba')">🌾 Kaba Yemler & Silaj</button>
               <button type="button" class="yet-cat-btn" data-yetcat="kesif" onclick="setYetistiriciFeedCategory('kesif')">🌽 Dane & Kırmalar</button>
-              <button type="button" class="yet-cat-btn" data-yetcat="sanayi" onclick="setYetistiriciFeedCategory('sanayi')">🏭 Küspeler & Sanayi</button>
+              <button type="button" class="yet-cat-btn" data-yetcat="sanayi" onclick="setYetistiriciFeedCategory('sanayi')">🏭 Küspeler & Yan Ürünler</button>
               <button type="button" class="yet-cat-btn" data-yetcat="karma" onclick="setYetistiriciFeedCategory('karma')">⭐ Fabrika & Akıllı Yemler</button>
               <button type="button" class="yet-cat-btn" data-yetcat="mineral" onclick="setYetistiriciFeedCategory('mineral')">🧂 Mineraller & Tuz</button>
             </div>
 
-            <div id="yet-feed-checkboxes" class="grid-3" style="max-height: 280px; overflow-y: auto; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: var(--card-bg);">
+            <!-- Yem Kartları Grid Konteyneri -->
+            <div id="yet-feed-checkboxes" class="yet-feed-grid">
               <!-- Feeds populated dynamically -->
+            </div>
+
+            <!-- Canlı Seçim ve Rumen Dengesi Durum Çubuğu -->
+            <div id="yet-feed-summary-bar" class="yet-feed-summary-bar">
+              <div id="yet-feed-summary-stats" class="yet-feed-summary-stats">
+                <span id="yet-feed-kaba-stat">🌾 Kaba: 0</span>
+                <span class="yet-stat-sep">•</span>
+                <span id="yet-feed-kesif-stat">🌽 Kesif/Fabrika: 0</span>
+                <span class="yet-stat-sep">•</span>
+                <span id="yet-feed-mineral-stat">🧂 Mineral: 0</span>
+              </div>
+              <div id="yet-feed-summary-tip" class="yet-feed-summary-tip">
+                💡 En az 1 kaba yem (yonca/silaj) ve 1 fabrika/dane yemi seçmeniz önerilir.
+              </div>
             </div>
           </div>
 
@@ -2669,7 +2712,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.3.1"></script>
+  <script src="app.js?v=2.3.2"></script>
 
   <script>
     // Initialize default dates in modals
