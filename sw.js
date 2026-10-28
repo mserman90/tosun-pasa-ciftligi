@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.3.0 - Yetiştirici Giriş Karşılama Kartı Kaldırıldı & Temiz Görünüm
-const CACHE_NAME = 'tosun-pasa-v2.3.0';
+// Sürüm 2.3.1 - Kullanım Kılavuzu 3D Simülasyon, Lojistik, Biyogüvenlik ve Standartlarla Güncellendi
+const CACHE_NAME = 'tosun-pasa-v2.3.1';
 
 const ASSETS_TO_CACHE = [
   './',

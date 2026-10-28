@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.3.0">
+  <link rel="stylesheet" href="styles.css?v=2.3.1">
 </head>
 <body class="dark-mode">
 
@@ -1981,13 +1981,16 @@
       </div>
       <div class="modal-body" style="font-size:0.92rem; line-height:1.65; max-height: 75vh; overflow-y: auto;">
         
-        <!-- Kılavuz Mod Seçici (Yetiştirici vs Zooteknist) -->
+        <!-- Kılavuz Mod Seçici (Yetiştirici vs Zooteknist vs 3D Simülasyon) -->
         <div class="guide-mode-nav">
           <button type="button" id="btn-guide-tab-yet" class="guide-mode-btn active" onclick="switchGuideTab('yetistirici')">
             🌾 Yetiştirici Kılavuzu (Pratik & Sade)
           </button>
           <button type="button" id="btn-guide-tab-zoo" class="guide-mode-btn" onclick="switchGuideTab('zooteknist')">
             🔬 Zooteknist Kılavuzu (Bilimsel & Teknik)
+          </button>
+          <button type="button" id="btn-guide-tab-sim" class="guide-mode-btn" onclick="switchGuideTab('sim3d')">
+            🎮 3D Çiftlik & Biyogüvenlik (Simülasyon)
           </button>
         </div>
 
@@ -2151,7 +2154,33 @@
             </div>
           </div>
 
-          <!-- 7. BÖLÜM: ÇİFTÇİMİZE 5 ALTIN KURAL -->
+          <!-- 7. BÖLÜM: 3D ÇİFTLİK CANLI İZLEME -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>7️⃣ 🎮 3D Çiftlik: Ahırınızı ve Hayvanlarınızı Canlı İzleyin</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin: 0 0 8px 0;">
+                Yetiştirici menüsünün en sağında yer alan <strong>"🎮 3D Çiftlik"</strong> butonuna dokunduğunuzda tüm ahırınız gözünüzün önüne 3 boyutlu olarak gelir:
+              </p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🐮 Canlı İnek Hareketi:</strong> Ahırdaki ineklerinizin yemlik kilitlerine yanaşıp yem yediğini, duraklarda yatıp dinlendiğini veya geviş getirdiğini gerçek zamanlı görebilirsiniz.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🔍 İneğe Dokun & Küpesini Gör:</strong> Ekranda gezen herhangi bir ineğin üzerine dokunduğunuzda hemen kulağındaki sarı küpesi, adı, verdiği süt ve sağlık durumu açılır.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🧹 Otomatik Gübre Sıyırıcı:</strong> Koridorlarda gidip gelerek taze gübreyi temizleyen sıyırıcı bıçaklarını canlı izleyebilirsiniz.
+                </li>
+                <li>
+                  <strong>🚚 Lojistik & Biyogüvenlik (L Tuşu):</strong> Ekranın altındaki kamyon simgesine basarak sağım sevkiyatını, veteriner vizitesini veya yem vagonunu tek tıkla simüle edebilirsiniz.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 8. BÖLÜM: ÇİFTÇİMİZE 5 ALTIN KURAL -->
           <div style="background: rgba(255, 221, 0, 0.18); border: 2px dashed #e6c700; border-radius: 4px; padding: 14px 16px; margin-top: 14px;">
             <h5 style="margin: 0 0 8px 0; font-size: 1rem; font-weight: 800; color: var(--text);">
               🌟 Bereketli Kazanç İçin Çiftçimize 5 Altın Öğüt:
@@ -2161,7 +2190,7 @@
               <li><strong>Günde 2 Dakika Ayırın:</strong> Vurulan iğneyi, tohumlanan ineği hemen buraya kaydedin.</li>
               <li><strong>İlaçlı Sütü Tanka Dökmeyin:</strong> Kırmızı İKAS kilidi bitmeden sütü tanka karıştırmayın.</li>
               <li><strong>Yemi Göz Kararı Değil Tartarak Verin:</strong> "Kendi Yemini Hazırla" bölümündeki kilolara uyarsanız paranız cebinizde kalır.</li>
-              <li><strong>Haftada Bir Yedek Alın:</strong> Pazar günleri üst menüdeki <em>"Veri Merkezi"</em>ne girip <em>"Yedek İndir"</em> ile telefonunuza bir kopya kaydedin.</li>
+              <li><strong>Haftada Bir Yedek Alın:</strong> Pazar günleri üst menüdeki <em>"⚙️ Ayarlar ➔ 💾 Veri Merkezi"</em>ne girip <em>"Yedek İndir"</em> ile telefonunuza bir kopya kaydedin.</li>
             </ol>
           </div>
 
@@ -2308,10 +2337,34 @@
             </div>
           </div>
 
-          <!-- 6. BÖLÜM: VERİ BAĞIMSIZLIĞI & OFFLINE-FIRST -->
+          <!-- 6. BÖLÜM: 3D SİMÜLASYON VERİ KÖPRÜSÜ -->
           <div class="guide-step-card">
             <div class="guide-step-title">
-              <span>6️⃣ 🔒 Veri Bağımsızlığı, Güvenlik & Offline-First Mimarisi</span>
+              <span>6️⃣ 🎮 Çiftlik Verilerinin 3D Simülasyona Entegrasyonu (Data Bridge)</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin:0 0 8px 0;">Zooteknist ve Yetiştirici modülündeki sürü kayıtları 3D simülasyona kesintisiz canlı köprüyle aktarılır:</p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🐮 Canlı Biyometrik Sürü:</strong> Kütükteki inek sayısı, küpe numaraları, laktasyon günleri ve günlük süt verimleri 3D inek modellerine anlık yansıtılır.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🚨 Klinik Mastitis & İKAS İzolasyonu:</strong> İlaç kilidi altındaki hasta hayvanlar 3D sahnede veteriner izolasyon ve karantina padoklarına otomatik sevk edilir.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🌾 Rasyon Yem Ambarı Entegrasyonu:</strong> NASEM rasyon formülündeki kaba ve kesif yem stokları TMR mikser vagonuna ve yem masası dökümüne dinamik olarak bağlanır.
+                </li>
+                <li>
+                  <strong>🛡️ Biyogüvenlik Zonlama & İhlal Uyarıları:</strong> Temizden kirliye yön hiyerarşisi (1. Seviye Buzağı/Sağım ➔ 5. Seviye Gübre Lagünü) gerçek zamanlı denetlenir.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 7. BÖLÜM: VERİ BAĞIMSIZLIĞI & OFFLINE-FIRST -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>7️⃣ 🔒 Veri Bağımsızlığı, Güvenlik & Offline-First Mimarisi</span>
             </div>
             <div class="guide-step-desc">
               <p style="margin:0 0 8px 0;">Tosun Paşa Çiftliği yerel öncelikli (Offline-First) prensibiyle çalışır:</p>
@@ -2324,6 +2377,134 @@
                 </li>
                 <li>
                   <strong>Kesintisiz Saha Kullanımı:</strong> Service Worker önbelleklemesi sayesinde baz istasyonunun çekmediği kör noktalarda bile hesaplamalar sıfır gecikmeyle yürütülür.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ===================================================================
+             3. 3D ÇİFTLİK, SİMÜLASYON & BİYOGÜVENLİK KILAVUZU
+             =================================================================== -->
+        <div id="guide-section-sim3d" style="display:none;">
+
+          <!-- Giriş Kartı -->
+          <div style="background: rgba(37, 99, 235, 0.12); border: 2px solid #3b82f6; border-radius: 4px; padding: 14px 16px; margin-bottom: 16px;">
+            <h4 style="margin: 0 0 6px 0; font-size: 1.15rem; color: var(--text); font-weight: 800; display:flex; align-items:center; gap:8px;">
+              🎮 3D Çiftlik Simülasyonu, Lojistik & Biyogüvenlik Kılavuzu
+            </h4>
+            <p style="margin: 0; font-size: 0.92rem; color: var(--text); line-height: 1.6;">
+              Tosun Paşa 3D Simülasyonu; Three.js grafik motoru üzerinde çalışan, çiftliğinizin <strong>canlı dijital ikizidir</strong>. Sürü kütüğünüzdeki gerçek hayvanları, fizyolojik durumlarını, rasyon yem dağıtımını, insan ve ekipman lojistiğini <strong>"Temizden Kirliye Doğru Hareket"</strong> biyogüvenlik ilkesiyle gerçek zamanlı simüle eder.
+            </p>
+          </div>
+
+          <!-- 1. BÖLÜM: KAMERA & GEZİNME KONTROLLERİ -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>1️⃣ 🕹️ 3 Boyutlu Kamera & Gezinme Kontrolleri</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin: 0 0 8px 0;">Ahır içinde serbestçe dolaşmak ve detayları incelemek için fare ve klavyenizi kullanabilirsiniz:</p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🖱️ Fare Sol Tık + Sürükleme:</strong> Çiftlik etrafında 360° serbest yörüngede (Orbit) dönerek ahırı istediğiniz açıdan görmenizi sağlar.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🖱️ Fare Sağ Tık VEYA W - A - S - D Tuşları:</strong> Kamerayı ahır koridorları boyunca ileri-geri ve sağa-sola yatay olarak kaydırır (Pan).
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🔍 Fare Tekerleği:</strong> Yakınlaşma ve uzaklaşma (Zoom) yaparak bireysel inekleri, yemlik kilitlerini veya buzağı kulübelerini inceler.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>⌨️ Q ve E Tuşları:</strong> Kameranın uçuş yüksekliğini yukarı kaldırır (Q) veya zemin seviyesine alçaltır (E).
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>⌨️ R Tuşu (Sıfırla):</strong> Kamerayı anında varsayılan ideal izometrik çiftlik açısına geri döndürür.
+                </li>
+                <li>
+                  <strong>🐮 İneğe Tıklama:</strong> Sahnede gezen herhangi bir ineğe tıkladığınızda o ineğin küpe kartı, anlık davranışı (yeme, geviş getirme, dinlenme), laktasyon günü ve süt verimi açılır.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 2. BÖLÜM: BİYOGÜVENLİK VE HAREKET YÖNETİMİ (L TUŞU) -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>2️⃣ 🚚 Lojistik & Biyogüvenlik Yönetim Paneli (Kısayol: L)</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin: 0 0 8px 0;">Alt araç çubuğundaki kamyon simgesine tıklayarak veya klavyeden <strong>"L"</strong> tuşuna basarak 4 ana hareket modülünü yönetebilirsiniz:</p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🚶 1. İnsan Hareketleri:</strong> Çiftlik personeli giriş kaydı, çizme dezenfeksiyon havuzu, veteriner hekim vizitesi ve ziyaretçi kayıt protokolü. Personelin temiz alandan kirli alana geçiş hiyerarşisi denetlenir.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🐄 2. Hayvan Hareketleri:</strong> Sağım saatinde ineklerin toplu halde parlöre yönlendirilmesi, dönüş koridorunda Dr. Cook ayak banyosundan geçişi, doğumu yaklaşan ineklerin doğumhaneye ve hasta ineklerin karantinaya nakli.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🚜 3. Alet & Ekipman Lojistiği:</strong> TMR yem mikser vagonu, buzağı süt taksisi, hayvan yükleme rampası ve çift koridor otomatik gübre sıyırıcıları.
+                </li>
+                <li>
+                  <strong>🛡️ 4. Biyogüvenlik Haritası (3D Rotalar):</strong> 3D sahnede <em>Yeşil Hat</em> (temiz personel/buzağı yolu), <em>Mavi Hat</em> (sağım ve ayak banyosu döngüsü) ve <em>Kırmızı Hat</em> (karantina ve gübre atık hattı) canlı olarak gösterilir.
+                </li>
+              </ul>
+            </div>
+            <div class="guide-box-tip">
+              💡 <strong>Temizden Kirliye Kuralı:</strong> Hastalık bulaşmasını önlemek için hareket yönü daima: <em>Buzağı / Sağım Odası ➔ Genç Hayvanlar ➔ Sağmal İnekler ➔ Hasta/Karantina ➔ Gübre/Atık Sahası</em> şeklinde olmalıdır.
+            </div>
+          </div>
+
+          <!-- 3. BÖLÜM: OTOMATİK GÜBRE SIYIRICILARI ÇALIŞMA PRENSİBİ -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>3️⃣ 🧹 Çift Koridor Otomatik Gübre Sıyırıcıları</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin: 0 0 8px 0;">Ahır zemininde çalışan otomatik sıyırıcılar uluslararası mühendislik kurallarına göre programlanmıştır:</p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🧭 Doğru Tahliye Yönü (Doğu ➔ Batı):</strong> Sıyırıcılar temiz Doğu girişinden (x = +6) başlar, koridordaki gübreyi önüne katarak Batı ucundaki enine tahliye ızgarasına (x = -27) ve lagüne doğru iter.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>📐 Katlanır V-Kanat Mekanizması:</strong> İleri sıyırma yaparken kanatlar açılarak 3.4 metre koridor genişliğini tam kaplar. Geri dönüşte kanatlar içe katlanarak (1.2 metreye daralır) gübreyi geriye çekmez.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🛡️ Hayvan Güvenliği:</strong> Sıyırıcı 3.0 m/dk düşük hızla hareket eder; ineklerin bacaklarına çarpmadan üzerinden atlamalarına olanak tanır.
+                </li>
+                <li>
+                  <strong>⚙️ Çift Koridor Senkronizasyonu:</strong> Kuzey ve Güney gübre yollarında iki ayrı sıyırıcı senkronize şekilde çalışarak ahırı her zaman temiz tutar.
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 4. BÖLÜM: ULUSLARARASI BARINAK & EKİPMAN STANDARTLARI -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>4️⃣ 📐 Uluslararası Barınak & Ekipman Standartları (CIGR & Dairyland)</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin: 0 0 8px 0;">3D simülasyondaki tüm barınak ve donanım ölçüleri uluslararası akreditasyon standartlarına tam uygundur:</p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>Durak Ölçüleri:</strong> 1.25 m genişlik × 2.60 m uzunluk (Wisconsin tipi konsol ayırıcılar, 1.22 m boyun demiri ve 10 cm göğüs tahtası).
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>Yem Yolu & Yemlik Kilitleri:</strong> 5.0 m genişliğinde çift yönlü mikser yolu, inek başına 70 cm galvaniz self-locking kilit ve +15 cm yükseltilmiş yem masası.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>Suluklar & Refah:</strong> Crossover geçitlerinde paslanmaz çelik hızlı dolan devrilir suluklar (18-20 L/dk) ve 360° döner kaşıma fırçası.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>Dr. Nigel Cook Tırnak Banyosu:</strong> Sağım çıkışında 3.60 m boy × 0.75 m en × 15 cm derinlik ve 70° açılı yan sıçrama siperlikleri.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>Çatı & Doğal Havalandırma:</strong> 1:3 (18.4°) çatı eğimi, 50 cm açık mahya bacası ve 12 metre aralıklı sirkülasyon fanları.
+                </li>
+                <li>
+                  <strong>Gübre Lagünü & Separatör:</strong> Hâkim rüzgara göre rüzgar altında (downwind), etrafı tel çitle çevrili lagün ve mekanik separatör platformu.
                 </li>
               </ul>
             </div>
@@ -2488,7 +2669,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.3.0"></script>
+  <script src="app.js?v=2.3.1"></script>
 
   <script>
     // Initialize default dates in modals

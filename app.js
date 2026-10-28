@@ -2428,7 +2428,11 @@ function openModal(modalId) {
   if (modal) {
     modal.classList.add('active');
     if (modalId === 'modal-help-guide') {
-      const targetGuide = (typeof currentAppMode !== 'undefined' && currentAppMode === 'zooteknist') ? 'zooteknist' : 'yetistirici';
+      let targetGuide = (typeof currentAppMode !== 'undefined' && currentAppMode === 'zooteknist') ? 'zooteknist' : 'yetistirici';
+      const simTab = document.getElementById('yet-view-sim3d');
+      if (simTab && simTab.classList.contains('active')) {
+        targetGuide = 'sim3d';
+      }
       switchGuideTab(targetGuide);
     }
   }
@@ -2437,19 +2441,25 @@ function openModal(modalId) {
 function switchGuideTab(target) {
   const yetBtn = document.getElementById('btn-guide-tab-yet');
   const zooBtn = document.getElementById('btn-guide-tab-zoo');
+  const simBtn = document.getElementById('btn-guide-tab-sim');
   const yetSection = document.getElementById('guide-section-yetistirici');
   const zooSection = document.getElementById('guide-section-zooteknist');
+  const simSection = document.getElementById('guide-section-sim3d');
+
+  [yetBtn, zooBtn, simBtn].forEach((b) => b?.classList.remove('active'));
+  [yetSection, zooSection, simSection].forEach((s) => {
+    if (s) s.style.display = 'none';
+  });
 
   if (target === 'zooteknist') {
     if (zooBtn) zooBtn.classList.add('active');
-    if (yetBtn) yetBtn.classList.remove('active');
     if (zooSection) zooSection.style.display = 'block';
-    if (yetSection) yetSection.style.display = 'none';
+  } else if (target === 'sim3d') {
+    if (simBtn) simBtn.classList.add('active');
+    if (simSection) simSection.style.display = 'block';
   } else {
     if (yetBtn) yetBtn.classList.add('active');
-    if (zooBtn) zooBtn.classList.remove('active');
     if (yetSection) yetSection.style.display = 'block';
-    if (zooSection) zooSection.style.display = 'none';
   }
   const modalBody = document.querySelector('#modal-help-guide .modal-body');
   if (modalBody) modalBody.scrollTop = 0;
@@ -3587,8 +3597,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=2.3.0').then((reg) => {
-      console.log('Tosun Paşa SW v2.3.0 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=2.3.1').then((reg) => {
+      console.log('Tosun Paşa SW v2.3.1 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {
