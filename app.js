@@ -2647,6 +2647,37 @@ function setAppMode(mode) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function launchSim3DFromPortal() {
+  setAppMode('zooteknist');
+  switchMasterTab('tab-sim3d');
+}
+
+function toggleSim3dFullscreen(iframeId = 'sim3d-iframe') {
+  const el = document.getElementById(iframeId);
+  if (!el) return;
+  if (!document.fullscreenElement) {
+    if (el.requestFullscreen) {
+      el.requestFullscreen();
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen();
+    } else if (el.msRequestFullscreen) {
+      el.msRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+}
+
+function reloadSim3dIframe(iframeId = 'sim3d-iframe') {
+  const el = document.getElementById(iframeId);
+  if (el) {
+    el.src = './sim3d/index.html';
+    showToast("3D Simülasyon yeniden yükleniyor...", "toast-info");
+  }
+}
+
 function switchYetTab(tabId) {
   currentYetTab = tabId;
   document.querySelectorAll('.yet-tab-btn').forEach(btn => {
@@ -2672,6 +2703,11 @@ function switchYetTab(tabId) {
     renderYetistiriciFirstAid();
   } else if (tabId === 'yet-view-feed') {
     renderYetistiriciFeedCheckboxes();
+  } else if (tabId === 'yet-view-sim3d') {
+    const iframe = document.getElementById('yet-sim3d-iframe');
+    if (iframe && !iframe.getAttribute('src')) {
+      iframe.setAttribute('src', './sim3d/index.html');
+    }
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -3383,6 +3419,11 @@ function switchMasterTab(tabId) {
   } else if (tabId === 'tab-forage') {
     renderAgronomyCards();
     renderFieldLedger();
+  } else if (tabId === 'tab-sim3d') {
+    const iframe = document.getElementById('sim3d-iframe');
+    if (iframe && !iframe.getAttribute('src')) {
+      iframe.setAttribute('src', './sim3d/index.html');
+    }
   }
 
   // Servis Plan Lazy Load re-scan for newly visible tab content
@@ -3448,7 +3489,7 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=2.1.4').then((reg) => {
+    navigator.serviceWorker.register('./sw.js?v=2.2.0').then((reg) => {
       console.log('Tosun Paşa SW v2.0.6 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();

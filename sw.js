@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.1.4 - Bilimsel Doğruluk ve Zootekni Formülleri Denetimi
-const CACHE_NAME = 'tosun-pasa-v2.1.4';
+// Sürüm 2.2.0 - Dairy Farm 3D Entegrasyonu & 3D Çiftlik Simülasyonu
+const CACHE_NAME = 'tosun-pasa-v2.2.0';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -15,7 +15,10 @@ const ASSETS_TO_CACHE = [
   './favicon.png',
   './icon-192.png',
   './icon-512.png',
-  './noto-ox.svg'
+  './noto-ox.svg',
+  './sim3d/index.html',
+  './sim3d/assets/index-CGvaP8pB.js',
+  './sim3d/assets/index-ZCdGrsZq.css'
 ];
 
 // Install Event: Cache assets and force activate

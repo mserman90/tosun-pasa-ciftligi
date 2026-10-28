@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.1.4">
+  <link rel="stylesheet" href="styles.css?v=2.2.0">
 </head>
 <body>
 
@@ -90,6 +90,9 @@
       </button>
       <button type="button" class="tab-btn" data-tab="tab-forage" onclick="switchMasterTab('tab-forage')">
         🌱 Yem Bitkileri
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-sim3d" onclick="switchMasterTab('tab-sim3d')">
+        🎮 3D Çiftlik
       </button>
     </div>
   </nav>
@@ -168,6 +171,31 @@
           </button>
         </div>
 
+        <!-- 3. 3D ÇİFTLİK SİMÜLATÖRÜ GİRİŞİ -->
+        <div class="portal-card portal-card-sim3d">
+          <div>
+            <div class="portal-card-header">
+              <span class="portal-card-icon">🎮</span>
+              <span class="badge" style="background:#10b981; color:#ffffff; font-weight:800; float:right; padding:4px 8px; border-radius:4px;">THREE.JS 3D</span>
+              <h2 class="portal-card-title">🐄 3D Çiftlik Simülasyonu</h2>
+              <p class="portal-card-desc">Dairy Farm 3D: WebGL & Three.js motoruyla geliştirilmiş gerçek zamanlı 3D sürü yönetimi, Wood laktasyon modeli, robotik sağım ve barınak simülatörü.</p>
+            </div>
+
+            <ul class="portal-features-list">
+              <li>🕹️ <strong>3D Serbest Dolaşım:</strong> Serbest duraklı barınak, buzağı kulübeleri ve merada gezin</li>
+              <li>🧬 <strong>Özel Irk Mühendisi:</strong> Holstein, Jersey, Simental veya kendi genetik ırkınızı tasarlayın</li>
+              <li>📈 <strong>Wood Laktasyon Eğrisi:</strong> 305 günlük bireysel süt verim grafiği ve interaktif analiz</li>
+              <li>🤖 <strong>AMS Robotik Sağım:</strong> Döner platform, paralel ve robotik sağım salonlarını yönetin</li>
+              <li>🔊 <strong>Web Audio Sentetik Ses:</strong> Gerçekçi inek böğürmesi, sağım pulsatörü ve pastoral ambiyans</li>
+              <li>💾 <strong>Çevrimdışı Çalışma:</strong> Tamamen tarayıcıda çalışan yerel 3D WebGL motoru</li>
+            </ul>
+          </div>
+
+          <button type="button" class="portal-btn-sim3d" onclick="launchSim3DFromPortal()">
+            🎮 3D Simülasyonu Başlat ➔
+          </button>
+        </div>
+
       </div>
 
       <!-- Yasal Bilgilendirme, KVKK & Sorumsuzluk Beyanı -->
@@ -207,6 +235,9 @@
           </button>
           <button type="button" class="yet-tab-btn" data-yettab="yet-view-repro" onclick="switchYetTab('yet-view-repro')">
             🍼 Buzağı Takvimi
+          </button>
+          <button type="button" class="yet-tab-btn" data-yettab="yet-view-sim3d" onclick="switchYetTab('yet-view-sim3d')">
+            🎮 3D Çiftlik
           </button>
           <button type="button" class="yet-tab-btn" onclick="openModal('modal-help-guide')">
             ℹ️ Kullanım Kılavuzu
@@ -490,6 +521,46 @@
             </div>
           </div>
 
+        </div>
+      </div>
+
+      <!-- 6. Yetiştirici 3D Çiftlik Simülasyonu -->
+      <div id="yet-view-sim3d" class="yet-section" style="padding: 16px 12px; max-width: 1200px; margin: 0 auto; display:none;">
+        <div class="card" style="padding: 12px 16px; margin-bottom: 12px; border-left: 5px solid #10b981;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:1.8rem;">🐄</span>
+              <div>
+                <h3 style="margin:0; font-size:1.15rem; font-weight:800; color:var(--text);">3D Süt Çiftliği & Sürü Simülatörü</h3>
+                <p style="margin:0; font-size:0.80rem; color:var(--text-muted);">Three.js 3D Barınak, Otomatik Sağım ve Biyolojik Sürü Dünyası</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-secondary" onclick="reloadSim3dIframe('yet-sim3d-iframe')" style="padding:6px 12px; font-size:0.82rem;">
+                🔄 Yenile
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="toggleSim3dFullscreen('yet-sim3d-iframe')" style="padding:6px 12px; font-size:0.82rem;">
+                ⛶ Tam Ekran
+              </button>
+              <a href="./sim3d/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:6px 12px; font-size:0.82rem; text-decoration:none; background:#10b981; color:#ffffff; border-color:#059669;">
+                ↗️ Ayrı Sekmede Aç
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim3d-wrapper">
+          <iframe id="yet-sim3d-iframe" class="sim3d-iframe" title="Dairy Farm 3D - Yetiştirici" allow="fullscreen" loading="lazy"></iframe>
+        </div>
+
+        <div class="sim3d-shortcuts-bar">
+          <span>🎮 <strong>Hızlı Kontroller:</strong></span>
+          <span><span class="sim3d-kbd">W A S D</span> Gezinme</span>
+          <span><span class="sim3d-kbd">Fare / Sürükle</span> Kamera Açısı</span>
+          <span><span class="sim3d-kbd">Space</span> Duraklat</span>
+          <span><span class="sim3d-kbd">F</span> Simülasyon Hızı</span>
+          <span><span class="sim3d-kbd">1 - 5</span> Kamera Noktaları</span>
+          <span><span class="sim3d-kbd">Tab</span> Sürü & Yönetim Paneli</span>
         </div>
       </div>
 
@@ -1789,6 +1860,52 @@
 
     </section>
 
+    <!-- =======================================================================
+         6. MODÜL 5: 3D ÇİFTLİK SİMÜLASYONU (DAIRY FARM 3D)
+         ======================================================================= -->
+    <section id="tab-sim3d" class="tab-panel">
+      
+      <div class="card" style="padding: 14px 20px; margin-bottom: 12px; border-left: 5px solid #10b981;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="font-size:2rem; line-height:1;">🐄</div>
+            <div>
+              <h2 style="margin:0 0 4px 0; font-size:1.25rem; font-weight:800; color:var(--text);">3D Süt Sığırcılığı & Biyolojik Sürü Simülatörü</h2>
+              <p style="margin:0; font-size:0.84rem; color:var(--text-muted);">Three.js + React 19 • Bireysel İnek Kütüğü, Wood Laktasyon Modeli, Robotik Sağım & TMR Yönetimi</p>
+            </div>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-secondary" onclick="reloadSim3dIframe('sim3d-iframe')" style="padding:7px 14px; font-size:0.85rem;">
+              🔄 Yeniden Yükle
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="toggleSim3dFullscreen('sim3d-iframe')" style="padding:7px 14px; font-size:0.85rem;">
+              ⛶ Tam Ekran
+            </button>
+            <a href="./sim3d/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:7px 14px; font-size:0.85rem; text-decoration:none; background:#10b981; color:#ffffff; border-color:#059669;">
+              ↗️ Ayrı Sekmede Aç
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim3d-wrapper">
+        <iframe id="sim3d-iframe" class="sim3d-iframe" title="Dairy Farm 3D - Zooteknist" allow="fullscreen" loading="lazy"></iframe>
+      </div>
+
+      <div class="sim3d-shortcuts-bar">
+        <span>🎮 <strong>Klavye & Kontroller:</strong></span>
+        <span><span class="sim3d-kbd">W A S D</span> Gezinme</span>
+        <span><span class="sim3d-kbd">Q / E</span> Yüksel / Alçal</span>
+        <span><span class="sim3d-kbd">Fare / Sürükle</span> Kamera Açısı</span>
+        <span><span class="sim3d-kbd">Space</span> Duraklat / Devam</span>
+        <span><span class="sim3d-kbd">F</span> Simülasyon Hızı (1× – 120×)</span>
+        <span><span class="sim3d-kbd">1 - 5</span> Kamera Noktaları</span>
+        <span><span class="sim3d-kbd">Tab</span> Sürü & Yönetim Paneli</span>
+        <span><span class="sim3d-kbd">H</span> Zen Modu</span>
+      </div>
+
+    </section>
+
   </main>
 
   <!-- =======================================================================
@@ -2370,7 +2487,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.1.4"></script>
+  <script src="app.js?v=2.2.0"></script>
 
   <script>
     // Initialize default dates in modals
