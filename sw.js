@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.2.5 - 3D Simülasyon Zooteknist & Yetiştirici Canlı Veri Köprüsü Entegrasyonu
-const CACHE_NAME = 'tosun-pasa-v2.2.5';
+// Sürüm 2.2.6 - Giriş Portalı Sadeleştirildi & Temiz Buton Kartları Tasarlandı
+const CACHE_NAME = 'tosun-pasa-v2.2.6';
 
 const ASSETS_TO_CACHE = [
   './',

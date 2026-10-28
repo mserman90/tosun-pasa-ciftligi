@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.2.5">
+  <link rel="stylesheet" href="styles.css?v=2.2.6">
 </head>
 <body class="dark-mode">
 
@@ -140,76 +140,49 @@
       <div class="portal-cards-grid">
         
         <!-- 1. YETİŞTİRİCİ GİRİŞİ -->
-        <div class="portal-card portal-card-yetistirici">
-          <div>
-            <div class="portal-card-header">
-              <span class="portal-card-icon">🚜</span>
-              <span class="badge" style="background:#ffdd00; color:#000000; font-weight:800; float:right; padding:4px 8px; border-radius:4px;">SADE & PRATİK</span>
-              <h2 class="portal-card-title">🌾 Yetiştirici Girişi</h2>
-              <p class="portal-card-desc">Ahırda, merada, traktör üstünde; işini en hızlı, en sade ve anlaşılır şekilde görmek isteyen üreticilerimiz için özel çiftçi sürümü.</p>
+        <div class="portal-card portal-card-yetistirici" onclick="setAppMode('yetistirici')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') setAppMode('yetistirici')">
+          <div class="portal-card-header">
+            <span class="portal-card-icon">🚜</span>
+            <div style="margin-bottom: 8px;">
+              <span class="badge" style="background:#ffdd00; color:#000000; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">SADE & PRATİK</span>
             </div>
-
-            <ul class="portal-features-list">
-              <li>🐮 <strong>Küpelerim:</strong> Tek tıkla hayvanını bul, sütünü ve durumunu gör</li>
-              <li>🚨 <strong>İlaç Kilidi (İKAS):</strong> İlaçlı sütü tanka dökme, mandıra cezasından korun</li>
-              <li>🚑 <strong>15 Acil İlk Yardım:</strong> Şişme, doğum felci ve kuzu acillerinde hayati ilk yardım</li>
-              <li>🌾 <strong>Kendi Yemini Hazırla:</strong> Formülsüz; inek başı ve vagona kaçar kilo yem atacağını gör</li>
-              <li>🍼 <strong>Buzağı Takvimi:</strong> Tohumlama gününden doğuma kadar otomatik gün sayacı</li>
-              <li>ℹ️ <strong>Kullanım Kılavuzu:</strong> Herkes için anlaşılır, resimli ve pratik kullanım rehberi</li>
-            </ul>
+            <h2 class="portal-card-title">🌾 Yetiştirici Girişi</h2>
+            <p class="portal-card-desc">Ahırda ve merada işini en hızlı, en sade ve pratik şekilde görmek isteyen üreticilerimiz için özel çiftçi sürümü.</p>
           </div>
 
-          <button type="button" class="portal-btn-yetistirici" onclick="setAppMode('yetistirici')">
+          <button type="button" class="portal-btn-yetistirici" onclick="event.stopPropagation(); setAppMode('yetistirici')">
             🌾 Yetiştirici Olarak Başla ➔
           </button>
         </div>
 
         <!-- 2. ZOOTEKNİST GİRİŞİ -->
-        <div class="portal-card portal-card-zooteknist">
-          <div>
-            <div class="portal-card-header">
-              <span class="portal-card-icon">🧬</span>
-              <span class="badge" style="background:#181b1e; color:#ffdd00; border:1px solid #ffdd00; font-weight:800; float:right; padding:4px 8px; border-radius:4px;">UZMAN & MÜHENDİS</span>
-              <h2 class="portal-card-title">🔬 Zooteknist Girişi</h2>
-              <p class="portal-card-desc">Zooteknistler, veteriner hekimler ve profesyonel sürü yöneticileri için tam teşekküllü bilimsel analiz ve doğrusal optimizasyon sürümü.</p>
+        <div class="portal-card portal-card-zooteknist" onclick="setAppMode('zooteknist')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') setAppMode('zooteknist')">
+          <div class="portal-card-header">
+            <span class="portal-card-icon">🧬</span>
+            <div style="margin-bottom: 8px;">
+              <span class="badge" style="background:#181b1e; color:#ffdd00; border:1px solid #ffdd00; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">BİLİMSEL & UZMAN</span>
             </div>
-
-            <ul class="portal-features-list">
-              <li>🤖 <strong>Simplex Rasyon Robotu:</strong> NRC / NASEM standartlarında maliyet minimizasyonu</li>
-              <li>🌾 <strong>83 Yem Kütüphanesi:</strong> Akıllı yemler, bypass protein, fabrika yemleri ve mineraller</li>
-              <li>🩺 <strong>Saha Triyaj Karar Ağacı:</strong> Ağırlıklı semptom analizi ve Brix kolostrum testi</li>
-              <li>🚜 <strong>Mikser Vagon Kantarı:</strong> Karışım homojenliği ve Pearson karesi terazisi</li>
-              <li>📏 <strong>CAAG Canlı Ağırlık:</strong> Göğüs çevresinden kg hesaplayan biyometrik model</li>
-              <li>🌱 <strong>Tarla & Yem Bitkileri:</strong> Mikrodalgada silaj nem testi ve ekim mühendisliği</li>
-            </ul>
+            <h2 class="portal-card-title">🔬 Zooteknist Girişi</h2>
+            <p class="portal-card-desc">Zooteknistler, veteriner hekimler ve işletme yöneticileri için rasyon optimizasyonu ve bilimsel sürü analiz çalışma alanı.</p>
           </div>
 
-          <button type="button" class="portal-btn-zooteknist" onclick="setAppMode('zooteknist')">
+          <button type="button" class="portal-btn-zooteknist" onclick="event.stopPropagation(); setAppMode('zooteknist')">
             🔬 Zooteknist Olarak Başla ➔
           </button>
         </div>
 
         <!-- 3. 3D ÇİFTLİK SİMÜLATÖRÜ GİRİŞİ -->
-        <div class="portal-card portal-card-sim3d">
-          <div>
-            <div class="portal-card-header">
-              <span class="portal-card-icon">🎮</span>
-              <span class="badge" style="background:#10b981; color:#ffffff; font-weight:800; float:right; padding:4px 8px; border-radius:4px;">THREE.JS 3D</span>
-              <h2 class="portal-card-title">🐄 3D Çiftlik Simülasyonu</h2>
-              <p class="portal-card-desc">Dairy Farm 3D: WebGL & Three.js motoruyla geliştirilmiş gerçek zamanlı 3D sürü yönetimi, Wood laktasyon modeli, robotik sağım ve barınak simülatörü.</p>
+        <div class="portal-card portal-card-sim3d" onclick="launchSim3DFromPortal()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') launchSim3DFromPortal()">
+          <div class="portal-card-header">
+            <span class="portal-card-icon">🎮</span>
+            <div style="margin-bottom: 8px;">
+              <span class="badge" style="background:#10b981; color:#ffffff; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">CANLI 3D SÜRÜ</span>
             </div>
-
-            <ul class="portal-features-list">
-              <li>🕹️ <strong>3D Serbest Dolaşım:</strong> Serbest duraklı barınak, buzağı kulübeleri ve merada gezin</li>
-              <li>🧬 <strong>Özel Irk Mühendisi:</strong> Holstein, Jersey, Simental veya kendi genetik ırkınızı tasarlayın</li>
-              <li>📈 <strong>Wood Laktasyon Eğrisi:</strong> 305 günlük bireysel süt verim grafiği ve interaktif analiz</li>
-              <li>🤖 <strong>AMS Robotik Sağım:</strong> Döner platform, paralel ve robotik sağım salonlarını yönetin</li>
-              <li>🔊 <strong>Web Audio Sentetik Ses:</strong> Gerçekçi inek böğürmesi, sağım pulsatörü ve pastoral ambiyans</li>
-              <li>💾 <strong>Çevrimdışı Çalışma:</strong> Tamamen tarayıcıda çalışan yerel 3D WebGL motoru</li>
-            </ul>
+            <h2 class="portal-card-title">🐄 3D Çiftlik Simülasyonu</h2>
+            <p class="portal-card-desc">Three.js 3D serbest dolaşımlı barınak, biyolojik sürü, robotik sağım ve canlı veri köprüsüyle çiftlik simülatörü.</p>
           </div>
 
-          <button type="button" class="portal-btn-sim3d" onclick="launchSim3DFromPortal()">
+          <button type="button" class="portal-btn-sim3d" onclick="event.stopPropagation(); launchSim3DFromPortal()">
             🎮 3D Simülasyonu Başlat ➔
           </button>
         </div>
@@ -2525,7 +2498,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.2.5"></script>
+  <script src="app.js?v=2.2.6"></script>
 
   <script>
     // Initialize default dates in modals
