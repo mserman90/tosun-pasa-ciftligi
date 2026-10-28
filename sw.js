@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.3.3 - Başlık alt sloganı kaldırıldı, yalın ve modern marka görünümü
-const CACHE_NAME = 'tosun-pasa-v2.3.3';
+// Sürüm 2.3.4 - 3D Kamera ve Gezinme Kontrolleri, Sağ Tık Pan, İnek Davranış Kartları Güncellendi
+const CACHE_NAME = 'tosun-pasa-v2.3.4';
 
 const ASSETS_TO_CACHE = [
   './',
