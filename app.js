@@ -3587,8 +3587,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=2.2.7').then((reg) => {
-      console.log('Tosun Paşa SW v2.2.7 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=2.2.8').then((reg) => {
+      console.log('Tosun Paşa SW v2.2.8 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {

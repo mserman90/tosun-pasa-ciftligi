@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.2.7 - Biyogüvenlik, İnsan, Hayvan ve Ekipman Hareketleri 3D Simülasyona Entegre Edildi
-const CACHE_NAME = 'tosun-pasa-v2.2.7';
+// Sürüm 2.2.8 - Uluslararası Süt Sığırcılığı (CIGR/FAO/Dairyland) Standartları & Yerleşimi Entegre Edildi
+const CACHE_NAME = 'tosun-pasa-v2.2.8';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -17,8 +17,8 @@ const ASSETS_TO_CACHE = [
   './icon-512.png',
   './noto-ox.svg',
   './sim3d/index.html',
-  './sim3d/assets/index-DAZjeNUp.js',
-  './sim3d/assets/index-B4NWg3p-.css'
+  './sim3d/assets/index-JlB4agkX.js',
+  './sim3d/assets/index-hD9wcwax.css'
 ];
 
 // Install Event: Cache assets and force activate
