@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.3.2 - Yetiştirici Modu 3. Adım Yem Seçim Paneli Yenilendi ve Orantılandı
-const CACHE_NAME = 'tosun-pasa-v2.3.2';
+// Sürüm 2.3.3 - Başlık alt sloganı kaldırıldı, yalın ve modern marka görünümü
+const CACHE_NAME = 'tosun-pasa-v2.3.3';
 
 const ASSETS_TO_CACHE = [
   './',
