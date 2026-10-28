@@ -185,6 +185,10 @@ function saveDatabase(customDb = null) {
     const data = customDb || DB;
     data.lastUpdated = new Date().toISOString();
     localStorage.setItem(DB_KEY, JSON.stringify(data));
+    // 3D Simülasyon Veri Köprüsünü tetikle
+    if (typeof syncDataTo3DSimulation === 'function') {
+      syncDataTo3DSimulation(false);
+    }
   } catch (e) {
     console.error("Veritabanı kaydedilemedi:", e);
     showToast("Veri kaydedilirken hafıza hatası oluştu!", "toast-error");
@@ -2674,7 +2678,63 @@ function reloadSim3dIframe(iframeId = 'sim3d-iframe') {
   const el = document.getElementById(iframeId);
   if (el) {
     el.src = './sim3d/index.html';
+    el.onload = () => setTimeout(() => syncDataTo3DSimulation(false), 350);
     showToast("3D Simülasyon yeniden yükleniyor...", "toast-info");
+  }
+}
+
+// =============================================================================
+// 3D SİMÜLASYON VERİ SENKRONİZASYONU (ZOOTEKNİST & YETİŞTİRİCİ VERİ KÖPRÜSÜ)
+// =============================================================================
+function syncDataTo3DSimulation(showToastNotice = false) {
+  const iframes = [
+    document.getElementById('sim3d-iframe'),
+    document.getElementById('yet-sim3d-iframe')
+  ].filter(Boolean);
+
+  const reproRecords = (DB.reproduction && DB.reproduction.records) ? DB.reproduction.records : [];
+  const docRecords = (DB.doctor && DB.doctor.earTagRecords) ? DB.doctor.earTagRecords : [];
+  const recipes = (DB.ration && DB.ration.savedRecipes) ? DB.ration.savedRecipes : [];
+
+  const uniqueTags = new Set();
+  reproRecords.forEach(r => { if (r.tagNo) uniqueTags.add(r.tagNo); });
+  docRecords.forEach(r => { if (r.tagNo) uniqueTags.add(r.tagNo); });
+
+  const now = Date.now();
+  let lockedCount = 0;
+  docRecords.forEach(r => {
+    const treatTime = new Date(r.treatmentDate).getTime();
+    const milkLockMs = (r.milkLockHours || 0) * 3600 * 1000;
+    const meatLockMs = (r.meatLockDays || 0) * 24 * 3600 * 1000;
+    if ((treatTime + milkLockMs > now) || (treatTime + meatLockMs > now)) {
+      lockedCount++;
+    }
+  });
+
+  const syncInfoText = `${uniqueTags.size || 4} Küpeli Hayvan, ${lockedCount} İKAS Kilitli Tedavi, ${recipes.length} Rasyon içeriği simülasyona aktarıldı.`;
+
+  // UI durum etiketlerini güncelle
+  const zooteknistInfo = document.getElementById('sim3d-sync-info');
+  const yetistiriciInfo = document.getElementById('yet-sim3d-sync-info');
+  if (zooteknistInfo) zooteknistInfo.textContent = syncInfoText;
+  if (yetistiriciInfo) yetistiriciInfo.textContent = syncInfoText;
+
+  // İframe'lere veri gönder (postMessage ve doğrudan Window erişimi)
+  iframes.forEach(iframe => {
+    try {
+      if (iframe.contentWindow) {
+        iframe.contentWindow.postMessage({ type: 'TOSUN_PASA_SYNC', db: DB }, '*');
+        if (iframe.contentWindow.farmStore && typeof iframe.contentWindow.farmStore.getState === 'function') {
+          iframe.contentWindow.farmStore.getState().syncWithTosunPasaAction(DB);
+        }
+      }
+    } catch (err) {
+      // Cross-origin veya sandbox durumunda postMessage yeterlidir
+    }
+  });
+
+  if (showToastNotice) {
+    showToast(`3D Simülasyon Verileri Senkronize Edildi (${uniqueTags.size || 4} Hayvan, ${lockedCount} İKAS Kilidi)`, 'toast-success');
   }
 }
 
@@ -2707,6 +2767,9 @@ function switchYetTab(tabId) {
     const iframe = document.getElementById('yet-sim3d-iframe');
     if (iframe && !iframe.getAttribute('src')) {
       iframe.setAttribute('src', './sim3d/index.html');
+      iframe.onload = () => setTimeout(() => syncDataTo3DSimulation(false), 300);
+    } else {
+      setTimeout(() => syncDataTo3DSimulation(false), 150);
     }
   }
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -3423,6 +3486,9 @@ function switchMasterTab(tabId) {
     const iframe = document.getElementById('sim3d-iframe');
     if (iframe && !iframe.getAttribute('src')) {
       iframe.setAttribute('src', './sim3d/index.html');
+      iframe.onload = () => setTimeout(() => syncDataTo3DSimulation(false), 300);
+    } else {
+      setTimeout(() => syncDataTo3DSimulation(false), 150);
     }
   }
 
@@ -3521,8 +3587,8 @@ function installPWA() {
 // Servis Çalışanı Kaydı & Otomatik Güncelleme
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=2.2.4').then((reg) => {
-      console.log('Tosun Paşa SW v2.2.4 devrede:', reg.scope);
+    navigator.serviceWorker.register('./sw.js?v=2.2.5').then((reg) => {
+      console.log('Tosun Paşa SW v2.2.5 devrede:', reg.scope);
       // Yeni sürüm kontrolünü tetikle
       reg.update();
     }).catch((err) => {

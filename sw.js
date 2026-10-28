@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.2.4 - Başlık Marka Logosu & Başlığı Ana Sayfa Butonu Olarak Ayarlandı
-const CACHE_NAME = 'tosun-pasa-v2.2.4';
+// Sürüm 2.2.5 - 3D Simülasyon Zooteknist & Yetiştirici Canlı Veri Köprüsü Entegrasyonu
+const CACHE_NAME = 'tosun-pasa-v2.2.5';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -17,8 +17,8 @@ const ASSETS_TO_CACHE = [
   './icon-512.png',
   './noto-ox.svg',
   './sim3d/index.html',
-  './sim3d/assets/index-CGvaP8pB.js',
-  './sim3d/assets/index-ZCdGrsZq.css'
+  './sim3d/assets/index-CqNOCFhl.js',
+  './sim3d/assets/index-DLC2NspB.css'
 ];
 
 // Install Event: Cache assets and force activate
