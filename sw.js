@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.2.9 - Gübre Sıyırıcıları Çift Koridor ve Doğru Yön (Temiz Doğu -> Batı Lagün) Senkronizasyonu
-const CACHE_NAME = 'tosun-pasa-v2.2.9';
+// Sürüm 2.3.0 - Yetiştirici Giriş Karşılama Kartı Kaldırıldı & Temiz Görünüm
+const CACHE_NAME = 'tosun-pasa-v2.3.0';
 
 const ASSETS_TO_CACHE = [
   './',
