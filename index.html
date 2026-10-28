@@ -23,13 +23,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.2.3">
+  <link rel="stylesheet" href="styles.css?v=2.2.4">
 </head>
 <body class="dark-mode">
 
   <!-- App Header -->
   <header class="app-header">
-    <div class="header-brand" onclick="goToHome()" role="button" tabindex="0" title="Ana Sayfa (Giriş Paneli)" onkeydown="if(event.key==='Enter'||event.key===' ') goToHome()">
+    <div class="header-brand" onclick="goToHome()" role="button" tabindex="0" title="Ana Sayfa (Giriş Portalı) - Tıklayarak Ana Sayfaya Dönün" aria-label="Tosun Paşa Çiftliği - Ana Sayfaya Dön" onkeydown="if(event.key==='Enter'||event.key===' ') goToHome()">
       <div class="header-avatar">
         <img src="tosun-pasa-logo.png" alt="Tosun Paşa Logosu" width="38" height="38" loading="lazy" decoding="async">
       </div>
@@ -40,14 +40,11 @@
     </div>
 
     <div class="header-actions">
-      <!-- Current Active Role Indicator & Portal Switch Button -->
+      <!-- Current Active Role Indicator -->
       <div id="header-role-indicator" style="display: none; align-items: center; gap: 6px;">
         <span id="role-pill-badge" class="badge" style="background: var(--primary); color: #000000; font-weight: 800; padding: 4px 8px; font-size: 0.78rem; border-radius: 4px;">
           🔬 Zooteknist
         </span>
-        <button type="button" class="btn-header" onclick="setAppMode('portal')" title="Ana Sayfaya / Giriş Portalı'na Dön" style="background: rgba(255, 221, 0, 0.2); border-color: var(--primary); font-weight: 700;">
-          🚪 <span class="btn-label">Ana Sayfa</span>
-        </button>
       </div>
 
       <!-- Ayarlar Dropdown Menüsü (Tazele, Veri Merkezi, Yükle) -->
@@ -601,7 +598,6 @@
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
             <button type="button" class="btn btn-secondary btn-sm" onclick="openModal('modal-data-center')">💾 Veri Merkezi / Yedek</button>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="setAppMode('portal')">🚪 Giriş Sayfasına Dön</button>
           </div>
         </div>
       </div>
@@ -2027,25 +2023,21 @@
             <div class="guide-step-desc">
               <ul style="padding-left: 20px; margin: 6px 0;">
                 <li style="margin-bottom: 8px;">
-                  <strong>🐂 Tosun Paşa Logosu & Başlık:</strong> Hangi sayfada veya bölümde olursanız olun bu başlığa veya logoya dokunduğunuzda sizi doğrudan ana ekranınıza geri getirir.
+                  <strong>🐂 Tosun Paşa Logosu & Başlık (Ana Sayfa):</strong> Ana sayfa butonu görevi görür. Hangi sayfada veya rolde (Zooteknist / Yetiştirici) olursanız olun bu logoya veya başlığa dokunduğunuzda sizi doğrudan Giriş Portalı'na (Ana Sayfa) geri getirir.
                 </li>
                 <li style="margin-bottom: 8px;">
-                  <strong>🚪 Ana Sayfa:</strong> Giriş kapısına döner; isterseniz Yetiştirici veya Zooteknist girişini yeniden seçmenizi sağlar.
+                  <strong>⚙️ Ayarlar Menüsü:</strong> Sistem ve yedekleme araçlarını barındırır:
+                  <div style="margin-top: 4px; padding-left: 12px; font-size: 0.85rem; color: var(--text-muted);">
+                    • <strong>🔄 Sürümü Tazele:</strong> Yeni bir güncelleme geldiğinde tek tıkla en güncel sürümü yükler.<br>
+                    • <strong>💾 Veri Merkezi:</strong> Hayvan ve rasyon kayıtları kaybolmasın diye çiftliğin güvenli yedeğini dosya olarak indirir veya geri yükler.<br>
+                    • <strong>📲 Telefona Yükle (PWA):</strong> Uygulamayı telefonunuza ana ekran uygulaması olarak kurar.
+                  </div>
                 </li>
                 <li style="margin-bottom: 8px;">
-                  <strong>🔄 Tazele:</strong> Uygulamaya yeni bir güncelleme veya özellik geldiğinde tek tıkla en güncel sürümü yükler.
-                </li>
-                <li style="margin-bottom: 8px;">
-                  <strong>💾 Veri Merkezi:</strong> Telefon bozulur, suya düşer veya yenisi alınırsa hayvan kayıtları kaybolmasın diye çiftliğin güvenli bir kopyasını telefona dosya olarak indirir (Yedek İndir) veya eski yedeği geri yükler (Geri Yükle).
-                </li>
-                <li style="margin-bottom: 8px;">
-                  <strong>📲 Yükle:</strong> Uygulamayı telefonunuza kaydeder. Bir kere dokunduğunuzda internetiniz hiç olmasa bile uygulama tıpkı WhatsApp gibi telefonunuzun ana ekranından tek dokunuşla açılır.
-                </li>
-                <li style="margin-bottom: 8px;">
-                  <strong>🌙 / ☀️ Gece & Gündüz Modu:</strong> Gece ahıra girdiğinizde telefonun beyaz ışığı gözünüzü yakmasın, hayvanları ürkütmesin diye ekranı karartır. Gündüz güneş altında açık sarı-beyaz renge çevirir.
+                  <strong>ℹ️ Kılavuz:</strong> Şu an okuduğunuz yardım kitabını açar, takıldığınız her konuda pratik yol gösterir.
                 </li>
                 <li>
-                  <strong>ℹ️ Kullanım Kılavuzu:</strong> Şu an okuduğunuz yardım kitabını açar, takıldığınız her konuda yol gösterir.
+                  <strong>🌙 / ☀️ Gece & Gündüz Modu:</strong> Gece ahırda gözü yormasın diye ekranı karartır veya gündüz güneş ışığında parlak açık renge çevirir.
                 </li>
               </ul>
             </div>
@@ -2505,7 +2497,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.2.3"></script>
+  <script src="app.js?v=2.2.4"></script>
 
   <script>
     // Initialize default dates in modals

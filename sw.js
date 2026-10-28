@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.2.3 - Ayarlar Açılır Menüsü Entegrasyonu
-const CACHE_NAME = 'tosun-pasa-v2.2.3';
+// Sürüm 2.2.4 - Başlık Marka Logosu & Başlığı Ana Sayfa Butonu Olarak Ayarlandı
+const CACHE_NAME = 'tosun-pasa-v2.2.4';
 
 const ASSETS_TO_CACHE = [
   './',

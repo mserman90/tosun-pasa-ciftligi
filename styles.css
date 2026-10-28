@@ -86,17 +86,19 @@ html, body {
   gap: 12px;
   cursor: pointer;
   user-select: none;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-  padding: 4px 6px;
-  border-radius: 4px;
+  transition: opacity 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
+  padding: 4px 8px;
+  border-radius: 6px;
 }
 
 .header-brand:hover {
-  opacity: 0.92;
+  background-color: rgba(255, 221, 0, 0.08);
+  opacity: 0.96;
 }
 
 .header-brand:active {
   transform: scale(0.98);
+  background-color: rgba(255, 221, 0, 0.14);
 }
 
 .header-brand:focus-visible {
