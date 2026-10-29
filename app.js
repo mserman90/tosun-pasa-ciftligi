@@ -2442,12 +2442,14 @@ function switchGuideTab(target) {
   const yetBtn = document.getElementById('btn-guide-tab-yet');
   const zooBtn = document.getElementById('btn-guide-tab-zoo');
   const simBtn = document.getElementById('btn-guide-tab-sim');
+  const twinBtn = document.getElementById('btn-guide-tab-twin');
   const yetSection = document.getElementById('guide-section-yetistirici');
   const zooSection = document.getElementById('guide-section-zooteknist');
   const simSection = document.getElementById('guide-section-sim3d');
+  const twinSection = document.getElementById('guide-section-twin');
 
-  [yetBtn, zooBtn, simBtn].forEach((b) => b?.classList.remove('active'));
-  [yetSection, zooSection, simSection].forEach((s) => {
+  [yetBtn, zooBtn, simBtn, twinBtn].forEach((b) => b?.classList.remove('active'));
+  [yetSection, zooSection, simSection, twinSection].forEach((s) => {
     if (s) s.style.display = 'none';
   });
 
@@ -2457,6 +2459,9 @@ function switchGuideTab(target) {
   } else if (target === 'sim3d') {
     if (simBtn) simBtn.classList.add('active');
     if (simSection) simSection.style.display = 'block';
+  } else if (target === 'twin') {
+    if (twinBtn) twinBtn.classList.add('active');
+    if (twinSection) twinSection.style.display = 'block';
   } else {
     if (yetBtn) yetBtn.classList.add('active');
     if (yetSection) yetSection.style.display = 'block';
@@ -4067,6 +4072,173 @@ function exportPortalIcarAde() {
   showToast("📥 ICAR ADE v1.4 JSON Başarıyla İndirildi!", "toast-success");
 }
 
+let currentDtSubTab = {
+  zooteknist: 'agritwin',
+  yetistirici: 'agritwin'
+};
+
+function switchDtSubTab(viewName, mode = 'zooteknist') {
+  currentDtSubTab[mode] = viewName;
+  const prefix = mode === 'yetistirici' ? 'yet-dt-' : 'dt-';
+  const views = ['agritwin', 'xai', 'modules'];
+  views.forEach(v => {
+    const el = document.getElementById(prefix + 'view-' + v);
+    const btn = document.getElementById(prefix + 'btn-tab-' + v);
+    if (el) el.style.display = (v === viewName) ? 'block' : 'none';
+    if (btn) btn.classList.toggle('active', v === viewName);
+  });
+}
+
+function toggleAgriTwinFullscreen(iframeId = 'dt-agritwin-iframe') {
+  const el = document.getElementById(iframeId);
+  if (!el) return;
+  if (!document.fullscreenElement) {
+    if (el.requestFullscreen) {
+      el.requestFullscreen();
+    } else if (el.webkitRequestFullscreen) {
+      el.webkitRequestFullscreen();
+    } else if (el.msRequestFullscreen) {
+      el.msRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+}
+
+function reloadAgriTwinIframe(iframeId = 'dt-agritwin-iframe') {
+  const el = document.getElementById(iframeId);
+  if (el) {
+    el.src = './digital-twin/index.html';
+  }
+}
+
+function openAgriTwinSubModal(modalFunctionName, iframeId = 'dt-agritwin-iframe') {
+  const iframe = document.getElementById(iframeId);
+  if (iframe && iframe.contentWindow && typeof iframe.contentWindow[modalFunctionName] === 'function') {
+    iframe.contentWindow[modalFunctionName]();
+    try { iframe.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (e) {}
+  } else {
+    window.open('./digital-twin/index.html', '_blank');
+  }
+}
+
+const agriTwin14Modules = [
+  {
+    id: 'genomics',
+    icon: '🧬',
+    title: 'Genomik Damızlık İndeksi & Pedigri',
+    desc: 'gEBV Net Merit (NM$), Wright Akrabalık Katsayısı (F < %6.25), HCD genetik defekt engeli ve cinsiyeti belirlenmiş sperma eşleştirmesi.',
+    badge: 'Faz 13 • USDA-CDCB',
+    action: 'openGenomicsModal'
+  },
+  {
+    id: 'calving',
+    icon: '🤰',
+    title: 'Doğumhane, Distosi & Kolostrum İkizi',
+    desc: 'P4 vücut ısısı düşüşü (-0.8°C), Moocall kuyruk açısı ve sancı frekansı, CES 3 distosi alarmı ve optik Brix refraktometresi.',
+    badge: 'Faz 14 • Moocall & Brix',
+    action: 'openCalvingModal'
+  },
+  {
+    id: 'robotics',
+    icon: '🤖',
+    title: 'Otonom Ahır Robot Filosu İkizi',
+    desc: 'Lely Juno-X yem itici robotu (+%3.2 DMI kuru madde) ve Discovery-Vac gübre vakumu (-%28 topallık), UWB harita navigasyonu.',
+    badge: 'Faz 12 • Lely Juno & Vac',
+    action: 'openRoboticsModal'
+  },
+  {
+    id: 'energy',
+    icon: '⚡',
+    title: 'Biyogaz Anaerobik Reaktör & 60 kW CHP',
+    desc: '4,320 kg/gün gübre atığından 506.6 kWh elektrik üretimi, %507 çiftlik enerji öz yeterliliği ve şebekeye temiz enerji ihracı.',
+    badge: 'Faz 11 • Net-Zero Enerji',
+    action: 'openEnergyModal'
+  },
+  {
+    id: 'ration',
+    icon: '🌾',
+    title: 'Çok Amaçlı TMR Rasyon & Karbon İkizi',
+    desc: 'Pareto Frontiers çok amaçlı optimizasyon, 3-NOP Bovaer metan baskılama (-%16 CH₄) ve kâr maksimizasyon rasyonu.',
+    badge: 'Faz 9 • Pareto & 3-NOP',
+    action: 'openRationModal'
+  },
+  {
+    id: 'milking',
+    icon: '🥛',
+    title: '4 Loblu Çeyrek Meme & Robotik Sağım',
+    desc: 'DeLaval VMS / Lely Astronaut tipi 4 bağımsız çeyrek iletkenlik, spektroskopi, SCC, enfekte çeyrek ayrımı ve buharlı başlık dezenfeksiyonu.',
+    badge: 'Faz 10 • 4-Çeyrek VMS',
+    action: 'openReportModal'
+  },
+  {
+    id: 'rtls',
+    icon: '🗺️',
+    title: '8x5 RTLS Mikroklima Isı Haritası',
+    desc: 'NRC THI formülüyle 40 hücreli barınak sıcaklık-nem ızgarası, UWB etiketli inek koordinatları ve otonom sisleme/fan aktivasyonu.',
+    badge: 'Faz 6 • 40 Hücre THI',
+    action: 'startGuidedDemoTour'
+  },
+  {
+    id: 'vision',
+    icon: '👁️',
+    title: '3D Bilgisayarlı Görü İkizi',
+    desc: '3D ToF derinlik kamerasıyla sırt kemerleşme, adım asimetrisi, Sprecher 1-5 topallık ve Elanco 1-5 BCS vücut kondisyon skoru.',
+    badge: 'Faz 7 • 3D ToF & BCS',
+    action: 'openGuideModal'
+  },
+  {
+    id: 'rumen',
+    icon: '🧪',
+    title: 'Dijkstra Rumen Mikrobiyota & SARA',
+    desc: 'İntraruminal bolus pH kinetiği, A:P asetat-propiyonat oranı, VFA kinetiği ve Subakut Rumen Asidozu proaktif teşhisi.',
+    badge: 'Faz 8 • inSiliCow',
+    action: 'openGuideModal'
+  },
+  {
+    id: 'ai_advisor',
+    icon: '💬',
+    title: 'Doğal Dil Türkçe AI Çiftlik Danışmanı',
+    desc: 'Çiftlik sağlığı, distosi, biyogaz, rasyon, metan ve veteriner protokolleri hakkında Türkçe anlık zooteknik uzman tavsiyesi.',
+    badge: 'Faz 6 • NLP AI Danışman',
+    action: 'startGuidedDemoTour'
+  },
+  {
+    id: 'edge',
+    icon: '📡',
+    title: 'Edge Gateway Fail-Safe & Tank Kilidi',
+    desc: 'Kırsal internet kesintilerinde yerel SQLite tamponlama, antibiyotikli süt tankı güvenlik kilidi ve 1.1 yıl ROI amortismanı.',
+    badge: 'Faz 4 • IOFC & Edge',
+    action: 'toggleEdgeConnection'
+  },
+  {
+    id: 'report',
+    icon: '📋',
+    title: 'Günlük Veteriner & Çiftlik Denetim Raporu',
+    desc: 'Sürü sağlığı, laktasyon, tedavi altındaki inekler ve biyogaz çıktısını özetleyen Markdown formatında resmi denetim raporu.',
+    badge: 'Faz 5 • Markdown Audit',
+    action: 'openReportModal'
+  },
+  {
+    id: 'icar_ade',
+    icon: '📥',
+    title: 'ICAR ADE v2 Standardında Veri Değişimi',
+    desc: 'Uluslararası Hayvan Kayıt Komitesi (ICAR) Hayvan Veri Değişimi standardında JSON telemetri ve sağım aktarımı.',
+    badge: 'Faz 2 • ICAR Guideline',
+    action: 'exportIcarAdeJson'
+  },
+  {
+    id: 'gate',
+    icon: '🚪',
+    title: '3 Yollu Akıllı Pnömatik Ayırma Kapısı',
+    desc: 'Sağım çıkışında RFID ve optik tanıma ile hayvanları normal sürü yolu, revir/karantina veya tohumlama bölmesine sevk eder.',
+    badge: 'Faz 1 • Otonom Kapı',
+    action: 'startGuidedDemoTour'
+  }
+];
+
 function renderDigitalTwinDashboard(mode = 'zooteknist') {
   const containerId = mode === 'yetistirici' ? 'dt-cockpit-yetistirici' : 'dt-cockpit-zooteknist';
   const prefix = mode === 'yetistirici' ? 'yet-dt-' : 'dt-';
@@ -4074,6 +4246,7 @@ function renderDigitalTwinDashboard(mode = 'zooteknist') {
   if (!container) return;
 
   const m = calcDtWhatIfMetrics(dtWhatIfParams);
+  const activeTab = currentDtSubTab[mode] || 'agritwin';
 
   container.innerHTML = `
     <div class="dt-container">
@@ -4083,21 +4256,26 @@ function renderDigitalTwinDashboard(mode = 'zooteknist') {
           <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
             <span style="font-size:1.6rem;">🌐</span>
             <div>
-              <h2 style="font-size:1.30rem; font-weight:800; margin:0; color:var(--text);">Dijital İkiz (Digital Twin) & Siber-Fiziksel Sistem Kokpiti</h2>
+              <h2 style="font-size:1.30rem; font-weight:800; margin:0; color:var(--text);">AgriTwin Çoklu Dijital İkiz (Multi-Twin Platform)</h2>
               <p style="font-size:0.80rem; margin:2px 0 0; color:var(--text-muted);">
-                Fiziksel Varlıklar (Hayvanlar, Barınak, Ekipman) + IoT Sensör Telemetrisi + inSiliCow & RuFaS Karar Destek Motoru
+                14 Uzmanlaşmış İkiz • 40 Hücreli RTLS Mikroklima Isı Haritası • UWB İnek Takibi • Otonom Robotlar • Biyogaz Kojenerasyon • TWIN4MILK XAI
               </p>
             </div>
           </div>
           <div class="dt-status-chips">
-            <span class="dt-chip dt-chip-emerald">🟢 SSOT: Tek Doğruluk Kaynağı Aktif</span>
-            <span class="dt-chip dt-chip-cyan">📡 50 Hz İvmeölçer & 1 Hz Çevre Telemetrisi</span>
-            <span class="dt-chip dt-chip-amber">🏛️ ICAR ADE v1.4 (ISO 11787 / 17532) Uyumlu</span>
+            <span class="dt-chip dt-chip-emerald">🟢 SSOT: Tek Doğruluk Kaynağı</span>
+            <span class="dt-chip dt-chip-cyan">📡 40 Hücre RTLS Isı Haritası (NRC THI)</span>
+            <span class="dt-chip dt-chip-amber">🏛️ ICAR ADE v2.0 (ISO 11787 / 17532)</span>
+            <span class="dt-chip dt-chip-emerald">🤖 Juno & Vac Otonom Filo</span>
+            <span class="dt-chip dt-chip-cyan">⚡ 60 kW Biyogaz (%507 Enerji)</span>
           </div>
         </div>
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
           <button type="button" class="btn btn-secondary" onclick="exportPortalIcarAde()" style="display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:0.82rem;">
             📥 ICAR ADE JSON İndir
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="window.open('./digital-twin/index.html', '_blank')" style="display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:0.82rem;" title="AgriTwin Dijital İkizini Ayrı Tam Ekran Pencerede Aç">
+            ↗️ Ayrı Sekmede Aç
           </button>
           <button type="button" class="btn btn-primary" onclick="${mode === 'yetistirici' ? "switchYetTab('yet-view-sim3d')" : "switchMasterTab('tab-sim3d')"}" style="display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:0.82rem; background:#0ea5e9; border-color:#0ea5e9;">
             🎮 3D Ahır Sahnesinde Canlı İncele
@@ -4105,191 +4283,269 @@ function renderDigitalTwinDashboard(mode = 'zooteknist') {
         </div>
       </div>
 
-      <!-- 2. Ana Çalışma Izgarası (XAI Erken Uyarıları & What-If Simülatörü) -->
-      <div class="dt-grid-2">
-        <!-- Sol: TWIN4MILK XAI Erken Uyarıları -->
-        <div class="dt-card">
-          <div class="dt-card-title">
-            <span>🧠</span> TWIN4MILK Açıklanabilir Yapay Zeka (XAI) Erken Uyarıları
+      <!-- 2. Alt Görünüm Seçici (Subtab Bar) -->
+      <div class="dt-subtab-bar">
+        <button type="button" id="${prefix}btn-tab-agritwin" class="dt-subtab-btn ${activeTab === 'agritwin' ? 'active' : ''}" onclick="switchDtSubTab('agritwin', '${mode}')">
+          🏛️ AgriTwin Çoklu İkiz Süiti (14 Modül Tam Kokpit & RTLS)
+        </button>
+        <button type="button" id="${prefix}btn-tab-xai" class="dt-subtab-btn ${activeTab === 'xai' ? 'active' : ''}" onclick="switchDtSubTab('xai', '${mode}')">
+          🧠 TWIN4MILK XAI & inSiliCow / RuFaS Karar Destek
+        </button>
+        <button type="button" id="${prefix}btn-tab-modules" class="dt-subtab-btn ${activeTab === 'modules' ? 'active' : ''}" onclick="switchDtSubTab('modules', '${mode}')">
+          🧬 14 Uzmanlaşmış İkiz Modülü & Hızlı Erişim
+        </button>
+      </div>
+
+      <!-- 3. Görünüm 1: AgriTwin Çoklu İkiz Süiti (Gömülü Canlı Kokpit) -->
+      <div id="${prefix}view-agritwin" style="display:${activeTab === 'agritwin' ? 'block' : 'none'};">
+        <div class="dt-iframe-box">
+          <div class="dt-iframe-bar">
+            <div class="dt-iframe-title">
+              <span>🐄</span>
+              <span>AgriTwin Entegre Kokpiti: RTLS Mekânsal Izgara, Robot Filosu, Biyogaz & AI Danışman</span>
+            </div>
+            <div class="dt-iframe-actions">
+              <button type="button" class="btn btn-xs btn-primary" onclick="openAgriTwinSubModal('startGuidedDemoTour', '${prefix}agritwin-iframe')" style="font-size:0.75rem; padding:4px 8px;">
+                🚀 Canlı Demo Turu
+              </button>
+              <button type="button" class="btn btn-xs btn-secondary" onclick="openAgriTwinSubModal('openDemoLoginModal', '${prefix}agritwin-iframe')" style="font-size:0.75rem; padding:4px 8px;">
+                👤 Demo Rolü Değiştir
+              </button>
+              <button type="button" class="btn btn-xs btn-info" onclick="openAgriTwinSubModal('openGuideModal', '${prefix}agritwin-iframe')" style="font-size:0.75rem; padding:4px 8px;">
+                📖 Kullanım Kılavuzu
+              </button>
+              <button type="button" class="btn btn-xs btn-secondary" onclick="reloadAgriTwinIframe('${prefix}agritwin-iframe')" style="font-size:0.75rem; padding:4px 8px;" title="İkiz Kokpitini Yeniden Yükle">
+                🔄 Yenile
+              </button>
+              <button type="button" class="btn btn-xs btn-secondary" onclick="toggleAgriTwinFullscreen('${prefix}agritwin-iframe')" style="font-size:0.75rem; padding:4px 8px;" title="Tam Ekran Yap">
+                ⛶ Tam Ekran
+              </button>
+              <button type="button" class="btn btn-xs btn-outline-warning" onclick="window.open('./digital-twin/index.html', '_blank')" style="font-size:0.75rem; padding:4px 8px; border:1px solid #ffdd00; color:#ffdd00;" title="Yeni Sekmede Aç">
+                ↗️ Yeni Sekme
+              </button>
+            </div>
           </div>
-          <div class="dt-card-desc">
-            Biyolojik nedensellik motoru; reaktif tedavi yerine subklinik ve gizli anomalileri biomarker sapmalarıyla proaktif tespit eder.
+          <iframe id="${prefix}agritwin-iframe" class="dt-iframe-frame" src="./digital-twin/index.html" loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <!-- 4. Görünüm 2: TWIN4MILK XAI & inSiliCow / RuFaS Karar Destek -->
+      <div id="${prefix}view-xai" style="display:${activeTab === 'xai' ? 'block' : 'none'};">
+        <!-- Üst Izgara: XAI Uyarıları & What-If Simülatörü -->
+        <div class="dt-grid-2">
+          <!-- Sol: TWIN4MILK XAI Erken Uyarıları -->
+          <div class="dt-card">
+            <div class="dt-card-title">
+              <span>🧠</span> TWIN4MILK Açıklanabilir Yapay Zeka (XAI) Erken Uyarıları
+            </div>
+            <div class="dt-card-desc">
+              Biyolojik nedensellik motoru; reaktif tedavi yerine subklinik ve gizli anomalileri biomarker sapmalarıyla proaktif tespit eder.
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              ${dtEarlyWarnings.map(alert => `
+                <div class="dt-alert-item ${alert.severity === 'critical' ? 'critical' : 'high'}">
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <strong style="color:var(--text); font-size:0.92rem;">
+                      ${alert.severity === 'critical' ? '🚨' : '⚠️'} ${alert.cowTag} (${alert.cowName}) - ${alert.condition}
+                    </strong>
+                    <span class="dt-chip ${alert.severity === 'critical' ? 'dt-chip-amber' : 'dt-chip-cyan'}" style="font-size:0.70rem;">
+                      %${alert.confidencePct} Güven
+                    </span>
+                  </div>
+
+                  <!-- Kanıtlar Grid -->
+                  <div class="dt-evidence-grid">
+                    ${alert.evidence.map(ev => `
+                      <div class="dt-evidence-box">
+                        <span>${ev.label}</span>
+                        <strong>${ev.value}</strong>
+                        <span style="color:${ev.status === 'critical' ? '#ef4444' : '#f59e0b'};">Eşik: ${ev.threshold}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+
+                  <!-- XAI Gerekçe -->
+                  <div style="font-size:0.77rem; color:var(--text-muted); line-height:1.45; margin-bottom:10px; background:rgba(0,0,0,0.15); padding:6px 8px; border-radius:4px;">
+                    💡 <strong>Gerekçe:</strong> ${alert.rationale}
+                  </div>
+
+                  <!-- Aksiyon Butonu -->
+                  <button type="button" class="btn btn-secondary" onclick="triggerPortalSheddingGate('${alert.cowTag}', '${alert.cowName}', '${alert.condition}', '${alert.pen}')" style="width:100%; font-size:0.80rem; font-weight:700; background:rgba(14, 165, 233, 0.15); border:1px solid #0ea5e9; color:#38bdf8;">
+                    ${alert.actionLabel}
+                  </button>
+                </div>
+              `).join('')}
+            </div>
           </div>
 
-          <div style="display:flex; flex-direction:column; gap:8px;">
-            ${dtEarlyWarnings.map(alert => `
-              <div class="dt-alert-item ${alert.severity === 'critical' ? 'critical' : 'high'}">
-                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                  <strong style="color:var(--text); font-size:0.92rem;">
-                    ${alert.severity === 'critical' ? '🚨' : '⚠️'} ${alert.cowTag} (${alert.cowName}) - ${alert.condition}
-                  </strong>
-                  <span class="dt-chip ${alert.severity === 'critical' ? 'dt-chip-amber' : 'dt-chip-cyan'}" style="font-size:0.70rem;">
-                    %${alert.confidencePct} Güven
-                  </span>
-                </div>
+          <!-- Sağ: inSiliCow & RuFaS Karar Destek "What-If" Simülatörü -->
+          <div class="dt-card">
+            <div class="dt-card-title">
+              <span>🧪</span> inSiliCow & RuFaS "What-If" (Eğer-Olursa) Karar Destek
+            </div>
+            <div class="dt-card-desc">
+              Rumen fermantasyon kinetiği (inSiliCow) ve enterik metan/ekonomi (RuFaS) modelleriyle rasyon ve çevre değişikliklerinin sonuçlarını önceden tahmin edin.
+            </div>
 
-                <!-- Kanıtlar Grid -->
-                <div class="dt-evidence-grid">
-                  ${alert.evidence.map(ev => `
-                    <div class="dt-evidence-box">
-                      <span>${ev.label}</span>
-                      <strong>${ev.value}</strong>
-                      <span style="color:${ev.status === 'critical' ? '#ef4444' : '#f59e0b'};">Eşik: ${ev.threshold}</span>
-                    </div>
-                  `).join('')}
+            <!-- Slider Kontrolleri -->
+            <div style="background:rgba(0,0,0,0.20); padding:12px; border-radius:6px; margin-bottom:16px;">
+              <div class="dt-slider-row">
+                <div class="dt-slider-header">
+                  <span>Rasyon Nişasta Oranı (%)</span>
+                  <span id="${prefix}val-starch" style="color:#0ea5e9; font-family:monospace;">%${dtWhatIfParams.starchPct.toFixed(1)}</span>
                 </div>
-
-                <!-- XAI Gerekçe -->
-                <div style="font-size:0.77rem; color:var(--text-muted); line-height:1.45; margin-bottom:10px; background:rgba(0,0,0,0.15); padding:6px 8px; border-radius:4px;">
-                  💡 <strong>Gerekçe:</strong> ${alert.rationale}
-                </div>
-
-                <!-- Aksiyon Butonu -->
-                <button type="button" class="btn btn-secondary" onclick="triggerPortalSheddingGate('${alert.cowTag}', '${alert.cowName}', '${alert.condition}', '${alert.pen}')" style="width:100%; font-size:0.80rem; font-weight:700; background:rgba(14, 165, 233, 0.15); border:1px solid #0ea5e9; color:#38bdf8;">
-                  ${alert.actionLabel}
-                </button>
+                <input type="range" id="${prefix}slider-starch" min="20" max="32" step="0.5" value="${dtWhatIfParams.starchPct}" oninput="updateDtWhatIfSliders('${mode}')" style="width:100%; accent-color:#0ea5e9;">
               </div>
-            `).join('')}
+
+              <div class="dt-slider-row">
+                <div class="dt-slider-header">
+                  <span>Rasyon Ham Protein (HP %)</span>
+                  <span id="${prefix}val-cp" style="color:#10b981; font-family:monospace;">%${dtWhatIfParams.cpPct.toFixed(1)}</span>
+                </div>
+                <input type="range" id="${prefix}slider-cp" min="14" max="20" step="0.2" value="${dtWhatIfParams.cpPct}" oninput="updateDtWhatIfSliders('${mode}')" style="width:100%; accent-color:#10b981;">
+              </div>
+
+              <div class="dt-slider-row">
+                <div class="dt-slider-header">
+                  <span>Barınak Sıcaklığı (°C)</span>
+                  <span id="${prefix}val-temp" style="color:#f59e0b; font-family:monospace;">${dtWhatIfParams.ambientTempC} °C</span>
+                </div>
+                <input type="range" id="${prefix}slider-temp" min="10" max="38" step="1" value="${dtWhatIfParams.ambientTempC}" oninput="updateDtWhatIfSliders('${mode}')" style="width:100%; accent-color:#f59e0b;">
+              </div>
+
+              <div class="dt-slider-row" style="margin-bottom:0;">
+                <div class="dt-slider-header">
+                  <span>Sürü Büyüklüğü (Baş)</span>
+                  <span id="${prefix}val-herd" style="color:var(--text); font-family:monospace;">${dtWhatIfParams.herdSize} Baş</span>
+                </div>
+                <input type="range" id="${prefix}slider-herd" min="20" max="150" step="5" value="${dtWhatIfParams.herdSize}" oninput="updateDtWhatIfSliders('${mode}')" style="width:100%; accent-color:#94a3b8;">
+              </div>
+            </div>
+
+            <!-- Simülasyon Çıktıları -->
+            <div class="dt-grid-2" style="margin-bottom:12px;">
+              <div style="background:rgba(15,23,42,0.6); border:1px solid var(--border); border-radius:6px; padding:12px;">
+                <div style="font-size:0.75rem; color:var(--text-muted);">🥛 Tahmini Süt Verimi</div>
+                <div id="${prefix}res-milk" style="font-size:1.35rem; font-weight:900; color:#0ea5e9; font-family:monospace; margin-top:2px;">
+                  ${m.projectedMilkLiters} L/gün
+                </div>
+                <div style="font-size:0.70rem; color:var(--text-muted); margin-top:2px;">Referans: 28.5 L/gün</div>
+              </div>
+
+              <div style="background:rgba(15,23,42,0.6); border:1px solid var(--border); border-radius:6px; padding:12px;">
+                <div style="font-size:0.75rem; color:var(--text-muted);">🔬 inSiliCow Rumen pH</div>
+                <div id="${prefix}res-ph" style="font-size:1.35rem; font-weight:900; color:${m.saraColor}; font-family:monospace; margin-top:2px;">
+                  ${m.rumenPh}
+                </div>
+                <div id="${prefix}res-sara" style="font-size:0.70rem; color:${m.saraColor}; font-weight:700; margin-top:2px;">
+                  ${m.saraStatus}
+                </div>
+              </div>
+
+              <div style="background:rgba(15,23,42,0.6); border:1px solid var(--border); border-radius:6px; padding:12px;">
+                <div style="font-size:0.75rem; color:var(--text-muted);">🌿 RuFaS Enterik Metan</div>
+                <div id="${prefix}res-ch4" style="font-size:1.05rem; font-weight:900; color:#10b981; font-family:monospace; margin-top:2px;">
+                  ${m.methaneGramsPerDay} g CH₄/gün (${m.co2EquivalentKg} kg CO₂e)
+                </div>
+                <div style="font-size:0.70rem; color:var(--text-muted); margin-top:2px;">IPCC Tier-2 RuFaS Modeli</div>
+              </div>
+
+              <div style="background:rgba(15,23,42,0.6); border:1px solid var(--border); border-radius:6px; padding:12px;">
+                <div style="font-size:0.75rem; color:var(--text-muted);">💰 Günlük Net Kâr Değişimi</div>
+                <div id="${prefix}res-profit" style="font-size:1.20rem; font-weight:900; color:#facc15; font-family:monospace; margin-top:2px;">
+                  ${m.dailyProfitChangeTL} TL / gün
+                </div>
+                <div style="font-size:0.70rem; color:var(--text-muted); margin-top:2px;">${dtWhatIfParams.herdSize} Baş Sürü Toplamı</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Sağ: inSiliCow & RuFaS Karar Destek "What-If" Simülatörü -->
-        <div class="dt-card">
-          <div class="dt-card-title">
-            <span>🧪</span> inSiliCow & RuFaS "What-If" (Eğer-Olursa) Karar Destek
-          </div>
-          <div class="dt-card-desc">
-            Rumen fermantasyon kinetiği (inSiliCow) ve enterik metan/ekonomi (RuFaS) modelleriyle rasyon ve çevre değişikliklerinin sonuçlarını önceden tahmin edin.
-          </div>
-
-          <!-- Slider Kontrolleri -->
-          <div style="background:rgba(0,0,0,0.20); padding:12px; border-radius:6px; margin-bottom:16px;">
-            <div class="dt-slider-row">
-              <div class="dt-slider-header">
-                <span>Rasyon Nişasta Oranı (%)</span>
-                <span id="${prefix}val-starch" style="color:#0ea5e9; font-family:monospace;">%${dtWhatIfParams.starchPct.toFixed(1)}</span>
-              </div>
-              <input type="range" id="${prefix}slider-starch" min="20" max="32" step="0.5" value="${dtWhatIfParams.starchPct}" oninput="updateDtWhatIfSliders('${mode}')" style="width:100%; accent-color:#0ea5e9;">
+        <!-- Alt Izgara: IoT Sensör Telemetri Ağı ve Pnömatik Kapı Günlüğü -->
+        <div class="dt-grid-2">
+          <!-- IoT Sensör Ağı -->
+          <div class="dt-card">
+            <div class="dt-card-title">
+              <span>📡</span> Barınak IoT Sensör Telemetri Ağı (6 Proba Aktif)
             </div>
-
-            <div class="dt-slider-row">
-              <div class="dt-slider-header">
-                <span>Rasyon Ham Protein (HP %)</span>
-                <span id="${prefix}val-cp" style="color:#10b981; font-family:monospace;">%${dtWhatIfParams.cpPct.toFixed(1)}</span>
-              </div>
-              <input type="range" id="${prefix}slider-cp" min="14" max="20" step="0.2" value="${dtWhatIfParams.cpPct}" oninput="updateDtWhatIfSliders('${mode}')" style="width:100%; accent-color:#10b981;">
+            <div class="dt-card-desc">
+              Çiftlik içi mikroiklim, gaz ve biyometri sensörlerinden gelen gerçek zamanlı ham veriler.
             </div>
-
-            <div class="dt-slider-row">
-              <div class="dt-slider-header">
-                <span>Barınak Sıcaklığı (°C)</span>
-                <span id="${prefix}val-temp" style="color:#f59e0b; font-family:monospace;">${dtWhatIfParams.ambientTempC} °C</span>
-              </div>
-              <input type="range" id="${prefix}slider-temp" min="10" max="38" step="1" value="${dtWhatIfParams.ambientTempC}" oninput="updateDtWhatIfSliders('${mode}')" style="width:100%; accent-color:#f59e0b;">
-            </div>
-
-            <div class="dt-slider-row" style="margin-bottom:0;">
-              <div class="dt-slider-header">
-                <span>Sürü Büyüklüğü (Baş)</span>
-                <span id="${prefix}val-herd" style="color:var(--text); font-family:monospace;">${dtWhatIfParams.herdSize} Baş</span>
-              </div>
-              <input type="range" id="${prefix}slider-herd" min="20" max="150" step="5" value="${dtWhatIfParams.herdSize}" oninput="updateDtWhatIfSliders('${mode}')" style="width:100%; accent-color:#94a3b8;">
+            <div class="dt-sensor-grid">
+              ${dtSensorList.map(s => `
+                <div class="dt-sensor-card">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                    <strong style="color:var(--text); font-size:0.78rem;">${s.id}</strong>
+                    <span class="dt-chip dt-chip-emerald" style="font-size:0.68rem;">${s.badge}</span>
+                  </div>
+                  <div style="font-size:0.74rem; color:var(--text-muted); margin-bottom:6px;">${s.name}</div>
+                  <div class="dt-sensor-val">${s.value}</div>
+                  <div style="display:flex; justify-content:space-between; font-size:0.68rem; color:var(--text-muted); margin-top:6px; border-top:1px dashed rgba(255,255,255,0.1); padding-top:4px;">
+                    <span>📍 ${s.loc}</span>
+                    <span>📶 ${s.net}</span>
+                  </div>
+                </div>
+              `).join('')}
             </div>
           </div>
 
-          <!-- Simülasyon Çıktıları -->
-          <div class="dt-grid-2" style="margin-bottom:12px;">
-            <div style="background:rgba(15,23,42,0.6); border:1px solid var(--border); border-radius:6px; padding:12px;">
-              <div style="font-size:0.75rem; color:var(--text-muted);">🥛 Tahmini Süt Verimi</div>
-              <div id="${prefix}res-milk" style="font-size:1.35rem; font-weight:900; color:#0ea5e9; font-family:monospace; margin-top:2px;">
-                ${m.projectedMilkLiters} L/gün
-              </div>
-              <div style="font-size:0.70rem; color:var(--text-muted); margin-top:2px;">Referans: 28.5 L/gün</div>
+          <!-- Akıllı Pnömatik Ayırma Kapısı ve Denetim Günlüğü -->
+          <div class="dt-card">
+            <div class="dt-card-title">
+              <span>🚪</span> Akıllı Pnömatik Ayırma Kapısı (Shedding Gate) Denetimi
+            </div>
+            <div class="dt-card-desc">
+              Sağımhane çıkışında (x=-18.0) konumlandırılmış pnomatik kapı; RFID kulak küpesini okuyarak XAI uyarılarına göre hayvanları otomatik olarak revir veya tohumlama bölmelerine yönlendirir.
             </div>
 
-            <div style="background:rgba(15,23,42,0.6); border:1px solid var(--border); border-radius:6px; padding:12px;">
-              <div style="font-size:0.75rem; color:var(--text-muted);">🔬 inSiliCow Rumen pH</div>
-              <div id="${prefix}res-ph" style="font-size:1.35rem; font-weight:900; color:${m.saraColor}; font-family:monospace; margin-top:2px;">
-                ${m.rumenPh}
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:rgba(16,185,129,0.10); border:1px solid rgba(16,185,129,0.3); border-radius:4px; margin-bottom:12px;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:1.2rem;">🟢</span>
+                <div>
+                  <strong style="font-size:0.85rem; color:#10b981;">OTOMATİK YÖNLENDİRME AKTİF</strong>
+                  <div style="font-size:0.72rem; color:var(--text-muted);">Pnömatik kompresör 6.2 bar | Optik RFID Okuyucu devrede</div>
+                </div>
               </div>
-              <div id="${prefix}res-sara" style="font-size:0.70rem; color:${m.saraColor}; font-weight:700; margin-top:2px;">
-                ${m.saraStatus}
-              </div>
+              <button type="button" class="btn btn-secondary" onclick="triggerPortalSheddingGate('TEST-KÜPE', 'Simülasyon', 'Manuel Kapı Testi', 'Revir Bölmesi (Pen B)')" style="font-size:0.76rem; padding:6px 10px;">
+                🧪 Kapıyı Test Et
+              </button>
             </div>
 
-            <div style="background:rgba(15,23,42,0.6); border:1px solid var(--border); border-radius:6px; padding:12px;">
-              <div style="font-size:0.75rem; color:var(--text-muted);">🌿 RuFaS Enterik Metan</div>
-              <div id="${prefix}res-ch4" style="font-size:1.05rem; font-weight:900; color:#10b981; font-family:monospace; margin-top:2px;">
-                ${m.methaneGramsPerDay} g CH₄/gün (${m.co2EquivalentKg} kg CO₂e)
-              </div>
-              <div style="font-size:0.70rem; color:var(--text-muted); margin-top:2px;">IPCC Tier-2 RuFaS Modeli</div>
-            </div>
-
-            <div style="background:rgba(15,23,42,0.6); border:1px solid var(--border); border-radius:6px; padding:12px;">
-              <div style="font-size:0.75rem; color:var(--text-muted);">💰 Günlük Net Kâr Değişimi</div>
-              <div id="${prefix}res-profit" style="font-size:1.20rem; font-weight:900; color:#facc15; font-family:monospace; margin-top:2px;">
-                ${m.dailyProfitChangeTL} TL / gün
-              </div>
-              <div style="font-size:0.70rem; color:var(--text-muted); margin-top:2px;">${dtWhatIfParams.herdSize} Baş Sürü Toplamı</div>
-            </div>
+            <div style="font-size:0.80rem; font-weight:700; color:var(--text); margin-bottom:6px;">Son Kapı Yönlendirme Kayıtları:</div>
+            <div id="${prefix}gate-log-container"></div>
           </div>
         </div>
       </div>
 
-      <!-- 3. IoT Sensör Telemetri Ağı ve Pnömatik Kapı Günlüğü -->
-      <div class="dt-grid-2">
-        <!-- IoT Sensör Ağı -->
-        <div class="dt-card">
-          <div class="dt-card-title">
-            <span>📡</span> Barınak IoT Sensör Telemetri Ağı (6 Proba Aktif)
-          </div>
-          <div class="dt-card-desc">
-            Çiftlik içi mikroiklim, gaz ve biyometri sensörlerinden gelen gerçek zamanlı ham veriler.
-          </div>
-          <div class="dt-sensor-grid">
-            ${dtSensorList.map(s => `
-              <div class="dt-sensor-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                  <strong style="color:var(--text); font-size:0.78rem;">${s.id}</strong>
-                  <span class="dt-chip dt-chip-emerald" style="font-size:0.68rem;">${s.badge}</span>
-                </div>
-                <div style="font-size:0.74rem; color:var(--text-muted); margin-bottom:6px;">${s.name}</div>
-                <div class="dt-sensor-val">${s.value}</div>
-                <div style="display:flex; justify-content:space-between; font-size:0.68rem; color:var(--text-muted); margin-top:6px; border-top:1px dashed rgba(255,255,255,0.1); padding-top:4px;">
-                  <span>📍 ${s.loc}</span>
-                  <span>📶 ${s.net}</span>
-                </div>
-              </div>
-            `).join('')}
-          </div>
+      <!-- 5. Görünüm 3: 14 Uzmanlaşmış İkiz Modülü & Hızlı Erişim Kartları -->
+      <div id="${prefix}view-modules" style="display:${activeTab === 'modules' ? 'block' : 'none'};">
+        <div style="margin-bottom:14px;">
+          <h3 style="font-size:1.10rem; font-weight:800; color:var(--text); margin:0 0 4px;">14 Uzmanlaşmış Alt İkiz Modülü (Multi-Twin Architecture)</h3>
+          <p style="font-size:0.80rem; color:var(--text-muted); margin:0;">
+            Çiftliğin tüm biyolojik, fiziksel, robotik ve enerji varlıkları için özelleştirilmiş karar destek bileşenleri:
+          </p>
         </div>
 
-        <!-- Akıllı Pnömatik Ayırma Kapısı ve Denetim Günlüğü -->
-        <div class="dt-card">
-          <div class="dt-card-title">
-            <span>🚪</span> Akıllı Pnömatik Ayırma Kapısı (Shedding Gate) Denetimi
-          </div>
-          <div class="dt-card-desc">
-            Sağımhane çıkışında (x=-18.0) konumlandırılmış pnomatik kapı; RFID kulak küpesini okuyarak XAI uyarılarına göre hayvanları otomatik olarak revir veya tohumlama bölmelerine yönlendirir.
-          </div>
-
-          <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:rgba(16,185,129,0.10); border:1px solid rgba(16,185,129,0.3); border-radius:4px; margin-bottom:12px;">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="font-size:1.2rem;">🟢</span>
+        <div class="dt-modules-grid">
+          ${agriTwin14Modules.map(mod => `
+            <div class="dt-module-item">
               <div>
-                <strong style="font-size:0.85rem; color:#10b981;">OTOMATİK YÖNLENDİRME AKTİF</strong>
-                <div style="font-size:0.72rem; color:var(--text-muted);">Pnömatik kompresör 6.2 bar | Optik RFID Okuyucu devrede</div>
+                <div class="dt-module-head">
+                  <span class="dt-module-icon">${mod.icon}</span>
+                  <span class="dt-module-badge">${mod.badge}</span>
+                </div>
+                <div class="dt-module-title">${mod.title}</div>
+                <div class="dt-module-desc">${mod.desc}</div>
               </div>
+              <button type="button" class="btn btn-secondary" onclick="switchDtSubTab('agritwin', '${mode}'); setTimeout(() => openAgriTwinSubModal('${mod.action}', '${prefix}agritwin-iframe'), 200);" style="width:100%; font-size:0.78rem; font-weight:700; background:rgba(14, 165, 233, 0.12); border-color:#0ea5e9; color:#38bdf8;">
+                ⚡ Modülü Aç &amp; Yönet
+              </button>
             </div>
-            <button type="button" class="btn btn-secondary" onclick="triggerPortalSheddingGate('TEST-KÜPE', 'Simülasyon', 'Manuel Kapı Testi', 'Revir Bölmesi (Pen B)')" style="font-size:0.76rem; padding:6px 10px;">
-              🧪 Kapıyı Test Et
-            </button>
-          </div>
-
-          <div style="font-size:0.80rem; font-weight:700; color:var(--text); margin-bottom:6px;">Son Kapı Yönlendirme Kayıtları:</div>
-          <div id="${prefix}gate-log-container"></div>
+          `).join('')}
         </div>
       </div>
+
     </div>
   `;
 

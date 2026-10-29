@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.3.9">
+  <link rel="stylesheet" href="styles.css?v=2.4.0">
 </head>
 <body class="dark-mode">
 
@@ -229,14 +229,14 @@
           <div class="portal-card-header">
             <span class="portal-card-icon">🌐</span>
             <div style="margin-bottom: 8px;">
-              <span class="badge" style="background:#0ea5e9; color:#ffffff; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">🌐 SİBER-FİZİKSEL SİSTEM (CPS) & XAI</span>
+              <span class="badge" style="background:#0ea5e9; color:#ffffff; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">🌐 AGRITWIN ÇOKLU İKİZ (14 MODÜL)</span>
             </div>
             <h2 class="portal-card-title">🌐 Dijital İkiz (Digital Twin)</h2>
-            <p class="portal-card-desc">Gerçek zamanlı IoT sensör telemetrisi, ICAR ADE standardı, TWIN4MILK açıklanabilir yapay zeka erken teşhis ve inSiliCow "eğer-ise" senaryo simülatörü.</p>
+            <p class="portal-card-desc">14 uzmanlaşmış ikiz modülü: 40 hücreli RTLS mikroklima THI ızgarası, UWB inek takibi, otonom robot filosu (Juno & Discovery), 60 kW biyogaz kojenerasyon, 4 loblu robot sağım, genomik pedigri, TWIN4MILK XAI ve Türkçe AI danışmanı.</p>
           </div>
 
           <button type="button" class="portal-btn-digital-twin" onclick="event.stopPropagation(); launchDigitalTwinFromPortal()">
-            🌐 Dijital İkizi Aç ➔
+            🌐 AgriTwin Çiftlik İkizini Aç ➔
           </button>
         </div>
 
@@ -2115,6 +2115,9 @@
           <button type="button" id="btn-guide-tab-sim" class="guide-mode-btn" onclick="switchGuideTab('sim3d')">
             🎮 3D Çiftlik & Biyogüvenlik (3D Canlı Oyun)
           </button>
+          <button type="button" id="btn-guide-tab-twin" class="guide-mode-btn" onclick="switchGuideTab('twin')">
+            🌐 AgriTwin Çoklu Dijital İkiz (14 Modül & RTLS)
+          </button>
         </div>
 
         <!-- ===================================================================
@@ -2662,12 +2665,135 @@
 
         </div>
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="closeModal('modal-help-guide')" style="font-weight: 800; padding: 8px 24px;">Anladım, Kılavuzu Kapat</button>
-      </div>
-    </div>
-  </div>
+        <!-- ===================================================================
+             4. AGRITWIN ÇOKLU DİJİTAL İKİZ KULLANIM KILAVUZU
+             =================================================================== -->
+        <div id="guide-section-twin" style="display:none;">
+
+          <div style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(16, 185, 129, 0.15)); border: 2px solid #0ea5e9; border-radius: 4px; padding: 14px 16px; margin-bottom: 16px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap;">
+              <span style="font-size:1.35rem;">🌐</span>
+              <span class="badge" style="background:#0ea5e9; color:#ffffff; font-weight:900; padding:2px 8px; border-radius:3px; font-size:0.75rem;">AGRITWIN MULTI-TWIN PRECISION PLATFORM</span>
+              <h4 style="margin:0; font-size:1.10rem; color:var(--text); font-weight:800;">AgriTwin: 14 Modüllü Çiftlik Dijital İkiz Ekosistemi</h4>
+            </div>
+            <p style="margin:0; font-size:0.88rem; color:var(--text); line-height:1.55;">
+              AgriTwin entegrasyonu; modern bir süt sığırcılığı çiftliğinin tüm biyolojik, fiziksel, robotik ve enerji varlıklarını gerçek zamanlı telemetri ve yapay zeka ile senkronize eden, 14 uzmanlaşmış alt ikizi tek bir karar destek ve otonom kontrol kokpitinde birleştirir.
+            </p>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-title">
+              <span>🗺️</span> 1. Faz: RTLS Mekânsal Mikroklima Isı Haritası &amp; UWB İnek Takibi (Faz 6)
+            </div>
+            <div class="guide-step-content">
+              <p>
+                Ahır zemininde 8 sütun × 5 satır (40 bağımsız hücre) mikroklima THI ızgarası canlı olarak modellenir:
+              </p>
+              <ul>
+                <li><strong>NRC Sıcaklık-Nem İndeksi (THI):</strong> Sıcaklık ve bağıl nem sensörlerinden gelen gerçek zamanlı verilerle her hücrenin THI değeri hesaplanır. THI &gt; 72 olduğunda sarı (Hafif Stres), THI &gt; 78 olduğunda kırmızı (Şiddetli Isı Stresi) uyarısı verilir.</li>
+                <li><strong>UWB Gerçek Zamanlı Konumlandırma (RTLS):</strong> Boyun tasması ve kulak küpelerine entegre Ultra-Wideband etiketler sayesinde ineklerin ahır içi X, Y koordinatları anlık takip edilir. Hayvanların hangi bölmede yattığı, yemliğe veya suluğa ne kadar süre ayırdığı hesaplanır.</li>
+                <li><strong>Otonom HVAC Eyleyicileri:</strong> Sıcaklık stresi tespit edilen bölgedeki değişken hızlı sirkülasyon fanları ve yüksek basınçlı su sisleme nozulları insan müdahalesine gerek kalmadan otonom devreye alınır.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-title">
+              <span>🤖</span> 2. Faz: Otonom Ahır Robot Filosu İkizi (Faz 12)
+            </div>
+            <div class="guide-step-content">
+              <p>
+                Çiftlik zemininde ve yem yolunda çalışan iki otonom robotun kinematik ve operasyonel ikizi senkronize edilir:
+              </p>
+              <ul>
+                <li><strong>Lely Juno-X Otonom Yem İtici Robotu:</strong> Yem yolunda her 2 saatte bir programlı tur atarak ineklerin ittiği kaba ve kesif yemleri yem masasına geri yanaştırır. İnek başına kuru madde tüketimini (DMI) +%3.2 artırır ve yem seçiciliğini (sorting) engeller.</li>
+                <li><strong>Lely Discovery-Vac Otonom Gübre Vakum Robotu:</strong> Duraklar arası ızgarasız beton koridorları tarayarak gübreyi vakumlar ve yan sıyırıcı su püskürtmesiyle tırnak enfeksiyonu riskini %28 azaltır.</li>
+                <li><strong>UWB Engel Kaçınma &amp; Şarj İstasyonu:</strong> Robotlar ineklere veya geçitlere yaklaştığında LiDAR/Ultrasonik tamponla durur; şarjı azaldığında otonom olarak baz istasyonuna kenetlenir.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-title">
+              <span>⚡</span> 3. Faz: Biyogaz Anaerobik Reaktör &amp; 60 kW Kojenerasyon Enerji İkizi (Faz 11)
+            </div>
+            <div class="guide-step-content">
+              <p>
+                Çiftlik atıklarını sıfır karbonlu yeşil enerjiye dönüştüren döngüsel biyoenerji ikizi:
+              </p>
+              <ul>
+                <li><strong>Mezofilik Anaerobik Çürütücü (38°C):</strong> Günlük toplanan 4,320 kg taze sığır gübresi reaktöre beslenir. %58–%65 $CH_4$ metan derişimli biyogaz üretilir.</li>
+                <li><strong>60 kW CHP Kojenerasyon Motoru:</strong> Üretilen biyogazdan günlük ortalama 506.6 kWh elektrik enerjisi ve motor ceketi soğutma suyuyla sağımhane sıcak su ihtiyacını karşılayan termal enerji elde edilir.</li>
+                <li><strong>Net-Zero Enerji Fazlası:</strong> Çiftliğin kendi elektrik tüketimi (sağım, soğutma, fanlar, aydınlatma) 100 kWh iken, üretilen 506 kWh elektrik sayesinde çiftlik %507 net enerji fazlası üretir ve şebekeye temiz enerji ihraç eder.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-title">
+              <span>🧬</span> 4. Faz: Genomik Damızlık İndeksi, Pedigri &amp; Akıllı Eşleştirme (Faz 13)
+            </div>
+            <div class="guide-step-content">
+              <p>
+                Sürünün genetik potansiyelini maksimize eden ve akrabalı yetiştirmeyi önleyen zooteknik seleksiyon motoru:
+              </p>
+              <ul>
+                <li><strong>USDA-CDCB Genomik Değerler (gEBV):</strong> Net Merit ($NM\$$), Süt (PTAM), Yağ (PTAF), Protein (PTAP), Üretken Ömür (PL) ve Somatik Hücre Skoru (SCS) üzerinden hayvanlar sıralanır.</li>
+                <li><strong>Wright Akrabalık Katsayısı ($F &lt; \%6.25$):</strong> Eşleştirme simülatörü dişi ile adayın pedigrisini 4 kuşak geriye tarayarak akrabalık katsayısını denetler ve $F \ge \%6.25$ olan boğaları otomatik olarak kilitler.</li>
+                <li><strong>Monogenik Genetik Defekt Kalkanı:</strong> HCD (Kolesterol Eksikliği), BLAD, CVM ve Brachyspina taşıyıcısı boğaların sürüde genetik yayılımı engellenir; dişi cinsiyeti belirlenmiş (sexed) sperma tavsiyesi üretilir.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-title">
+              <span>🤰</span> 5. Faz: Doğumhane, Distosi Erken Uyarı &amp; Kolostrum Brix İkizi (Faz 14)
+            </div>
+            <div class="guide-step-content">
+              <p>
+                Periparturiyent (geçiş) dönemindeki gebelerin doğum anı ve buzağı sağlığını koruyan erken uyarı sistemi:
+              </p>
+              <ul>
+                <li><strong>P4 Kinetiği &amp; Vücut Sıcaklığı Düşüşü:</strong> Progesteron çekilmesine bağlı olarak doğumdan 24–36 saat önce rektal/vajinal sıcaklıkta $-0.8^\circ\text{C}$ düşüş tespit edilir ve hayvan doğumhaneye sevk edilir.</li>
+                <li><strong>Moocall Akıllı Kuyruk Sensörü &amp; Distosi Alarmı:</strong> Kuyruk dikilme açısı $>45^\circ$ ve ıkınma sancısı frekansı analiz edilir. 2. evre ıkınma süresi $>70\text{ dakika}$ sürdüğünde "CES 3 Güç Doğum (Distosi)" alarmı üretilerek acil hekim müdahalesi istenir.</li>
+                <li><strong>Optik Brix Kolostrum &amp; APGAR Vigor:</strong> Sağılan ilk ağız sütünün optik Brix refraktometresi ile kalitesi (%22 üzeri kaliteli kolostrum) denetlenir; yeni doğan buzağı APGAR vigor skoruna göre kolostrum besleme protokolü başlatılır.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-title">
+              <span>🌾</span> 6. Faz: Çok Amaçlı TMR Rasyon &amp; RuFaS Karbon Optimizasyonu (Faz 9)
+            </div>
+            <div class="guide-step-content">
+              <p>
+                Pareto Frontiers algoritmasıyla hem kârlılığı artıran hem de enterik sera gazı emisyonunu düşüren bilimsel rasyon motoru:
+              </p>
+              <ul>
+                <li><strong>3-NOP (Bovaer) Metan İnhibitörü:</strong> Rasyona 1.5 g/inek/gün 3-nitrooksipropanol ilavesiyle metanojenik arkelerin enzim yolu bloke edilerek enterik metan salımı (%16–%30) dramatik şekilde baskılanır.</li>
+                <li><strong>Pareto Çözüm Kümeleri:</strong> Kullanıcı rasyon hedefini "Maksimum Kâr", "Düşük Karbon / Metan" veya "Dengeli Optimum" modları arasında tek tıkla değiştirebilir.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="guide-step-title">
+              <span>💬</span> 7. Faz: Doğal Dil Türkçe AI Çiftlik Danışmanı (AgriTwin NLP)
+            </div>
+            <div class="guide-step-content">
+              <p>
+                Çiftlik personeli, zooteknist ve veteriner hekimlerin çiftlik durumu hakkında doğal dille soru sorup anlık yanıt alabileceği kural tabanlı zooteknik uzman yapay zeka:
+              </p>
+              <ul>
+                <li><em>"Doğumhane ve distosi durumu nedir?"</em> ➔ Doğum bekleyen ineklerin sıcaklık ve sancı durumunu özetler.</li>
+                <li><em>"Kolostrum brix ve buzağı durumu?"</em> ➔ Son doğan buzağıların kolostrum kalite ölçümünü raporlar.</li>
+                <li><em>"Genomik boğa ve eşleştirme önerisi?"</em> ➔ En yüksek Net Merit değerine sahip boğaları ve akrabalık kontrolünü sunar.</li>
+                <li><em>"Biyogaz enerji üretimi ve şebeke durumu?"</em> ➔ Günlük kWh üretimi, reaktör sıcaklığı ve net kâr marjını bildirir.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
 
   <!-- 3. Yeni Doktor Tedavi / İKAS Kaydı Modalı -->
   <div id="modal-new-doc-rec" class="modal-overlay">
@@ -2819,7 +2945,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.3.9"></script>
+  <script src="app.js?v=2.4.0"></script>
 
   <script>
     // Initialize default dates in modals

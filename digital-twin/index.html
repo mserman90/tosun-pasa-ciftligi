@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>AgriTwin | Süt Sığırcılığı Dijital İkizi, RTLS Mekânsal Isı Haritası &amp; AI Asistan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <!-- Top Demo Mode Notification Banner -->
+  <div class="demo-banner" id="demoBanner">
+    <div class="demo-banner-content">
+      <span class="badge" style="background:#10b981; color:#0f172a; font-weight:700;">✨ CANLI DEMO MODU</span>
+      <span><strong>AgriTwin Çiftlik İkizi:</strong> 6 Baş Telemetrili Holstein, 2 Otonom Robot &amp; Biyogaz Kojenerasyon aktif simülasyon akışındadır.</span>
+    </div>
+    <div class="demo-banner-actions">
+      <button class="btn btn-xs btn-secondary" onclick="openDemoLoginModal()">👤 Demo Girişi / Rol Değiştir</button>
+      <button class="btn btn-xs btn-primary" onclick="startGuidedDemoTour()">🚀 Hızlı Demo Turu</button>
+      <button class="btn btn-xs btn-outline-info" onclick="openGuideModal()">📖 Kullanım Kılavuzu</button>
+      <button class="close-banner-btn" onclick="document.getElementById('demoBanner').style.display='none'" title="Bildirimi Kapat">&times;</button>
+    </div>
+  </div>
+
+  <div class="app-layout">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="logo-icon">🐄</div>
+        <div>
+          <h1>AgriTwin <span class="badge-accent">Endüstriyel Dijital İkiz</span></h1>
+          <p class="subtitle">Mekânsal Mikroklima Izgarası, UWB Konum Takibi &amp; Doğal Dil Çiftlik Danışmanı</p>
+        </div>
+      </div>
+
+      <div class="header-status">
+        <!-- Demo User Profile Badge -->
+        <div class="demo-user-pill" id="demoUserPill" onclick="openDemoLoginModal()" title="Demo Kullanıcı Profilini ve Rolünü Değiştir">
+          <span class="demo-user-avatar" id="demoUserAvatar">🩺</span>
+          <div class="demo-user-text">
+            <span class="demo-user-name" id="demoUserName">Dr. Mehmet Yılmaz</span>
+            <span class="demo-user-role" id="demoUserRole">Baş Hekim</span>
+          </div>
+          <span class="badge" style="background:rgba(56,189,248,0.2); color:#38bdf8; font-size:0.65rem; padding:0.15rem 0.35rem; margin-left:0.25rem;">Demo Girişi ▾</span>
+        </div>
+
+        <!-- Edge Network Status -->
+        <button id="btnToggleEdge" class="status-pill edge-btn" onclick="toggleEdgeConnection()" title="Kırsal bağlantı kopması / Edge yerel tamponlama testi">
+          <span class="edge-dot online" id="edgeDot"></span>
+          <span id="edgeStatusLabel" data-academic-key="edge_computing">📡 Edge: Online</span>
+        </button>
+
+        <div class="status-pill">
+          <span class="pulse-indicator"></span>
+          <span>Simülasyon:</span>
+          <strong id="simTime">--:--:--</strong>
+        </div>
+        <div class="status-pill">
+          <span>Adım:</span>
+          <strong id="simTick">0</strong>
+        </div>
+        <div class="status-pill" id="scenarioBadgeContainer">
+          <span class="badge" id="activeScenarioBadge">Standart Operasyon</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <a href="../index.html" target="_top" class="btn btn-outline-warning" style="display:inline-flex; align-items:center; gap:6px; font-weight:700; text-decoration:none; border:1px solid #ffdd00; color:#ffdd00; background:rgba(255,221,0,0.1);" title="Tosun Paşa Çiftliği Ana Portalına Dönün">
+          🏠 Tosun Paşa Portalı
+        </a>
+        <button class="btn btn-info" onclick="openGuideModal()" title="Kapsamlı Kullanım Kılavuzu & Akademik Dokümantasyon">
+          📖 Kullanım Kılavuzu
+        </button>
+        <button class="btn btn-secondary" onclick="openGenomicsModal()" title="Genomik Damızlık İndeksi, Pedigri & Akıllı Çiftleştirme">
+          🧬 Genomik &amp; Pedigri
+        </button>
+        <button class="btn btn-secondary" onclick="openCalvingModal()" title="Doğumhane, Distosi Erken Uyarı & Kolostrum Brix İkizi">
+          🤰 Doğum &amp; Distosi
+        </button>
+        <button class="btn btn-secondary" onclick="openRoboticsModal()" title="Otonom Ahır Robot Filosu İkizi (Yem İtici & Gübre Vakum)">
+          🤖 Robot Filosu
+        </button>
+        <button class="btn btn-secondary" onclick="openEnergyModal()" title="Döngüsel Çiftlik Atık, Biyogaz Kojenerasyon & Enerji İkizi">
+          ⚡ Biyogaz &amp; Enerji İkizi
+        </button>
+        <button class="btn btn-secondary" onclick="openRationModal()" title="Çok Amaçlı TMR Rasyon & Karbon-Verim Optimizasyon İkizi">
+          🌾 Rasyon &amp; Karbon İkizi
+        </button>
+        <button class="btn btn-secondary" onclick="openReportModal()" title="Günlük Veteriner & Çiftlik Denetim Raporu">
+          📋 Denetim Raporu
+        </button>
+        <button class="btn btn-secondary" onclick="exportIcarAdeJson()" title="ICAR ADE standardında JSON veri aktarımı">
+          📥 ICAR ADE JSON
+        </button>
+        <button id="btnPlayPause" class="btn btn-primary" onclick="togglePlayPause()">
+          <span id="playIcon">⏸️</span> <span id="playText">Durdur</span>
+        </button>
+        <button class="btn btn-secondary" onclick="advanceStep()">
+          ⏭️ Adım İlerlet
+        </button>
+      </div>
+    </header>
+
+    <!-- Scenario Toolbar -->
+    <section class="scenario-toolbar">
+      <div class="toolbar-label">
+        <span class="icon">🧪</span>
+        <strong>"Eğer Şöyle Yaparsam Ne Olur?" (What-If Simülasyon Motoru):</strong>
+      </div>
+      <div class="scenario-buttons">
+        <button class="btn-scenario btn-ration" onclick="triggerScenario('ration_optimize')">
+          🌿 Yem Rasyonunu Optimize Et (RuFaS: Metan -%16, Tasarruf +%14)
+        </button>
+        <button class="btn-scenario btn-heat" onclick="triggerScenario('heatwave')">
+          🔥 Barınakta Isı Dalgası (THI &gt; 78)
+        </button>
+        <button class="btn-scenario btn-mastitis" onclick="triggerScenario('mastitis')">
+          🦠 Subklinik Mastitis Olgusu (Benekli - TR-34-102)
+        </button>
+        <button class="btn-scenario btn-estrus" onclick="triggerScenario('estrus')">
+          ⚡ Kızgınlık / Estrus Tespiti (Elif - TR-34-105)
+        </button>
+        <button class="btn-scenario btn-lameness" onclick="triggerScenario('lameness')">
+          🦶 Topallık / Tırnak Olgusu (Yıldız - TR-34-104)
+        </button>
+        <button class="btn-scenario btn-sara" onclick="triggerScenario('sara')">
+          🧪 Rumen Asidozu / SARA (Papatya - TR-34-103)
+        </button>
+        <button class="btn-scenario" style="border-color:#ef4444; color:#f87171;" onclick="triggerScenario('dystocia')">
+          🚨 Distosi / Güç Doğum Alarmı (Nazlı - TR-34-106)
+        </button>
+        <button class="btn-scenario" style="border-color:#38bdf8; color:#38bdf8;" onclick="triggerScenario('calving_imminent')">
+          🤰 Doğum Eli Kulağında (-0.8°C Isı Düşüşü &amp; Sancı)
+        </button>
+        <button class="btn-scenario btn-reset" onclick="triggerScenario('reset')">
+          ↺ Nominal Duruma Sıfırla
+        </button>
+      </div>
+    </section>
+
+    <!-- Financial Twin & ROI Dashboard -->
+    <section class="financial-roi-card">
+      <div class="financial-header">
+        <div class="fin-title">
+          <span>💰 Dijital İkiz Finansal Karar Destek &amp; ROI Projeksiyonu</span>
+          <small>80 Başlık Referans Çiftlik Ölçeği | Çiğ Süt: 16.50 TL/kg</small>
+        </div>
+        <div class="payback-highlight">
+          <span data-tooltip="Dijital ikizin yem tasarrufu, erken teşhis ve mastitis önleme ile amortisman süresi">Öngörülen Yatırım Geri Dönüşü (ROI) ℹ️:</span>
+          <strong id="kpiPaybackYears">1.1 Yıl</strong>
+        </div>
+      </div>
+      <div class="financial-grid">
+        <div class="fin-item">
+          <span>Günlük Brüt Süt Satış Geliri:</span>
+          <strong id="finDailyRevenue">-- TL</strong>
+        </div>
+        <div class="fin-item">
+          <span>Günlük Toplam Yem Maliyeti:</span>
+          <strong id="finDailyFeedCost">-- TL</strong>
+        </div>
+        <div class="fin-item">
+          <span data-tooltip="Income Over Feed Cost: Günlük brüt süt gelirinden TMR rasyon yem gideri düşüldükten sonra kalan net operasyonel kâr">Yem Üzeri Günlük Net Gelir (IOFC) ℹ️:</span>
+          <strong id="finDailyMargin" style="color:#6ee7b7;">-- TL</strong>
+        </div>
+        <div class="fin-item">
+          <span>Aylık Dijital İkiz Toplam Net Kazancı:</span>
+          <strong id="finMonthlyBenefit" style="color:#38bdf8;">-- TL</strong>
+          <small id="finSavingsBreakdown">Yem optimizasyonu + Erken teşhis</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top KPI Dashboard Cards -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title" data-tooltip="Çiftlikte UWB tasma ve bolus telemetrisiyle anlık takip edilen toplam inek sayısı">Toplam Sürü Varlığı ℹ️</span>
+          <span class="kpi-icon">🏷️</span>
+        </div>
+        <div class="kpi-value" id="kpiTotalAnimals">6 Baş</div>
+        <div class="kpi-subtext">ICAR ADE Standardında Dijital İkiz</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title" data-tooltip="DSS yapay zeka sağlık sınıflandırması (Sağlıklı / Takip / Kritik Revir)">Sürü Sağlık Durumu ℹ️</span>
+          <span class="kpi-icon">🩺</span>
+        </div>
+        <div class="kpi-value" id="kpiHealthStatus">6 / 6 Normal</div>
+        <div class="kpi-subtext" id="kpiHealthAlerts">Kritik alarm yok</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title" data-tooltip="Sıcaklık ve Nem İndeksi (THI). 72 üzeri sıcaklık stresini, 78 üzeri şiddetli stresi ifade eder">Maksimum THI (Isı Stresi) ℹ️</span>
+          <span class="kpi-icon">🌡️</span>
+        </div>
+        <div class="kpi-value" id="kpiMaxThi">70.5 <small>THI</small></div>
+        <div class="kpi-subtext" id="kpiThiStatus">Konfor Aralığında (&lt;72)</div>
+      </div>
+
+      <div class="kpi-card" id="gateKpiCard">
+        <div class="kpi-header">
+          <span class="kpi-title" data-tooltip="Sağım robotu çıkışında inekleri otomatik olarak Revire veya Barınağa ayıran akıllı kapı">Otomatik Ayırma Kapısı ℹ️</span>
+          <span class="kpi-icon">🚪</span>
+        </div>
+        <div class="kpi-value" id="kpiGateStatus">NORMAL AKIŞ</div>
+        <div class="kpi-subtext" id="kpiGateDetail">Tüm hayvanlar barınağa dönüyor</div>
+      </div>
+    </section>
+
+    <!-- AI Farm & Veterinary Assistant Panel (Phase 6 Innovation) -->
+    <section class="ai-assistant-card">
+      <div class="assistant-header">
+        <div class="assistant-title">
+          <span class="ai-icon">🤖</span>
+          <div>
+            <strong>AgriTwin AI Veteriner &amp; Çiftlik Danışmanı</strong>
+            <small>Dijital ikiz telemetrisi ve Wood modelleriyle desteklenen akıllı danışman</small>
+          </div>
+        </div>
+        <span class="badge" style="background:rgba(56,189,248,0.15); color:#38bdf8; border-color:rgba(56,189,248,0.4);">Çiftlik Zekası v2.0</span>
+      </div>
+
+      <div class="ai-chat-response" id="aiChatResponse">
+        👋 <strong>Merhaba!</strong> Ben AgriTwin yapay zeka danışmanıyım. Çiftliğinizin anlık telemetrisini, laktasyon eğrilerini ve sağlık durumunu 7/24 izliyorum. Aşağıdaki hızlı sorulardan birine tıklayabilir veya bana doğrudan soru sorabilirsiniz.
+      </div>
+
+      <div class="ai-quick-prompts">
+        <button class="prompt-chip" onclick="askAiPrompt('Ahır içi otonom robot filosu (yem itici ve gübre vakum) durumu nedir?')">🤖 Ahır Robotları</button>
+        <button class="prompt-chip" onclick="askAiPrompt('Biyogaz üretimi, elektrik kojenerasyonu ve Net-Zero enerji durumu nedir?')">⚡ Biyogaz &amp; Enerji</button>
+        <button class="prompt-chip" onclick="askAiPrompt('Robotik sağım, 4 çeyrek meme lobu ve somatik hücre (SCC) durumu nedir?')">🤖 4 Lob Sağım &amp; SCC</button>
+        <button class="prompt-chip" onclick="askAiPrompt('Çok amaçlı TMR rasyon optimizasyonu, 3-NOP ve metan azaltım stratejileri nelerdir?')">🌾 Rasyon &amp; Karbon</button>
+        <button class="prompt-chip" onclick="askAiPrompt('Rumen pH seviyesi, fermantasyon ve SARA asidoz riski nedir?')">🧪 Rumen pH &amp; SARA</button>
+        <button class="prompt-chip" onclick="askAiPrompt('Tırnak sağlığı, adım asimetrisi ve topallık durumu nedir?')">🦶 Topallık &amp; Tırnak</button>
+        <button class="prompt-chip" onclick="askAiPrompt('Hangi inekler hasta veya revire ayrıldı?')">🩺 Hasta / Revir Durumu</button>
+        <button class="prompt-chip" onclick="askAiPrompt('Kızgınlıkta inek var mı, tohumlama penceresi nedir?')">⚡ Kızgınlık &amp; Tohumlama</button>
+        <button class="prompt-chip" onclick="askAiPrompt('Süt tankı kilidi ve antibiyotik karantinası ne durumda?')">🔒 İlaç Arınma &amp; Tank</button>
+        <button class="prompt-chip" onclick="askAiPrompt('Barınakta ısı stresi var mı, fanlar çalışıyor mu?')">🌡️ Isı Stresi &amp; Fanlar</button>
+        <button class="prompt-chip" onclick="askAiPrompt('Aylık yem giderimiz, kâr marjımız ve sistemin ROI geri dönüşü nedir?')">💰 Yem &amp; Finansal ROI</button>
+      </div>
+
+      <div class="ai-input-bar">
+        <input type="text" id="aiInputText" placeholder="Örn: Bölüm A'da ineklerin durumu nasıl? Wood modelinden sapan var mı?..." onkeydown="handleAiKeydown(event)">
+        <button class="btn btn-primary" onclick="submitCustomAiQuery()">Sor ↵</button>
+      </div>
+    </section>
+
+    <!-- Main Content Layout (Spatial RTLS & Barn Layout + Herd Cards) -->
+    <div class="content-columns">
+      <!-- Left Column: Spatial RTLS Heatmap & Barn Digital Twin -->
+      <section class="panel barn-spatial-panel">
+        <div class="panel-header">
+          <h2 data-academic-key="edge_computing">🗺️ Barınak RTLS Konum Takibi &amp; Mikroklima Isı Haritası (40m x 25m)</h2>
+          <span class="panel-tag" id="edgeModeBadge">Edge Gateway Aktif</span>
+        </div>
+
+        <!-- Real-Time Location System (RTLS) Canvas / SVG Map -->
+        <div class="rtls-container">
+          <svg id="rtlsBarnSvg" viewBox="0 0 520 300" class="rtls-svg">
+            <!-- Dynamically populated with 8x5 cells & cow dots -->
+          </svg>
+          <div class="rtls-legend">
+            <span><span class="heat-box-c cool"></span> Konfor (&lt;72 THI)</span>
+            <span><span class="heat-box-c mild"></span> Hafif Stres (72-78)</span>
+            <span><span class="heat-box-c severe"></span> Şiddetli Stres (&gt;78 THI)</span>
+            <span>🌀 Havalandırma Fanı</span>
+            <span>🐄 UWB Tasma (İnek Konumu)</span>
+          </div>
+        </div>
+        
+        <div class="barn-layout" style="margin-top: 1rem;">
+          <!-- Zone A -->
+          <div class="zone-card" id="zoneCardA">
+            <div class="zone-header">
+              <span class="zone-title">Bölüm A (Yüksek Verim Grubu - Batı)</span>
+              <span class="zone-badge" id="zoneBadgeA">Normal</span>
+            </div>
+            <div class="zone-metrics">
+              <div class="metric-row"><span>Sıcaklık:</span> <strong id="zoneTempA">22.5°C</strong></div>
+              <div class="metric-row"><span>Nem:</span> <strong id="zoneRhA">%58.0</strong></div>
+              <div class="metric-row"><span>THI İndeksi:</span> <strong id="zoneThiA">69.8</strong></div>
+            </div>
+            <div class="zone-actuators">
+              <span class="actuator-item" id="actuatorFanA">🌀 Fan: <strong>KAPALI</strong></span>
+              <span class="actuator-item" id="actuatorMistA">💦 Sisleme: <strong>KAPALI</strong></span>
+            </div>
+            <div class="zone-occupants" id="zoneOccupantsA"></div>
+          </div>
+
+          <!-- Zone B -->
+          <div class="zone-card" id="zoneCardB">
+            <div class="zone-header">
+              <span class="zone-title">Bölüm B (Orta Verim Grubu - Doğu)</span>
+              <span class="zone-badge" id="zoneBadgeB">Normal</span>
+            </div>
+            <div class="zone-metrics">
+              <div class="metric-row"><span>Sıcaklık:</span> <strong id="zoneTempB">23.0°C</strong></div>
+              <div class="metric-row"><span>Nem:</span> <strong id="zoneRhB">%60.0</strong></div>
+              <div class="metric-row"><span>THI İndeksi:</span> <strong id="zoneThiB">70.5</strong></div>
+            </div>
+            <div class="zone-actuators">
+              <span class="actuator-item" id="actuatorFanB">🌀 Fan: <strong>KAPALI</strong></span>
+              <span class="actuator-item" id="actuatorMistB">💦 Sisleme: <strong>KAPALI</strong></span>
+            </div>
+            <div class="zone-occupants" id="zoneOccupantsB"></div>
+          </div>
+
+          <!-- Milking Robot & Sorter Nexus -->
+          <div class="nexus-hub">
+            <div class="nexus-unit robot-parlor">
+              <div class="unit-title">🤖 Otomatik Sağım Robotu</div>
+              <p id="milkTankStatusLabel">Optik iletkenlik &amp; debi sensörleri aktif</p>
+            </div>
+
+            <!-- Animated Shedding Gate -->
+            <div class="sorting-gate-visual" id="gateVisualBox">
+              <div class="gate-arm-container">
+                <div class="gate-label">AKILLI AYIRMA KAPISI</div>
+                <div class="gate-indicator" id="gateVisualIndicator">NORMAL DÖNÜŞ YOLU</div>
+                <div class="gate-arrow" id="gateVisualArrow">⬇️ Barınak Ana Bölümüne</div>
+              </div>
+            </div>
+
+            <div class="nexus-unit treatment-pen" id="treatmentPenBox">
+              <div class="unit-title">🏥 Revir / İzolasyon Bölmesi</div>
+              <p id="treatmentPenText">0 Hayvan (Boş)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Herd Telemetry & DSS Status -->
+      <section class="panel herd-panel">
+        <div class="panel-header">
+          <h2>📊 Sürü Biyometrisi &amp; Karar Destek İkizleri</h2>
+          <span class="panel-tag">Wood Modeli &amp; XAI</span>
+        </div>
+
+        <div class="herd-cards-container" id="herdCardsGrid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Explainable AI (XAI) & Physiological Modal -->
+  <div class="modal-overlay" id="xaiModal" onclick="closeXaiModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tag">DİJİTAL İKİZ FİZYOLOJİSİ &amp; XAI ANALİZİ</span>
+          <h2 id="modalAnimalTitle">TR-34-102 (Benekli)</h2>
+        </div>
+        <button class="modal-close" onclick="closeModalDirect()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Diagnosis Summary -->
+        <div class="dss-summary-card" id="modalDssBox">
+          <div class="dss-status-badge" id="modalStatusBadge">DURUM</div>
+          <h3 id="modalRecommendation">Öneri</h3>
+          <p id="modalDecisionSummary">Özet</p>
+        </div>
+
+        <!-- Drug Residue & Withdrawal Warning Box -->
+        <div class="drug-withdrawal-box" id="drugWithdrawalBox" style="display:none;">
+          <div class="drug-header">
+            <span>🚨 İLAÇ KALINTI GÜVENLİK KİLİDİ AKTİF (WITHDRAWAL PERIOD)</span>
+            <span class="badge danger" id="drugDaysBadge">5 Gün Karantina</span>
+          </div>
+          <p>
+            Bu hayvana <strong>Sefalosporin Antibiyotik</strong> tedavisi uygulanmıştır. 
+            Gıda güvenliği standardı gereğince sağım robotunun süt tankı vanası 
+            <strong style="color:var(--accent-rose);">kilitlenmiş</strong> ve süt 
+            otomatik olarak <strong>atık süt tankına</strong> yönlendirilmektedir.
+          </p>
+        </div>
+
+        <!-- Wood Lactation Curve Visualization -->
+        <div class="lactation-curve-section">
+          <div class="curve-header">
+            <h3 data-academic-key="wood_curve">📈 Wood Laktasyon Eğrisi Simülasyonu [y(t) = a · tᵇ · e⁻ᶜᵗ]</h3>
+            <span class="curve-dim-badge" id="modalCurveDimBadge">DIM: -- Gün</span>
+          </div>
+          <div class="curve-chart-container">
+            <svg id="woodCurveSvg" viewBox="0 0 540 180" class="curve-svg"></svg>
+            <div class="curve-legend">
+              <span class="legend-item"><span class="legend-color expected-line"></span> Beklenen Wood Eğrisi</span>
+              <span class="legend-item"><span class="legend-color actual-point"></span> Anlık Canlı Süt Verimi</span>
+              <span class="legend-item" id="curvePeakNote">Zirve Günü: --</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Computer Vision AI (Lameness & BCS) -->
+        <div class="vision-ai-section">
+          <div class="vision-header">
+            <h3 data-academic-key="bcs">📷 3D Derinlik Kamerası &amp; Yürüyüş Analizi (Computer Vision AI)</h3>
+            <span class="vision-cam-badge">Kamera: CAM-EXIT-CHUTE-3D</span>
+          </div>
+
+          <div class="vision-grid">
+            <!-- Lameness Box -->
+            <div class="vision-box" id="visionLamenessBox">
+              <div class="vision-box-header">
+                <strong data-academic-key="lameness">🦶 Topallık &amp; Sırt Kemerleşmesi (Lameness)</strong>
+                <span class="badge" id="visionLamenessBadge">Skor 1.0 (Normal)</span>
+              </div>
+              <div class="vision-metrics-row">
+                <div><span>Sırt Kamburluk:</span> <strong id="visionCurvatureVal">%8</strong></div>
+                <div><span>Adım Asimetrisi:</span> <strong id="visionAsymmetryVal">%3.5</strong></div>
+                <div><span>Baş Sallama:</span> <strong id="visionHeadBobVal">2.1 cm</strong></div>
+              </div>
+              <div class="spine-svg-container">
+                <svg id="visionSpineSvg" viewBox="0 0 320 80" class="mini-vision-svg"></svg>
+                <div class="mini-svg-label">3D Sırt Çizgisi Profili (Omuz ➔ Kuyruk Sokumu)</div>
+              </div>
+              <p class="vision-interpretation" id="visionLamenessInterp">Normal Yürüyüş. Sırt çizgisi düz.</p>
+            </div>
+
+            <!-- BCS Box -->
+            <div class="vision-box" id="visionBcsBox">
+              <div class="vision-box-header">
+                <strong data-academic-key="bcs">🥩 Vücut Kondisyon Skoru (BCS)</strong>
+                <span class="badge" id="visionBcsBadge">BCS: 3.25</span>
+              </div>
+              <div class="vision-metrics-row">
+                <div><span>Kalça Açısı:</span> <strong id="visionHookAngleVal">155°</strong></div>
+                <div><span>Çukur Derinliği:</span> <strong id="visionSacralDepthVal">26 mm</strong></div>
+                <div><span>Kaburga Yağı:</span> <strong id="visionRibFatVal">14 mm</strong></div>
+              </div>
+              <div class="spine-svg-container">
+                <svg id="visionPelvicSvg" viewBox="0 0 320 80" class="mini-vision-svg"></svg>
+                <div class="mini-svg-label">3D Pelvik Enine Kesit (Sol Kalça ➔ Sağ Kalça)</div>
+              </div>
+              <p class="vision-interpretation" id="visionBcsInterp">Optimal Kondisyon. Dengeli enerji rezervi.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rumen Biochemical & SARA Acidosis Section (Phase 8) -->
+        <div class="rumen-ai-section">
+          <div class="rumen-header">
+            <div class="rumen-title">
+              <h3 data-academic-key="rumen_ph">🧪 İntraruminal Bolus: Rumen pH Kinetiği &amp; SARA İkizi</h3>
+              <small>inSiliCow &amp; Dijkstra Biyokimyasal Rumen Modeli</small>
+            </div>
+            <span class="badge" id="rumenSaraBadge">SARA: Normal</span>
+          </div>
+
+          <div class="rumen-content-grid">
+            <div class="rumen-metrics-card">
+              <div class="rumen-ph-display">
+                <span class="ph-label">ANLIK RUMEN pH</span>
+                <div class="ph-value-row">
+                  <strong id="modalRumenPhVal">6.42</strong>
+                  <span class="ph-range-tag">Hedef: 6.20 - 6.80</span>
+                </div>
+              </div>
+              <div class="rumen-sub-metrics">
+                <div><span data-academic-key="vfa">Uçucu Yağ Asitleri (VFA):</span> <strong id="modalVfaVal">112 mmol/L</strong></div>
+                <div><span data-academic-key="ap_ratio">Asetat / Propiyonat (A:P):</span> <strong id="modalApRatioVal">2.85 (Sağlıklı)</strong></div>
+                <div><span data-academic-key="rumen_temp">Rumen Sıcaklığı:</span> <strong id="modalRumenTempVal">39.2°C</strong></div>
+                <div><span>Motilite / Kasılma:</span> <strong id="modalRumenMotilityVal">1.9 /dk</strong></div>
+                <div><span data-academic-key="sara">pH &lt; 5.8 Süresi:</span> <strong id="modalHoursLowVal">0.0 sa/gün</strong></div>
+                <div><span data-academic-key="buffer_need">Tampon İhtiyacı:</span> <strong id="modalBufferNeedVal" style="color:var(--accent-emerald);">Gerek Yok</strong></div>
+              </div>
+            </div>
+
+            <div class="rumen-chart-card">
+              <div class="rumen-chart-header">
+                <span>24 Saatlik Rumen pH Seyri (SARA Eşiği: pH 5.80)</span>
+                <span class="ph-legend-item"><span class="legend-color" style="background:#ef4444; height:2px;"></span> Kritik SARA Eşiği (5.80)</span>
+              </div>
+              <svg id="rumenPhSvg" viewBox="0 0 340 100" class="rumen-svg"></svg>
+              <p class="rumen-interpretation" id="modalRumenInterp">Rumen fermantasyonu sağlıklı ve lif parçalayıcı bakteriler için idealdir.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Robotic Quarter-Level Milking & Spectroscopy Section (Phase 10) -->
+        <div class="robotic-quarter-section">
+          <div class="robotic-header">
+            <div class="robotic-title">
+              <h3 data-academic-key="conductivity">🤖 Otonom Robotik Sağım &amp; 4 Loblu Çeyrek Meme İkizi</h3>
+              <small>DeLaval VMS &amp; Lely Astronaut Mimarisi | Hat İçi Spektrometre &amp; Bağımsız Süt Vanaları</small>
+            </div>
+            <span class="badge" id="roboticMilkingBadge">Robot Vana: 4 Lob Nominal</span>
+          </div>
+
+          <div class="robotic-content-grid">
+            <!-- 4 Quarter Visual Anatomical Diagram (SVG) -->
+            <div class="quarter-diagram-card">
+              <div class="diagram-header">
+                <span>Anatomik Meme Lobu Görünümü (Tepeden Bakış)</span>
+                <span class="diagram-sub">Ön (Kafa Yönü) ➔ Arka (Kuyruk Yönü)</span>
+              </div>
+              <svg id="quarterUdderSvg" viewBox="0 0 280 160" class="udder-svg"></svg>
+              <div class="udder-legend">
+                <span><span class="legend-dot healthy"></span> Sağlıklı (Ana Tank)</span>
+                <span><span class="legend-dot warning"></span> Şüpheli</span>
+                <span><span class="legend-dot alert"></span> Enfekte (Atık Tahliye)</span>
+              </div>
+            </div>
+
+            <!-- Quarter Metrics Cards -->
+            <div class="quarter-cards-list" id="quarterCardsList">
+              <!-- Dynamically populated for RF, RR, LF, LR -->
+            </div>
+          </div>
+
+          <!-- Robotic Hygiene & Milk Diversion Audit Bar -->
+          <div class="robotic-audit-bar">
+            <div class="audit-item">
+              <span>Toplam Sağım:</span>
+              <strong id="robotTotalYieldVal">-- kg</strong>
+            </div>
+            <div class="audit-item">
+              <span>Ana Tanka Kabul:</span>
+              <strong id="robotAcceptedYieldVal" style="color:#6ee7b7;">-- kg</strong>
+            </div>
+            <div class="audit-item">
+              <span>Atığa Ayrılan (Kayıp):</span>
+              <strong id="robotDivertedYieldVal" style="color:#f43f5e;">-- kg</strong>
+            </div>
+            <div class="audit-item">
+              <span data-academic-key="scc">Ağırlıklı Sürü SCC:</span>
+              <strong id="robotWeightedSccVal">-- hücre/mL</strong>
+            </div>
+            <div class="audit-item wide">
+              <span>Post-Dip Sprey &amp; Sterilizasyon:</span>
+              <strong id="robotHygieneProtocolVal" style="color:#38bdf8;">--</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Causal Factor Breakdown (XAI) -->
+        <div class="xai-factors-section">
+          <h3>🧠 Neden Bu Karar Verildi? (Causal Feature Importance)</h3>
+          <div class="factors-list" id="modalFactorsList"></div>
+        </div>
+
+        <!-- Physiological & Energy Balance Summary -->
+        <div class="physio-grid-section">
+          <h3>⚡ inSiliCow &amp; RuFaS Enerji Dengesi ve Emisyon Verileri</h3>
+          <div class="physio-cards">
+            <div class="physio-mini-card">
+              <span>Kuru Madde Tüketimi (DMI)</span>
+              <strong id="modalDmiVal">-- kg/gün</strong>
+            </div>
+            <div class="physio-mini-card">
+              <span>Net Enerji Dengesi (EB)</span>
+              <strong id="modalEbVal">-- Mcal/gün</strong>
+            </div>
+            <div class="physio-mini-card">
+              <span>Enterik Metan</span>
+              <strong id="modalCh4Val">-- g CH₄/gün</strong>
+            </div>
+            <div class="physio-mini-card">
+              <span>Metan Yoğunluğu</span>
+              <strong id="modalIntensityVal">-- g/kg süt</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry snapshot comparison -->
+        <div class="telemetry-table-section">
+          <h3>📊 Referans vs. Gözlemlenen Telemetri Karşılaştırması</h3>
+          <table class="telemetry-comparison-table">
+            <thead>
+              <tr>
+                <th>Biyometrik Metrik</th>
+                <th>Gözlemlenen Değer</th>
+                <th>Sağlıklı Referans</th>
+                <th>Sapma / Durum</th>
+              </tr>
+            </thead>
+            <tbody id="modalTelemetryTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModalDirect()">Kapat</button>
+        <button class="btn btn-warning" id="btnPrescribe" onclick="prescribeTreatment()">💊 Veteriner Tedavisi Başlat &amp; Tankı Kilitle</button>
+        <button class="btn btn-primary" onclick="resolveIntervention()">Muayene Tamamla / Sıfırla</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-Objective TMR Ration & Enteric Methane Optimization Modal -->
+  <div class="modal-overlay" id="rationModal" onclick="closeRationModal(event)">
+    <div class="modal-content ration-modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tag">ÇOK AMAÇLI OPTİMİZASYON &amp; PARETO İKİZİ</span>
+          <h2 data-academic-key="rufas_model">🌾 TMR Rasyon Formülasyonu &amp; Enterik Metan Azaltımı</h2>
+        </div>
+        <button class="modal-close" onclick="closeRationModalDirect()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Pareto Strategy Cards Grid -->
+        <div class="ration-strategies-grid" id="rationStrategiesContainer">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Pareto Frontier Visual & Comparison -->
+        <div class="pareto-analysis-section">
+          <div class="pareto-chart-card">
+            <div class="pareto-chart-header">
+              <h3 data-academic-key="rufas_model">📈 Pareto Sınırı: Rasyon Maliyeti vs. Metan Yoğunluğu (Maliyet - Karbon Eğrisi)</h3>
+              <span class="badge" style="background:rgba(16,185,129,0.15); color:#10b981;">RuFaS &amp; IPCC Tier 2</span>
+            </div>
+            <svg id="paretoFrontierSvg" viewBox="0 0 540 180" class="pareto-svg"></svg>
+            <div class="pareto-legend">
+              <span>🔵 Maksimum Kâr</span>
+              <span>🟢 Ekolojik Yeşil (3-NOP)</span>
+              <span>⭐ Dengeli Pareto (Önerilen)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ingredients Breakdown Table & Annual Herd Economics -->
+        <div class="ration-details-grid">
+          <div class="ingredients-card">
+            <h3>🥣 TMR Rasyon Hammadde Dağılımı (Aktif Strateji)</h3>
+            <div id="ingredientsListContainer"></div>
+          </div>
+
+          <div class="herd-impact-card">
+            <h3>🌱 80 Başlık Sürü Yıllık Çevresel &amp; Finansal Projeksiyon</h3>
+            <div class="impact-metrics-grid">
+              <div class="impact-metric-box">
+                <span>Yıllık Ek Net Gelir / Tasarruf</span>
+                <strong id="impactAnnualProfit" style="color:#6ee7b7;">-- TL</strong>
+                <small>IOFC marjı + Karbon teşviği</small>
+              </div>
+              <div class="impact-metric-box">
+                <span>Yıllık CO₂e Emisyon Azaltımı</span>
+                <strong id="impactAnnualCo2e" style="color:#38bdf8;">-- kg CO₂e</strong>
+                <small>Enterik metan mitigasyonu</small>
+              </div>
+              <div class="impact-metric-box">
+                <span>Karbon Kredisi Geliri</span>
+                <strong id="impactCarbonCredit" style="color:#f59e0b;">-- TL / yıl</strong>
+                <small>650 TL / ton CO₂e</small>
+              </div>
+              <div class="impact-metric-box">
+                <span>SARA Asidoz Güvenliği</span>
+                <strong id="impactSaraSafety" style="color:#10b981;">TAM KORUMA</strong>
+                <small>Minimum %31 NDF dengesi</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeRationModalDirect()">Kapat</button>
+        <button class="btn btn-primary" id="btnApplyActiveRation" onclick="applySelectedRation()">✅ Seçilen Rasyonu Sürüye Uygula</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Circular Biogas & Farm Energy Twin Modal (Phase 11) -->
+  <div class="modal-overlay" id="energyModal" onclick="closeEnergyModal(event)">
+    <div class="modal-content energy-modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tag">DÖNGÜSEL EKONOMİ &amp; NET-ZERO ENERJİ İKİZİ</span>
+          <h2 data-academic-key="biogas_chp">⚡ Gübre Biyogazı, Kojenerasyon (CHP) &amp; Şebeke Bağımsızlığı</h2>
+        </div>
+        <button class="modal-close" onclick="closeEnergyModalDirect()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Energy Self Sufficiency Hero Banner -->
+        <div class="energy-hero-banner">
+          <div class="hero-metric">
+            <span data-academic-key="biogas_chp">ENERJİ ÖZ YETERLİLİK ORANI</span>
+            <strong id="energySelfSuffVal">%405 (NET-ZERO POZİTİF)</strong>
+            <small>Çiftliğin tüm elektrik ihtiyacı kendi atığından karşılanmaktadır</small>
+          </div>
+          <div class="hero-stat-badge">
+            <span class="pulse-indicator"></span>
+            <span>Şebekeye Temiz Enerji İhracı Aktif</span>
+          </div>
+        </div>
+
+        <!-- Circular Flow Cards (Manure -> Digester -> CHP -> Grid) -->
+        <div class="circular-process-grid">
+          <!-- Step 1: Manure Excretion -->
+          <div class="process-card">
+            <div class="process-badge">1. GÜBRE TOPLAMA</div>
+            <h4>🐄 Sürü Ham Gübresi</h4>
+            <div class="process-metric-row">
+              <div><span>Günlük Miktar:</span> <strong id="energyManureKgVal">-- kg/gün</strong></div>
+              <div><span>Uçucu Katı (VS):</span> <strong id="energyVsKgVal">-- kg/gün</strong></div>
+              <div><span>Organik Azot (N):</span> <strong id="energyNitrogenVal">-- kg/gün</strong></div>
+            </div>
+            <p class="process-desc">Otomatik sıyırıcılar gübreyi ara dinlendirme çukuruna aktarır.</p>
+          </div>
+
+          <!-- Step 2: Anaerobic Digester -->
+          <div class="process-card">
+            <div class="process-badge">2. FERMANTASYON</div>
+            <h4>🛢️ Mezofilik Çürütücü (38.5°C)</h4>
+            <div class="process-metric-row">
+              <div><span>Biyogaz Üretimi:</span> <strong id="energyBiogasM3Val">-- m³/gün</strong></div>
+              <div><span>Metan Saflığı:</span> <strong id="energyMethanePctVal">%62.5 CH₄</strong></div>
+              <div><span>Alıkonma Süresi:</span> <strong>28 Gün (HRT)</strong></div>
+            </div>
+            <p class="process-desc">Metanojenik bakteriler uçucu asitleri yüksek saflıkta metana dönüştürür.</p>
+          </div>
+
+          <!-- Step 3: CHP Cogeneration Engine -->
+          <div class="process-card">
+            <div class="process-badge">3. KOJENERASYON (CHP)</div>
+            <h4>⚙️ 60 kW Gaz Motoru</h4>
+            <div class="process-metric-row">
+              <div><span>Elektrik Üretimi:</span> <strong id="energyChpElecVal" style="color:#6ee7b7;">-- kWh/gün</strong></div>
+              <div><span>Isıl Isı Üretimi:</span> <strong id="energyChpHeatVal" style="color:#f59e0b;">-- kWh/gün</strong></div>
+              <div><span>Elektriksel Verim:</span> <strong>%38.0</strong></div>
+            </div>
+            <p class="process-desc">Geri kazanılan egzoz ısısı süt sağım sıcak suyu ve reaktörü ısıtır.</p>
+          </div>
+        </div>
+
+        <!-- Power Balance: Generation vs. Consumption -->
+        <div class="energy-balance-section">
+          <div class="balance-card">
+            <h3>⚡ Çiftlik Günlük Güç Tüketimi Dağılımı (Kojenerasyon Karşılaması)</h3>
+            <div class="balance-grid">
+              <div class="balance-item">
+                <span>🤖 Sağım Robotu &amp; Vakum:</span>
+                <strong id="energyMilkingConsVal">-- kWh</strong>
+              </div>
+              <div class="balance-item">
+                <span>❄️ Süt Soğutma Kompresörü:</span>
+                <strong id="energyCoolingConsVal">-- kWh</strong>
+              </div>
+              <div class="balance-item">
+                <span>🌀 Havalandırma &amp; Sisleme:</span>
+                <strong id="energyFanConsVal">-- kWh</strong>
+              </div>
+              <div class="balance-item">
+                <span>💡 Gübre Sıyırıcı &amp; Aydınlatma:</span>
+                <strong id="energyScraperConsVal">-- kWh</strong>
+              </div>
+              <div class="balance-item total-cons">
+                <span>Toplam İhtiyaç:</span>
+                <strong id="energyTotalConsVal" style="color:#f43f5e;">-- kWh/gün</strong>
+              </div>
+              <div class="balance-item total-export">
+                <span>Şebekeye Satılan Fazla:</span>
+                <strong id="energyExportVal" style="color:#10b981;">-- kWh/gün</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Annual Economic & Carbon Offset Summary -->
+        <div class="energy-economics-grid">
+          <div class="econ-card">
+            <span>Elektrik Faturası Tasarrufu (Yıllık)</span>
+            <strong id="energyAnnualElecSaveVal" style="color:#6ee7b7;">-- TL</strong>
+            <small>Kendi elektriğini sıfır maliyetle üretme</small>
+          </div>
+          <div class="econ-card">
+            <span>Şebekeye Elektrik Satış Geliri (Yıllık)</span>
+            <strong id="energyAnnualExportRevVal" style="color:#38bdf8;">-- TL</strong>
+            <small>YEKDEM yenilenebilir tarife satış geliri</small>
+          </div>
+          <div class="econ-card">
+            <span>Biyogübre (Digestat) Tasarrufu (Yıllık)</span>
+            <strong id="energyAnnualFertSaveVal" style="color:#f59e0b;">-- TL</strong>
+            <small>Kimyasal üre ve DAP gübresi ikamesi</small>
+          </div>
+          <div class="econ-card">
+            <span>Yıllık Fosil Karbon Ofseti</span>
+            <strong id="energyAnnualCo2OffsetVal" style="color:#10b981;">-- Ton CO₂e</strong>
+            <small>Şebeke fosil yakıt emisyon engelleme</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeEnergyModalDirect()">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Autonomous Barn Robotics Fleet Modal (Phase 12) -->
+  <div class="modal-overlay" id="roboticsModal" onclick="closeRoboticsModal(event)">
+    <div class="modal-content robotics-modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tag">OTONOM AHIR OTOMASYONU &amp; FİLO İKİZİ</span>
+          <h2 data-academic-key="juno_robot">🤖 Ahır İçi Otonom Robot Filosu (Yem İtici &amp; Gübre Vakum)</h2>
+        </div>
+        <button class="modal-close" onclick="closeRoboticsModalDirect()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Robot Fleet Cards Grid -->
+        <div class="robots-grid">
+          <!-- Robot 1: Feed Pusher Juno -->
+          <div class="robot-card" id="robotCardPusher">
+            <div class="robot-card-header">
+              <div class="robot-title-box">
+                <span class="robot-avatar">🚜</span>
+                <div>
+                  <h3 id="pusherNameVal">Juno-X Otonom Yem İtici</h3>
+                  <small>Lely Juno / DeLaval OptiDuo Mimarisi</small>
+                </div>
+              </div>
+              <span class="badge" id="pusherStatusBadge">İtme Yapıyor</span>
+            </div>
+
+            <div class="robot-telemetry-box">
+              <div class="telemetry-bar-row">
+                <span>Batarya Şarjı:</span>
+                <strong id="pusherBatteryVal">%88</strong>
+              </div>
+              <div class="progress-bar-bg"><div class="progress-bar-fill" id="pusherBatteryBar" style="width:88%; background:#10b981;"></div></div>
+
+              <div class="robot-metrics-subgrid">
+                <div><span>Barınak Konumu:</span> <strong id="pusherCoordVal">x: 18.5m, y: 12.5m</strong></div>
+                <div><span>İlerleme Hızı:</span> <strong id="pusherSpeedVal">0.25 m/s</strong></div>
+                <div><span>Helezon Devri:</span> <strong id="pusherAugerVal">85 rpm</strong></div>
+                <div><span>Yem Yüksekliği:</span> <strong id="pusherFeedHeightVal">18.5 cm (Ultrasonik)</strong></div>
+                <div><span>Tamamlanan Tur:</span> <strong id="pusherToursVal">14 Seans / gün</strong></div>
+                <div><span>DMI Tüketim Katkısı:</span> <strong style="color:#6ee7b7;">+%3.2 DMI</strong></div>
+              </div>
+            </div>
+
+            <p class="robot-task-desc" id="pusherTaskDesc">Orta yem yolunda yemleri helezon devriyle ineklerin erişim mesafesine itiyor.</p>
+            <div class="robot-card-actions">
+              <button class="btn btn-secondary" onclick="sendRobotAction('ROBOT-PUSHER-JUNO', 'START_PUSH')">▶️ Ekstra Yem İtme Başlat</button>
+              <button class="btn btn-secondary" onclick="sendRobotAction('ROBOT-PUSHER-JUNO', 'DOCK_CHARGE')">⚡ Şarja Gönder</button>
+            </div>
+          </div>
+
+          <!-- Robot 2: Manure Collector Discovery -->
+          <div class="robot-card" id="robotCardCollector">
+            <div class="robot-card-header">
+              <div class="robot-title-box">
+                <span class="robot-avatar">🧹</span>
+                <div>
+                  <h3 id="collectorNameVal">Discovery-Vac Gübre Robotu</h3>
+                  <small>Lely Discovery / GEA Barn-e Mimarisi</small>
+                </div>
+              </div>
+              <span class="badge" id="collectorStatusBadge">Vakumluyor</span>
+            </div>
+
+            <div class="robot-telemetry-box">
+              <div class="telemetry-bar-row">
+                <span>Tank Doluluk Oranı (350L):</span>
+                <strong id="collectorTankVal">%42</strong>
+              </div>
+              <div class="progress-bar-bg"><div class="progress-bar-fill" id="collectorTankBar" style="width:42%; background:#f59e0b;"></div></div>
+
+              <div class="robot-metrics-subgrid">
+                <div><span>Barınak Konumu:</span> <strong id="collectorCoordVal">x: 14.0m, y: 8.0m</strong></div>
+                <div><span>Batarya Şarjı:</span> <strong id="collectorBatteryVal">%74</strong></div>
+                <div><span>Zemin Su Püskürtme:</span> <strong style="color:#38bdf8;">AKTİF (Kaymaz Su Filmi)</strong></div>
+                <div><span>Bugün Toplanan Gübre:</span> <strong id="collectorManureKgVal">1,250 kg</strong></div>
+                <div><span>Topallık Önleme:</span> <strong style="color:#10b981;">-%28 Tırnak Lezyonu</strong></div>
+                <div><span>Çevresel Mastitis:</span> <strong style="color:#10b981;">-%32 Koruma</strong></div>
+              </div>
+            </div>
+
+            <p class="robot-task-desc" id="collectorTaskDesc">Izgara yürüyüş yolunda gübreyi vakumlayarak zemini kuru ve temiz tutuyor.</p>
+            <div class="robot-card-actions">
+              <button class="btn btn-secondary" onclick="sendRobotAction('ROBOT-MANURE-VAC', 'CLEAN_ALLEY')">▶️ Koridoru Temizle</button>
+              <button class="btn btn-secondary" onclick="sendRobotAction('ROBOT-MANURE-VAC', 'DUMP_BIOGAS')">🛢️ Biyogaza Deşarj Et</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fleet Energy & Economic Summary -->
+        <div class="fleet-summary-bar">
+          <div class="fleet-sum-item">
+            <span>Filo Anlık Şarj Gücü:</span>
+            <strong id="fleetPowerVal">1.65 kW (Biyogaz CHP ile Karşılanır)</strong>
+          </div>
+          <div class="fleet-sum-item">
+            <span>Günlük Robotik Enerji:</span>
+            <strong id="fleetEnergyVal">12.4 kWh/gün</strong>
+          </div>
+          <div class="fleet-sum-item">
+            <span>Güvenlik &amp; Çarpışma Önleme:</span>
+            <strong style="color:#10b981;" id="fleetSafetyVal">GÜVENLİ (Engel Sensörleri Devrede)</strong>
+          </div>
+          <div class="fleet-sum-item">
+            <span>Yıllık Verim &amp; İşçilik Katkısı:</span>
+            <strong style="color:#6ee7b7;" id="fleetAnnualVal">+182.000 TL/yıl</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeRoboticsModalDirect()">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calving Prediction, Dystocia & Calf Life-Cycle Modal (Phase 14) -->
+  <div class="modal-overlay" id="calvingModal" onclick="closeCalvingModal(event)">
+    <div class="modal-content calving-modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tag">DOĞUMHANE, DİSTOSİ ERKEN UYARI &amp; BUZAĞI İKİZİ</span>
+          <h2 data-academic-key="dystocia">🤰 Doğumhane Yönetimi, Distosi (Güç Doğum) DSS &amp; Kolostrum Brix Analizi</h2>
+        </div>
+        <button class="modal-close" onclick="closeCalvingModalDirect()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Maternity Pen KPI Bar -->
+        <div class="maternity-kpi-bar">
+          <div class="maternity-kpi-item">
+            <span>Doğumhane Doluluğu:</span>
+            <strong id="maternityOccupancyVal">3 / 6 İnek</strong>
+          </div>
+          <div class="maternity-kpi-item">
+            <span>24-48 Saat Doğum Penceresi:</span>
+            <strong id="maternity24hWindowVal" style="color:#38bdf8;">1 Baş</strong>
+          </div>
+          <div class="maternity-kpi-item">
+            <span>Aktif Doğum / Distosi:</span>
+            <strong id="maternityAlertsVal" style="color:#ef4444;">1 Alarm</strong>
+          </div>
+          <div class="maternity-kpi-item">
+            <span>-20°C Kolostrum Bankası:</span>
+            <strong id="maternityColostrumStockVal" style="color:#10b981;">42.5 Litre (>%22 Brix)</strong>
+          </div>
+          <div class="maternity-kpi-item">
+            <span>Buzağıhane Varlığı:</span>
+            <strong id="maternityCalvesVal">5 Baş (Ort. Vigor 9.0)</strong>
+          </div>
+        </div>
+
+        <!-- 3-Column Calving Grid -->
+        <div class="calving-grid">
+          <!-- Column 1: Active Cow Calving & Dystocia Monitor -->
+          <div class="calving-card" id="calvingCowCard">
+            <div class="calving-card-header">
+              <div>
+                <h3 id="calvCowTitle">Nazlı (TR-34-106)</h3>
+                <small id="calvGestationDays">Gebelik: 283. Gün | Holstein</small>
+              </div>
+              <span class="badge" id="calvStageBadge">2. Evre Ikınma</span>
+            </div>
+
+            <div class="calving-sensor-metrics">
+              <div><span>Vücut Isısı (P4 Çekilmesi):</span> <strong id="calvTempVal" style="color:#38bdf8;">37.80°C (-0.8°C)</strong></div>
+              <div><span>Kuyruk Açısı &amp; Sancı:</span> <strong id="calvTailVal">78° (46 sancı/saat)</strong></div>
+              <div><span>Geviş Azalması:</span> <strong id="calvRuminationVal">-%68 Düşüş</strong></div>
+              <div><span>Huzursuzluk İndeksi:</span> <strong id="calvRestlessVal">0.94 (Yüksek)</strong></div>
+              <div><span>Pelvis Çatı Bağları:</span> <strong id="calvPelvicVal">TAM GEVŞEK</strong></div>
+              <div><span>Meme Dolgunluğu:</span> <strong id="calvTeatVal">Kolostrum Akışı</strong></div>
+            </div>
+
+            <div class="dystocia-alert-box" id="dystociaAlertBox">
+              <strong id="dystociaAlertTitle">🚨 DİSTOSİ (GÜÇ DOĞUM) ALARMI</strong>
+              <p id="dystociaAlertDesc" style="margin:0.25rem 0 0 0;">2. Evre aktif ıkınma süresi 78 dakikadır ve fetus makat gelişindedir!</p>
+            </div>
+
+            <div style="font-size:0.72rem; color:var(--text-secondary); background:rgba(255,255,255,0.03); padding:0.5rem; border-radius:var(--radius-sm);">
+              <strong>XAI Açıklanabilir Gerekçe:</strong>
+              <ul id="calvXaiList" style="margin:0.25rem 0 0 1rem; padding:0;">
+                <li>2. Evre aktif doğum eşiği (70 dk) aşılmıştır.</li>
+                <li>Fetus makat pozisyonundadır; acil mekanik çekme gerekir.</li>
+              </ul>
+            </div>
+
+            <button class="btn btn-primary" onclick="alert('Veteriner hekim acil çağrısı iletildi ve revir kapısı kilitlendi.')" style="margin-top:auto; font-size:0.75rem;">
+              🚨 Acil Veteriner Müdahale Bildirimi
+            </button>
+          </div>
+
+          <!-- Column 2: Interactive Optical Brix Refractometer Tester -->
+          <div class="calving-card">
+            <div class="calving-card-header">
+              <div>
+                <h3>🍼 Optik Brix Kolostrum Testi</h3>
+                <small>Brix Refraktometre &amp; IgG Hesaplama</small>
+              </div>
+              <span class="badge success" id="colostrumGradeBadge">ÜSTÜN KALİTE</span>
+            </div>
+
+            <div class="colostrum-tester-box">
+              <div class="colostrum-slider-group">
+                <div style="display:flex; justify-content:space-between;">
+                  <span>Optik Brix Refraktometre (%):</span>
+                  <strong id="sliderBrixVal" style="color:#38bdf8;">%24.5</strong>
+                </div>
+                <input type="range" id="inputBrix" min="12.0" max="32.0" step="0.5" value="24.5" oninput="updateColostrumTester()">
+              </div>
+
+              <div class="colostrum-slider-group">
+                <div style="display:flex; justify-content:space-between;">
+                  <span>Sağılan İlk Kolostrum Miktarı (L):</span>
+                  <strong id="sliderYieldVal">6.5 Litre</strong>
+                </div>
+                <input type="range" id="inputColYield" min="2.0" max="12.0" step="0.5" value="6.5" oninput="updateColostrumTester()">
+              </div>
+            </div>
+
+            <div class="colostrum-result-pill excellent" id="colostrumResultPill">
+              <div><span>Hesaplanan IgG Antikor:</span> <strong id="colIggVal">80.4 g/L</strong> (Eşik: &ge;50 g/L)</div>
+              <div><span>FPT Riski:</span> <strong id="colFptVal">DÜŞÜK / KORUMALI</strong></div>
+              <div style="margin-top:0.3rem;" id="colProtocolText">Doğumdan sonraki ilk 2 saatte 4 Litre içiriniz. Kalan 2.5 L dondurulmuş kolostrum bankasına aktarıldı.</div>
+            </div>
+
+            <div style="font-size:0.7rem; color:var(--text-muted); line-height:1.35;">
+              ℹ️ <em>Pasif Bağışıklık Transferi (FPT):</em> Buzağılar antikor olmadan doğar; ilk 2 saat içinde &ge;%22 Brix kolostrum almayan buzağılarda septisemi ve ishal riski 4 kat artar.
+            </div>
+          </div>
+
+          <!-- Column 3: Newborn Calf Digital Twin Profile -->
+          <div class="calving-card">
+            <div class="calving-card-header">
+              <div>
+                <h3>🐮 Yeni Doğan Buzağı İkizi</h3>
+                <small id="calfIdVal">TR-06-CALF-106</small>
+              </div>
+              <span class="badge success" id="calfStatusBadge">Mükemmel Canlılık</span>
+            </div>
+
+            <div class="calf-avatar-box">
+              <span class="calf-avatar-icon">🍼</span>
+              <div>
+                <strong style="font-size:0.9rem;">Dişi Buzağı (Holstein)</strong>
+                <div style="font-size:0.72rem; color:var(--text-muted);">Anne: Nazlı | Baba: AltaZarek</div>
+              </div>
+            </div>
+
+            <div class="calving-sensor-metrics">
+              <div><span>Doğum Ağırlığı:</span> <strong id="calfWeightVal">42.0 kg</strong></div>
+              <div><span>APGAR Vigor Skoru:</span> <strong id="calfVigorVal" style="color:#10b981;">9 / 10</strong></div>
+              <div><span>İlk Ayağa Kalkma:</span> <strong id="calfStandVal">42 dakika</strong></div>
+              <div><span>Emme Refleksi:</span> <strong id="calfSuckleVal" style="color:#10b981;">KUVVETLİ</strong></div>
+              <div><span>Serum Total Protein:</span> <strong id="calfStpVal" style="color:#10b981;">6.2 g/dL (&ge;5.5)</strong></div>
+              <div><span>Hedef ADG Büyüme:</span> <strong id="calfAdgVal">+0.88 kg/gün</strong></div>
+            </div>
+
+            <div style="font-size:0.72rem; background:rgba(0,0,0,0.25); padding:0.5rem; border-radius:var(--radius-sm); color:var(--text-secondary);">
+              <strong>Buzağı Besleme Planı:</strong>
+              <div style="margin-top:0.25rem;">Günde 3 öğün 2.0 L kaliteli süt + serbest buzağı başlangıç yemi ve temiz su.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeCalvingModalDirect()">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Genomic Selection, Pedigree & Mating Matchmaker Modal (Phase 13) -->
+  <div class="modal-overlay" id="genomicsModal" onclick="closeGenomicsModal(event)">
+    <div class="modal-content genomics-modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <span class="modal-tag">GENOMİK SELEKSİYON, PEDİGRİ &amp; DİJİTAL ÇİFTLEŞTİRME İKİZİ</span>
+          <h2 data-academic-key="gebv">🧬 Sürü Genomik Islah İndeksi, Akrabalık (Inbreeding) &amp; Akıllı Boğa Eşleştirmesi</h2>
+        </div>
+        <button class="modal-close" onclick="closeGenomicsModalDirect()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Herd Genomics KPI Bar -->
+        <div class="genomics-kpi-bar">
+          <div class="gen-kpi-item">
+            <span data-academic-key="gebv">Sürü Ort. Net Merit:</span>
+            <strong id="genHerdNmVal" style="color:#38bdf8;">$750 NM$</strong>
+          </div>
+          <div class="gen-kpi-item">
+            <span>Sürü Inbreeding (F):</span>
+            <strong id="genHerdInbreedingVal" style="color:#10b981;">%5.77 (Güvenli &lt; %6.25)</strong>
+          </div>
+          <div class="gen-kpi-item">
+            <span>Genotiplenen İnek:</span>
+            <strong id="genCowCountVal">6 Baş Holstein</strong>
+          </div>
+          <div class="gen-kpi-item">
+            <span>Elit Verici İnekler:</span>
+            <strong id="genEliteCountVal" style="color:#f59e0b;">2 Baş (Dişi Sperma)</strong>
+          </div>
+          <div class="gen-kpi-item">
+            <span>Katalog Elit Boğa:</span>
+            <strong id="genBullCountVal">4 Boğa (TPI &gt; 2900)</strong>
+          </div>
+        </div>
+
+        <!-- 2-Column Mating Grid -->
+        <div class="genomics-grid">
+          <!-- Column 1: Cow Pedigree & gEBV Profile -->
+          <div class="gen-card">
+            <div class="gen-card-header">
+              <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+                <div>
+                  <h3>İnek Pedigri &amp; Genomik Profili</h3>
+                  <small>USDA-CDCB Genomik Damızlık Değerleri</small>
+                </div>
+                <select id="selectGenomicCow" class="cow-selector-dropdown" onchange="onCowSelectionChange(this.value)">
+                  <option value="TR-34-102">Benekli (TR-34-102) - Elit Verici ($890 NM$)</option>
+                  <option value="TR-34-105">Elif (TR-34-105) - Elit Verici ($840 NM$)</option>
+                  <option value="TR-34-101">Sarıkız (TR-34-101) - Ticari ($720 NM$)</option>
+                  <option value="TR-34-104">Yıldız (TR-34-104) - HCD Taşıyıcısı ($760 NM$)</option>
+                  <option value="TR-34-106">Nazlı (TR-34-106) - Ticari ($680 NM$)</option>
+                  <option value="TR-34-103">Papatya (TR-34-103) - Ticari ($610 NM$)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Cow Identity & Pedigree Tree Box -->
+            <div class="pedigree-tree-box">
+              <div class="ped-node-root">
+                <span>İnek:</span> <strong id="pedCowName">Benekli (TR-34-102)</strong>
+                <span class="badge success" id="pedCategoryBadge" style="margin-left:0.4rem;">ELİT VERİCİ</span>
+              </div>
+              <div class="ped-branches">
+                <div class="ped-branch">
+                  <span>Baba (Sire):</span>
+                  <strong id="pedSireName">Hurtgenlea Richard Charl</strong>
+                </div>
+                <div class="ped-branch">
+                  <span>Anne Babası (MGS):</span>
+                  <strong id="pedMgsName">EDG Rubicon</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- gEBV Trait Strip -->
+            <div class="gebv-grid">
+              <div><span>Net Merit (NM$):</span> <strong id="gebvNmVal" style="color:#38bdf8;">$890</strong></div>
+              <div><span>TPI Skoru:</span> <strong id="gebvTpiVal">2,860</strong></div>
+              <div><span>Süt gEBV:</span> <strong id="gebvMilkVal">+780 kg</strong></div>
+              <div><span>Süt Yağı:</span> <strong id="gebvFatVal">+52 kg (+%0.16)</strong></div>
+              <div><span>Süt Proteini:</span> <strong id="gebvProteinVal">+38 kg (+%0.09)</strong></div>
+              <div><span>Somatik Hücre (SCS):</span> <strong id="gebvScsVal" style="color:#10b981;">2.75</strong></div>
+              <div><span>Üretken Ömür (PL):</span> <strong id="gebvPlVal">+4.1 Ay</strong></div>
+              <div><span>Kız Doğurganlığı (DPR):</span> <strong id="gebvDprVal">+%1.6</strong></div>
+              <div><span>Meme Kompoziti (UDC):</span> <strong id="gebvUdcVal">+2.05</strong></div>
+              <div><span>Ayak &amp; Tırnak (FLC):</span> <strong id="gebvFlcVal">+1.65</strong></div>
+            </div>
+
+            <!-- Recessive Defect Status -->
+            <div class="recessive-status-box" id="recessiveBox">
+              <span>Genetik Defekt Taraması:</span>
+              <strong id="recessiveSummaryVal" style="color:#10b981;">Tüm ölümcül resesif defektler bakımından TEMİZ</strong>
+            </div>
+
+            <div style="font-size:0.7rem; color:var(--text-muted); line-height:1.35;">
+              ℹ️ <em>Genomik Damızlık İndeksi (Net Merit NM$):</em> Süt bileşenleri (%45), sürü ömrü ve mastitis direnci (%40) ile konformasyon (%15) ağırlıklandırılarak hesaplanır.
+            </div>
+          </div>
+
+          <!-- Column 2: AI Bull Matchmaker Recommendations -->
+          <div class="gen-card">
+            <div class="gen-card-header">
+              <div>
+                <h3>🎯 Akıllı Boğa Eşleştirme Önerileri</h3>
+                <small>Akrabalık Katsayısı (F &lt; %6.25) &amp; Maksimum Genetik Kazanç</small>
+              </div>
+              <span class="badge" id="matingStrategyBadge">Dişi Ayrıştırılmış Sperma</span>
+            </div>
+
+            <!-- Mating Bull Cards Container -->
+            <div class="mating-bulls-list" id="matingBullsList">
+              <!-- Dynamically rendered by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeGenomicsModalDirect()">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Daily Audit Report Modal -->
+  <div id="reportModal" class="modal-backdrop" onclick="closeReportModal(event)">
+    <div class="modal-dialog modal-lg" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2>📋 Günlük Dijital İkiz ve Veteriner Denetim Raporu</h2>
+          <span class="badge" style="background:rgba(56,189,248,0.15); color:#38bdf8; border:1px solid #38bdf8;">Markdown / ICAR Uyumlu</span>
+        </div>
+        <button class="close-btn" onclick="closeReportModalDirect()">&times;</button>
+      </div>
+      <div class="modal-body" style="max-height:72vh; overflow-y:auto;">
+        <div class="report-actions-bar" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; padding:0.6rem 1rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.08);">
+          <span style="font-size:0.85rem; color:var(--text-muted);" id="reportMetaInfo">Rapor hazırlandı.</span>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn btn-secondary" onclick="copyReportText()" id="btnCopyReport">📋 Metni Kopyala</button>
+            <button class="btn btn-primary" onclick="downloadReportMarkdown()">📥 Markdown İndir (.md)</button>
+          </div>
+        </div>
+        <div id="reportRenderedContent" class="report-content-box">
+          <!-- Rendered HTML -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeReportModalDirect()">Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo User Login & Persona Modal -->
+  <div id="demoLoginModal" class="modal-backdrop" onclick="closeDemoLoginModal(event)">
+    <div class="modal-dialog modal-lg" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2>👤 Demo Kullanıcı Girişi &amp; Çiftlik Rolleri</h2>
+          <span class="badge success">Şifresiz / Tek Tıkla Anında Giriş</span>
+        </div>
+        <button class="close-btn" onclick="closeDemoLoginModalDirect()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--text-secondary); font-size:0.88rem; margin-bottom:1.25rem;">
+          AgriTwin Dijital İkiz platformunu farklı kurumsal rollerin gözünden deneyimlemek için aşağıdaki demo profillerinden birini seçiniz. Her profil arayüz yetkilerini ve Yapay Zeka Danışmanı çıktılarını özelleştirir.
+        </p>
+
+        <div class="demo-personas-grid">
+          <!-- Persona 1: Baş Veteriner Hekim -->
+          <div class="persona-card active" id="personaCard_vet" onclick="selectDemoPersona('vet')">
+            <div class="persona-card-header">
+              <span class="persona-avatar">🩺</span>
+              <div>
+                <h4>Dr. Mehmet Yılmaz</h4>
+                <span class="persona-title">Baş Veteriner Hekim &amp; Sürü Danışmanı</span>
+              </div>
+              <span class="persona-active-badge">Aktif Profil</span>
+            </div>
+            <div class="persona-desc">
+              Sürü klinik sağlığı, mastitis antibiyotik arınma karantinası, doğumhane distosi erken uyarısı ve optik Brix kolostrum kalitesi kontrolleri.
+            </div>
+            <div class="persona-tags">
+              <span>Reçeteleme</span>
+              <span>Karantina Kilidi</span>
+              <span>CES Distosi DSS</span>
+              <span>Brix IgG</span>
+            </div>
+          </div>
+
+          <!-- Persona 2: Çiftlik Yöneticisi -->
+          <div class="persona-card" id="personaCard_manager" onclick="selectDemoPersona('manager')">
+            <div class="persona-card-header">
+              <span class="persona-avatar">🚜</span>
+              <div>
+                <h4>Selim Aksoy</h4>
+                <span class="persona-title">Çiftlik Müdürü &amp; Kıdemli Zooteknist</span>
+              </div>
+              <span class="persona-active-badge">Aktif Profil</span>
+            </div>
+            <div class="persona-desc">
+              Çok amaçlı TMR rasyon Pareto optimizasyonu, Juno yem itici &amp; Discovery gübre robotu filo navigasyonu ve sürü ayırma kapısı yönetimi.
+            </div>
+            <div class="persona-tags">
+              <span>TMR Rasyon</span>
+              <span>Robot Filosu</span>
+              <span>Ayırma Kapısı</span>
+              <span>Finansal ROI</span>
+            </div>
+          </div>
+
+          <!-- Persona 3: Enerji Mühendisi -->
+          <div class="persona-card" id="personaCard_energy" onclick="selectDemoPersona('energy')">
+            <div class="persona-card-header">
+              <span class="persona-avatar">⚡</span>
+              <div>
+                <h4>Müh. Emre Demir</h4>
+                <span class="persona-title">Biyogaz &amp; Kojenerasyon (CHP) Mühendisi</span>
+              </div>
+              <span class="persona-active-badge">Aktif Profil</span>
+            </div>
+            <div class="persona-desc">
+              Anaerobik atık fermantasyonu, biyogaz debisi, metan yüzdesi, CHP elektrik kojenerasyonu ve şebekeye temiz enerji satışı takibi.
+            </div>
+            <div class="persona-tags">
+              <span>Biyogaz CHP</span>
+              <span>%506 Öz Yeterlilik</span>
+              <span>Net-Zero Karbon</span>
+              <span>Bio-Gübre</span>
+            </div>
+          </div>
+
+          <!-- Persona 4: Genetik Islah Uzmanı -->
+          <div class="persona-card" id="personaCard_genetics" onclick="selectDemoPersona('genetics')">
+            <div class="persona-card-header">
+              <span class="persona-avatar">🧬</span>
+              <div>
+                <h4>Selin Kaya</h4>
+                <span class="persona-title">Genomik Islah &amp; Boğa Eşleştirme Uzmanı</span>
+              </div>
+              <span class="persona-active-badge">Aktif Profil</span>
+            </div>
+            <div class="persona-desc">
+              USDA Net Merit (NM$), TPI skorları, akrabalık katsayısı (F &lt; %6.25) denetimi ve dişi ayrıştırılmış sperma AI boğa eşleştirmesi.
+            </div>
+            <div class="persona-tags">
+              <span>Net Merit (NM$)</span>
+              <span>Pedigri Ağacı</span>
+              <span>Inbreeding (F)</span>
+              <span>Katalog Boğaları</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Mock Scenario Trigger Bar -->
+        <div class="demo-quick-scenarios-bar" style="margin-top:1.5rem; padding:1rem; background:rgba(255,255,255,0.03); border-radius:8px; border:1px solid rgba(255,255,255,0.08);">
+          <h4 style="font-size:0.85rem; margin-bottom:0.5rem; color:#38bdf8;">🎯 Hızlı Demo Senaryoları (Anında Test Edin):</h4>
+          <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+            <button class="btn btn-secondary btn-xs" onclick="quickLaunchDemo('dystocia')">🚨 Güç Doğum (Distosi) Testi</button>
+            <button class="btn btn-secondary btn-xs" onclick="quickLaunchDemo('mastitis')">🦠 Subklinik Mastitis Testi</button>
+            <button class="btn btn-secondary btn-xs" onclick="quickLaunchDemo('sara')">🧪 Rumen Asidozu (SARA) Testi</button>
+            <button class="btn btn-secondary btn-xs" onclick="quickLaunchDemo('ration')">🌾 Düşük Karbon Rasyon Testi</button>
+            <button class="btn btn-secondary btn-xs" onclick="quickLaunchDemo('robotics')">🤖 Otonom Robot Filosu Testi</button>
+            <button class="btn btn-secondary btn-xs" onclick="quickLaunchDemo('energy')">⚡ Net-Zero Biyogaz Enerji Testi</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeDemoLoginModalDirect()">Seçilen Profille Devam Et</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- =====================================================================
+       KULLANIM KILAVUZU & AKADEMİK DOKÜMANTASYON MODALI (FAZ 17)
+       Standartlar: NASEM (2021), NRC (2001), ICAR ADE v2.0, IDF, VDI 4630
+       ===================================================================== -->
+  <div id="guideModal" class="modal-backdrop guide-modal-backdrop" onclick="closeGuideModal(event)">
+    <div class="modal-dialog guide-modal-dialog" onclick="event.stopPropagation()">
+      <div class="modal-header guide-modal-header">
+        <div class="modal-title-group">
+          <span class="modal-tag">KAPSAMLI KULLANICI DOKÜMANTASYONU &amp; BİLİMSEL METODOLOJİ</span>
+          <h2>📖 AgriTwin Pro - Kullanım Kılavuzu &amp; Akademik El Kitabı</h2>
+          <small style="color:var(--text-muted); font-size:0.75rem;">Sürüm 2.4.0 • Uluslararası Standartlar: NASEM (2021), NRC (2001), ICAR ADE v2.0, IDF 148A, VDI 4630, IPCC Tier 3</small>
+        </div>
+        <button class="modal-close" onclick="closeGuideModalDirect()" title="Kılavuzu Kapat">&times;</button>
+      </div>
+
+      <!-- Quick Search Bar inside Guide -->
+      <div class="guide-search-bar">
+        <span class="guide-search-icon">🔍</span>
+        <input type="text" id="guideSearchInput" placeholder="Kılavuzda veya terimlerde ara... (örn: SARA, BCS, Brix, THI, GBLUP, Juno, CH4, IOFC)" oninput="filterGuideContent(this.value)" />
+      </div>
+
+      <div class="modal-body guide-modal-body">
+        <div class="guide-layout">
+          <!-- Guide Sidebar Navigation -->
+          <nav class="guide-sidebar" id="guideSidebarNav">
+            <button class="guide-nav-item active" onclick="selectGuideTab('tab-intro')"><span class="nav-icon">🏛️</span> 1. Mimari &amp; Genel Bakış</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-kpis')"><span class="nav-icon">📊</span> 2. Sürü KPI &amp; Finansal İkiz</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-spatial')"><span class="nav-icon">🗺️</span> 3. RTLS Ahır &amp; Mikroklima</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-herd')"><span class="nav-icon">🐄</span> 4. Biyometri &amp; Sürü Kartları</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-xai')"><span class="nav-icon">🔍</span> 5. XAI Teşhis &amp; Karar Destek</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-genomics')"><span class="nav-icon">🧬</span> 6. Genomik Islah &amp; Boğa</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-calving')"><span class="nav-icon">🤰</span> 7. Doğumhane &amp; Distosi</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-robotics')"><span class="nav-icon">🤖</span> 8. Otonom Robot Filosu</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-energy')"><span class="nav-icon">⚡</span> 9. Biyogaz &amp; Net-Zero Enerji</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-ration')"><span class="nav-icon">🌾</span> 10. RuFaS Çok Amaçlı Rasyon</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-report')"><span class="nav-icon">📋</span> 11. Denetim &amp; ICAR ADE</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-ai')"><span class="nav-icon">🧠</span> 12. Yapay Zeka &amp; Senaryolar</button>
+            <button class="guide-nav-item" onclick="selectGuideTab('tab-glossary')"><span class="nav-icon">🎓</span> 13. Akademik Sözlük &amp; Standartlar</button>
+          </nav>
+
+          <!-- Guide Main Content Area -->
+          <main class="guide-content" id="guideContentArea">
+            
+            <!-- SECTION 1: Mimari & Genel Bakış -->
+            <article class="guide-section active" id="sec-tab-intro">
+              <div class="guide-section-header">
+                <h3>🏛️ 1. Sistem Mimarisi &amp; Hassas Hayvancılık (PLF) Platformu</h3>
+                <span class="guide-badge">MİMARİ &amp; PROTOKOL</span>
+              </div>
+              <p class="guide-lead">
+                <strong>AgriTwin Pro</strong>, modern serbest duraklı süt sığırcılığı işletmelerinde 
+                fiziksel biyo-telemetri sensörlerini, bilgisayarlı görü kameralarını, otonom ahır robotlarını 
+                ve biyo-matematiksel modelleri bir araya getiren <strong>bütünleşik bir dijital ikiz (Digital Twin)</strong> platformudur.
+              </p>
+
+              <div class="guide-callout info">
+                <strong>📌 Temel Mühendislik &amp; Bilimsel Felsefesi:</strong>
+                Geleneksel sürü yönetim yazılımlarının aksine AgriTwin Pro yalnızca geçmiş verileri kaydetmez; 
+                canlı sensör akışlarını <em>Wood laktasyon fonksiyonu, inSiliCow işkembe kinetiği, Wright akrabalık teorisi, 
+                RuFaS çok amaçlı rasyon optimizasyonu ve IPCC Tier 3 sera gazı modelleriyle</em> eşzamanlı çalıştırarak 
+                <strong>öngörüsel (predictive) ve reçetesel (prescriptive) kararlar</strong> üretir.
+              </div>
+
+              <h4>1.1 Donanım &amp; Ağ Katmanı (IoT / PLF Sensörleri)</h4>
+              <ul class="guide-list">
+                <li><strong>UWB Konum Etiketi (RTLS):</strong> IEEE 802.15.4z standardında 3.1 - 10.6 GHz frekansında çalışan ToF (Time-of-Flight) tasmalar ile hayvanların ahırdaki konumları ±15 cm doğrulukla izlenir.</li>
+                <li><strong>İntraruminal Kablosuz Bolus:</strong> İneğin retikülorumeninde ömür boyu kalan bolus sensörü; rumen pH değerini, iç vücut sıcaklığını ve retikulum motilite kasılmalarını gerçek zamanlı iletir.</li>
+                <li><strong>3D Derinlik Kamerası (Computer Vision):</strong> Sağımhane çıkış tüneline yerleştirilen RGB-D kamera; ineklerin sırt eğriliğini (kamburluk) ve pelvik hacmini tarayarak Topallık (Lameness) ve Vücut Kondisyon Skorunu (BCS) otomatik belirler.</li>
+                <li><strong>Hat İçi Spektrometre &amp; Süt Sayacı:</strong> Robotik sağım başlığında 4 meme lobundan gelen sütü ayrı ayrı analiz eder; elektriksel iletkenlik (EC), süt sıcaklığı ve kan/döküntü varlığını ölçer.</li>
+              </ul>
+
+              <h4>1.2 Uç Bilişim Mimarisi (Edge-First Architecture)</h4>
+              <p>
+                Kırsal tarım işletmelerinde internet kesintileri yaşansa dahi sistemin otonom karar mekanizmaları durmaz. 
+                Ahır içine kurulu <strong>Edge Gateway</strong> yerel sunucusu, 15 milisaniyenin altında mikro-karar döngüsü işletir. 
+                İnternet kesintisinde 72 saate kadar veri paketlerini yerel belleğinde tamponlar (offline buffering) ve bağlantı kurulduğunda buluta senkronize eder.
+              </p>
+            </article>
+
+            <!-- SECTION 2: Sürü KPI & Finansal İkiz -->
+            <article class="guide-section" id="sec-tab-kpis">
+              <div class="guide-section-header">
+                <h3>📊 2. Üst Göstergeler (KPI) &amp; Finansal Karar İkizi</h3>
+                <span class="guide-badge">EKONOMİ &amp; İZLEME</span>
+              </div>
+              <p class="guide-lead">
+                Ekranın en üstünde yer alan gösterge paneli, çiftliğin genel sağlık durumunu, mikroklima risklerini ve finansal katma değerini özetler.
+              </p>
+
+              <h4>2.1 Temel Sürü Metrikleri</h4>
+              <div class="guide-grid-2">
+                <div class="guide-card">
+                  <div class="guide-card-title">🏷️ Toplam Sürü Varlığı</div>
+                  <p>ICAR ADE v2.0 standardında dijital ikizi oluşturulmuş hayvan sayısını gösterir. Her hayvan küpe numarası, RFID ID'si ve soyağacıyla kayıt altındadır.</p>
+                </div>
+                <div class="guide-card">
+                  <div class="guide-card-title">🩺 Sürü Sağlık Durumu (DSS)</div>
+                  <p>Causal Bayesian Network ve lojistik regresyon ile hayvanların sağlık durumunu sınıflandırır: <em>Normal (Yeşil), Dikkat/Estrus (Sarı), Kritik Müdahale (Kırmızı)</em>.</p>
+                </div>
+                <div class="guide-card">
+                  <div class="guide-card-title">🌡️ Maksimum THI (Sıcaklık-Nem)</div>
+                  <p>NRC (1971) ve Collier (2012) standardında ahırın en sıcak bölgesindeki ısı stresini ölçer. THI &ge; 72 olduğunda fan ve duş otomasyonunu tetikler.</p>
+                </div>
+                <div class="guide-card">
+                  <div class="guide-card-title">🚪 Otomatik Ayırma Kapısı</div>
+                  <p>DeLaval / Lely akıllı kapı yönlendirmesi. Sağım sonrası hasta, tohumlama zamanı gelmiş veya ilaçlı inekleri otomatik olarak Revir bölmesine ayırır.</p>
+                </div>
+              </div>
+
+              <h4>2.2 Finansal İkiz &amp; Yem Üzeri Gelir (IOFC)</h4>
+              <div class="guide-formula-box">
+                <code>IOFC (₺/baş/gün) = (Günlük Süt Verimi × Süt Satış Fiyatı) - Günlük TMR Rasyon Gideri</code>
+              </div>
+              <p>
+                <strong>Yem Üzeri Gelir (Income Over Feed Cost - IOFC):</strong> Süt sığırcılığında operasyonel başarının en net göstergesidir. 
+                AgriTwin Pro, RuFaS rasyon optimizasyonu sayesinde sürüde günlük brüt yem marjını maksimize eder. 
+                Model; önlenen mastitis kayıpları, yakalanan kızgınlıklar ve tasarruf edilen yem miktarı üzerinden çiftliğin <strong>Dinamik Amortisman (ROI)</strong> süresini hesaplar (tipik: 14 - 18 ay).
+              </p>
+            </article>
+
+            <!-- SECTION 3: RTLS Ahır & Mikroklima -->
+            <article class="guide-section" id="sec-tab-spatial">
+              <div class="guide-section-header">
+                <h3>🗺️ 3. Barınak RTLS Konum Takibi &amp; Mikroklima Isı Haritası</h3>
+                <span class="guide-badge">UZAMSAL İKİZ</span>
+              </div>
+              <p class="guide-lead">
+                40 metre x 25 metre boyutlarındaki serbest duraklı ahırın dijital haritası, hayvanların konumlarını ve ahır içi mikroklima değişimlerini canlı olarak simüle eder.
+              </p>
+
+              <h4>3.1 Harita Bileşenleri ve Bölgeler</h4>
+              <ul class="guide-list">
+                <li><strong>Yemlik Yolu (Feed Bunk):</strong> İneklerin yem yediği bölgedir. Juno otonom yem itici robotu bu hat üzerinde periyodik devriye atar.</li>
+                <li><strong>Dinlenme Durakları (Cubicles / Stalls):</strong> Hayvanların geviş getirdiği kauçuk yataklı dinlenme alanları. Hayvanın burada geçirdiği süre refah indeksini belirler.</li>
+                <li><strong>Robotik Sağım Odası (AMS):</strong> İneklerin gönüllü olarak sağıma girdiği otomatik sağım istasyonu ve spektrometre ünitesi.</li>
+                <li><strong>Revir &amp; Doğumhane İzolasyon Bölmesi:</strong> Otomatik ayırma kapısının yönlendirdiği tedavi, tohumlama ve güç doğum takip bölmesi.</li>
+              </ul>
+
+              <h4>3.2 Isı Haritası (THI Gradient) &amp; Radar Darbesi</h4>
+              <p>
+                Harita zeminindeki renkler (Mavi: &lt;70 konfor, Sarı: 72-77 hafif stres, Kırmızı: &ge;78 şiddetli stres) bölgesel sıcaklık-nem indeksini gösterir. 
+                Kritik durumda olan ineklerin etrafında <strong>radar dalgası (radar-pulse-ring)</strong> animasyonu yanıp söner. 
+                <em>Harita üzerindeki herhangi bir ineğe tıklandığında doğrudan XAI Açıklanabilir Teşhis Modalı açılır.</em>
+              </p>
+            </article>
+
+            <!-- SECTION 4: Biyometri & Sürü Kartları -->
+            <article class="guide-section" id="sec-tab-herd">
+              <div class="guide-section-header">
+                <h3>🐄 4. Biyometrik Sürü Kartları &amp; Telemetri Parametreleri</h3>
+                <span class="guide-badge">BİYO-TELEMETRİ</span>
+              </div>
+              <p class="guide-lead">
+                Sürü listesindeki her bir hayvan kartı, ineğin kimlik bilgilerini, anlık fizyolojik sensör değerlerini ve yapay zeka alarm durumunu gösterir.
+              </p>
+
+              <h4>4.1 Telemetri Şeridindeki Parametreler</h4>
+              <table class="guide-table">
+                <thead>
+                  <tr><th>Parametre</th><th>Ölçüm Yöntemi</th><th>Normal Referans</th><th>Akademik Anlamı</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>DIM (Days in Milk)</strong></td>
+                    <td>Doğumdan geçen gün</td>
+                    <td>Pik: 45-90 gün</td>
+                    <td>Laktasyon eğrisindeki konumu, enerji ihtiyacını ve NEB riskini belirler.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>BCS (Vücut Kondisyonu)</strong></td>
+                    <td>3D Derinlik Kamerası</td>
+                    <td>2.75 - 3.50 (1-5)</td>
+                    <td>Ferguson et al. (1994) skalası. Aşırı kondisyon kaybı ketozis habercisidir.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Topallık Skoru</strong></td>
+                    <td>Sırt kemerleşme açısı</td>
+                    <td>Skor 1.0 - 1.5</td>
+                    <td>Sprecher et al. (1997) skalası. Skor &ge; 2.5 tırnak lezyonunu gösterir.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>İntraruminal pH</strong></td>
+                    <td>Kablosuz Bolus</td>
+                    <td>6.20 - 6.80</td>
+                    <td>Krause &amp; Oetzel (2006). pH &lt; 5.80 süresi &gt; 180 dk ise SARA teşhis edilir.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Elektriksel İletkenlik</strong></td>
+                    <td>Hat içi sensör (mS/cm)</td>
+                    <td>4.80 - 5.50</td>
+                    <td>Mastitiste sodyum/klor iyonu artar, iletkenlik 5.80'i geçer.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Geviş Süresi</strong></td>
+                    <td>Akustik / İvmeölçer</td>
+                    <td>35 - 45 dk/2sa</td>
+                    <td>İşkembe motilitesini yansıtır. Düşüş akut enfeksiyon veya doğum belirtisidir.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Vücut Isısı</strong></td>
+                    <td>Rumen termometresi</td>
+                    <td>38.5°C - 39.2°C</td>
+                    <td>Sistemik ateş enfeksiyonu; doğum öncesi 0.6°C düşüş yaklaşan buzağılamayı gösterir.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Enterik Metan (CH4)</strong></td>
+                    <td>RuFaS / IPCC Tier 3</td>
+                    <td>380 - 450 g/gün</td>
+                    <td>Metanojenik Archaea üretimi. Düşük karbon rasyonu ile %16 azaltılabilir.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+
+            <!-- SECTION 5: XAI Teşhis & Karar Destek -->
+            <article class="guide-section" id="sec-tab-xai">
+              <div class="guide-section-header">
+                <h3>🔍 5. Açıklanabilir Yapay Zeka (XAI) &amp; Karar Destek Sistemi (DSS)</h3>
+                <span class="guide-badge">XAI &amp; VETERİNER DSS</span>
+              </div>
+              <p class="guide-lead">
+                XAI Modalı, bir inek için yalnızca "hasta" veya "sağlıklı" uyarısı vermekle kalmaz; 
+                kararın <strong>neden verildiğini nedensellik ve biyolojik mekanizmalarla</strong> şeffaf olarak açıklar.
+              </p>
+
+              <h4>5.1 Modaldaki Analitik Modüller</h4>
+              <ul class="guide-list">
+                <li><strong>Causal Feature Importance (SHAP):</strong> Lundberg &amp; Lee (2017) oyun teorisi analiziyle, teşhisi en çok tetikleyen 5 biyolojik faktörü etki yüzdesiyle sıralar.</li>
+                <li><strong>Wood Laktasyon Eğrisi Grafiği:</strong> \(y(t) = a \cdot t^b \cdot e^{-c t}\) analitik gama eğrisi ile ineğin o günkü gerçek süt verimi arasındaki sapmayı görselleştirir.</li>
+                <li><strong>3D Derinlik Kamerası Analizi:</strong> İneğin omurga kamburluk eğrisini (Spine curvature SVG) ve kalça pelvik kesitini çizerek topallık ve kondisyon skoru gerekçesini açıklar.</li>
+                <li><strong>Rumen pH Kinetiği Grafiği:</strong> Son 24 saatlik rumen asitlik seyrini ve 5.80 SARA eşiğinin altında geçirilen süreyi çizer.</li>
+                <li><strong>4 Çeyrek Meme Spektrometresi:</strong> RF, RR, LF, LR çeyreklerinin iletkenlik ve hücre sayısını anatomik diyagram üzerinde gösterir.</li>
+              </ul>
+
+              <h4>5.2 Veteriner Müdahale Protokolü</h4>
+              <p>
+                Veteriner Hekim modal altındaki <strong>"💊 Veteriner Tedavisi Başlat &amp; Tankı Kilitle"</strong> butonuna bastığında:
+                Sağım robotundaki vanalara <em>İlaç Arınma Güvenlik Kilidi (Drug Withdrawal Period)</em> sinyali gönderilir. 
+                Tedavi gören hayvan sağım robotuna girdiğinde sütü otomatik olarak atık tankına yönlendirilir; ana süt tankına antibiyotik bulaşması %100 engellenir.
+              </p>
+            </article>
+
+            <!-- SECTION 6: Genomik Islah & Boğa -->
+            <article class="guide-section" id="sec-tab-genomics">
+              <div class="guide-section-header">
+                <h3>🧬 6. Genomik Seleksiyon, Pedigri &amp; Akıllı Çiftleştirme İkizi</h3>
+                <span class="guide-badge">BİYOENFORMATİK &amp; ISLAH</span>
+              </div>
+              <p class="guide-lead">
+                Bu modül, sürünün genetik potansiyelini artırırken akrabalı yetiştirme depresyonunu (inbreeding depression) önleyen dijital ıslah ikizidir.
+              </p>
+
+              <h4>6.1 Matematiksel Teori &amp; İndeksler</h4>
+              <div class="guide-formula-box">
+                <code>Wright Akrabalık Katsayısı: F = ∑ [(1/2)^(n₁+n₂+1) • (1 + F_A)]  (Güvenli Eşik: F < 6.25%)</code>
+              </div>
+              <p>
+                Herhangi bir eşleştirmede \(F \ge 6.25\%\) olması (kuzen eşleşmesi ve üzeri), yavrularda bağışıklık zayıflığına, embriyonik ölümlere ve süt veriminde gerilemeye yol açar. 
+                AgriTwin Pro, sürüdeki her inek için uluslararası kataloglardan 3 aday boğa önerir (\(F < 2.5\%\)).
+              </p>
+              <ul class="guide-list">
+                <li><strong>GEBV (Genomik Tahmini Damızlık Değeri):</strong> Meuwissen et al. (2001) GBLUP modeli; 50.000 SNP işaretçisinin ağırlıklı toplamı.</li>
+                <li><strong>Net Merit (NM$):</strong> USDA-CDCB ekonomik seleksiyon indeksi (Süt, Yağ, Protein, Verimli Ömür PL, Düve Fertilitesi HCR).</li>
+                <li><strong>TPI (Total Performance Index):</strong> Holstein Association USA tarafından dengeli tip ve verim ıslahı için kullanılan endeks.</li>
+                <li><strong>Resesif Kusur Taraması:</strong> HH1, HH2, HH3, HH4, HH5, HH6 haplotipleri ile BLAD ve CVM öldürücü gen taşıyıcılığı otomatik elenir.</li>
+              </ul>
+            </article>
+
+            <!-- SECTION 7: Doğumhane & Distosi -->
+            <article class="guide-section" id="sec-tab-calving">
+              <div class="guide-section-header">
+                <h3>🤰 7. Doğumhane Yönetimi, Distosi (Güç Doğum) DSS &amp; Kolostrum İkizi</h3>
+                <span class="guide-badge">REPRODÜKSİYON &amp; YAVRU SAĞLIĞI</span>
+              </div>
+              <p class="guide-lead">
+                Doğumhane ikizi, doğum sancısının başlamasından buzağının ilk beslenmesine kadar olan kritik süreci optimize ederek perinatal buzağı kayıplarını sıfırlamayı amaçlar.
+              </p>
+
+              <h4>7.1 Pre-Partum Sıcaklık Düşüşü (PBTD) ile Doğum Alarmı</h4>
+              <div class="guide-formula-box">
+                <code>PBTD: Doğumdan 12 - 24 saat önce Vücut Isısında -0.5°C ile -0.8°C fizyolojik düşüş</code>
+              </div>
+              <p>
+                Streyl et al. (2011) ve Burfeind et al. (2011) çalışmalarında kanıtlandığı üzere, korpus luteumun gerilemesi ve progesteron hormonunun düşmesiyle ineğin retikulum sıcaklığı 0.5 - 0.8°C düşer. 
+                Sistem bu düşüşü, geviş getirme süresinin durmasını ve ivmeölçer kuyruk/huzursuzluk piki ile birleştirerek doğumun 12 saat içinde gerçekleşeceğini bildirir.
+              </p>
+
+              <h4>7.2 Kolostrum Brix Refraktometrisi &amp; FPT Protokolü</h4>
+              <p>
+                Yeni doğan buzağı plasental bariyer nedeniyle agammaglobulinemik (antikor korumasız) doğar. 
+                Dijital Brix refraktometre değeri <strong>&ge; %22 (IgG &ge; 50 g/L)</strong> olan kolostrumlar "Altın Kalite" kabul edilir. 
+                Doğumdan sonraki ilk 2-4 saat içinde buzağıya 4 litre kaliteli kolostrum verilmesi, <strong>Pasif Transfer Yetmezliğini (FPT - serum IgG &lt; 10 g/L)</strong> kesin olarak engeller.
+              </p>
+            </article>
+
+            <!-- SECTION 8: Otonom Robot Filosu -->
+            <article class="guide-section" id="sec-tab-robotics">
+              <div class="guide-section-header">
+                <h3>🤖 8. Ahır İçi Otonom Robot Filosu İkizi</h3>
+                <span class="guide-badge">OTONOM OTOMASYON</span>
+              </div>
+              <p class="guide-lead">
+                Bu modül, ahır içinde çalışan Lely Juno X yem itici ve Lely Discovery Vac gübre vakum robotlarının telemetrisini, rota durumunu ve bataryasını yönetir.
+              </p>
+
+              <h4>8.1 Robot Görevleri &amp; Zooteknik Faydaları</h4>
+              <div class="guide-grid-2">
+                <div class="guide-card">
+                  <div class="guide-card-title">🤖 Lely Juno X Yem İtici</div>
+                  <p>Yemlik yolundaki TMR rasyonunu her 45 dakikada bir ineklerin uzanma mesafesine iter. Yem seçiciliğini (sorting) önler, kuru madde tüketimini (DMI) +%3.2 artırır ve rumen pH stabilitesi sağlar.</p>
+                  <p><strong>Manuel Butonlar:</strong> <em>"▶️ Ekstra Yem İtme Başlat"</em> ve <em>"⚡ Şarja Gönder"</em>.</p>
+                </div>
+                <div class="guide-card">
+                  <div class="guide-card-title">🤖 Lely Discovery Vac Gübre Vakum</div>
+                  <p>Ahır zeminindeki taze gübreyi su püskürterek vakumlar ve biyogaz reaktörüne basar. Zemin amonyak (\(	ext{NH}_3\)) emisyonunu %45 azaltır, tırnak lezyonlarını ve dijital dermatiti engeller.</p>
+                  <p><strong>Manuel Butonlar:</strong> <em>"▶️ Koridoru Temizle"</em> ve <em>"🛢️ Biyogaza Deşarj Et"</em>.</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- SECTION 9: Biyogaz & Net-Zero Enerji -->
+            <article class="guide-section" id="sec-tab-energy">
+              <div class="guide-section-header">
+                <h3>⚡ 9. Döngüsel Ekonomi, Biyogaz &amp; Net-Zero Enerji İkizi</h3>
+                <span class="guide-badge">TEMİZ ENERJİ &amp; DÖNGÜSEL EKONOMİ</span>
+              </div>
+              <p class="guide-lead">
+                Sığır gübresini çevre kirliliği unsuru olmaktan çıkarıp elektrik, ısı ve organik gübreye dönüştüren döngüsel biyoenerji ikizidir.
+              </p>
+
+              <h4>9.1 Anaerobik Çürütme &amp; Kojenerasyon (CHP)</h4>
+              <ul class="guide-list">
+                <li><strong>Reaktör Sıcaklığı:</strong> 38°C mezofilik fermantasyon; günlük 3.6 ton taze sığır atığı işlenir.</li>
+                <li><strong>Biyogaz Üretimi:</strong> Günde ortalama 213 m³ biyogaz üretilir (%58 \(	ext{CH}_4\), %42 \(	ext{CO}_2\)).</li>
+                <li><strong>Kojenerasyon (CHP):</strong> Üretilen biyogaz yakılarak 35 kW elektriksel güç (%38 verim) ve 50 kW termal sıcak su (%48 verim) elde edilir.</li>
+                <li><strong>Net-Zero Pozitif (%400+):</strong> Çiftliğin kendi elektrik tüketimi saatlik ~7 kW iken üretim ~35 kW seviyesindedir. Fazla elektrik şebekeye satılarak çiftliğe ek gelir sağlar.</li>
+                <li><strong>Karbon Kredisi:</strong> Metan gazının atmosfere salınımı engellenerek yılda 312 ton \(	ext{CO}_2	ext{e}\) sera gazı dengelenir.</li>
+              </ul>
+            </article>
+
+            <!-- SECTION 10: RuFaS Çok Amaçlı Rasyon -->
+            <article class="guide-section" id="sec-tab-ration">
+              <div class="guide-section-header">
+                <h3>🌾 10. Çok Amaçlı RuFaS Rasyon Formülasyonu &amp; Pareto İkizi</h3>
+                <span class="guide-badge">ÇOK AMAÇLI OPTİMİZASYON</span>
+              </div>
+              <p class="guide-lead">
+                Ruminant Farm Systems (RuFaS) konsorsiyumu modelini kullanan bu ikiz, geleneksel rasyon yazılımlarından farklı olarak hem yem maliyetini hem de enterik sera gazı salımını eşzamanlı optimize eder.
+              </p>
+
+              <h4>10.1 Pareto Sınırı (Maliyet - Karbon Eğrisi)</h4>
+              <div class="guide-formula-box">
+                <code>Çok Amaçlı Fonksiyon: min [Günlük Rasyon Maliyeti (₺)] VE min [Enterik Metan Yoğunluğu (g CH₄/kg DMI)]</code>
+              </div>
+              <p>
+                Modal içindeki interaktif Pareto grafiğinde 3 rasyon stratejisi bulunur:
+              </p>
+              <ul class="guide-list">
+                <li><strong>Bazal Standart TMR:</strong> Geleneksel mısır silajı ve yonca ağırlıklı rasyon (Maliyet: 184 ₺, Metan: 420 g/gün).</li>
+                <li><strong>RuFaS Çok Amaçlı Optimum:</strong> Kaba/kesif dengesi optimize edilmiş strateji. <strong>Metan salımında -%16.4 düşüş, yem maliyetinde +%14.2 net tasarruf</strong> sağlar.</li>
+                <li><strong>Düşük Karbon Rasyonu:</strong> Kırmızı alg (*Asparagopsis taxiformis*) veya 3-NOP katkısıyla metanı %28 düşüren ekolojik strateji.</li>
+              </ul>
+              <p>
+                Kullanıcı <em>"✅ Seçilen Rasyonu Sürüye Uygula"</em> butonuna basarak rasyonu sürü simülatörüne aktarabilir.
+              </p>
+            </article>
+
+            <!-- SECTION 11: Denetim & ICAR ADE -->
+            <article class="guide-section" id="sec-tab-report">
+              <div class="guide-section-header">
+                <h3>📋 11. Günlük Dijital İkiz Denetim Raporu &amp; ICAR ADE JSON</h3>
+                <span class="guide-badge">UYUMLULUK &amp; VERİ PAYLAŞIMI</span>
+              </div>
+              <p class="guide-lead">
+                Resmi kurumlar, veteriner denetimleri ve uluslararası kayıt birlikleri için standartlaştırılmış raporlama ve veri değişim protokolüdür.
+              </p>
+
+              <h4>11.1 Günlük Denetim Raporu (Audit Report)</h4>
+              <p>
+                Başlıktaki <em>"📋 Denetim Raporu"</em> butonuna tıklandığında; sürünün anlık sağlık durumunu, aktif tedavileri, 
+                ilaç karantina günlerini, rumen pH kinetiğini ve biyogaz enerji dengesini içeren kapsamlı bir Markdown denetim raporu üretilir. 
+                Rapor tek tıkla <strong>panoya kopyalanabilir</strong> veya <strong>`.md` dosyası olarak indirilebilir</strong>.
+              </p>
+
+              <h4>11.2 ICAR ADE JSON Export (Uluslararası Uyumluluk)</h4>
+              <p>
+                <em>"📥 ICAR ADE JSON"</em> butonu, Dünya Hayvan Kayıt Komitesi'nin resmi <strong>Animal Data Exchange (ADE) v2.0</strong> 
+                standardında JSON dokümanı üretip bilgisayara indirir. Bu dosya Tarım Bakanlığı veritabanlarına veya harici sürü yönetim programlarına doğrudan aktarılabilir.
+              </p>
+            </article>
+
+            <!-- SECTION 12: Yapay Zeka & Senaryolar -->
+            <article class="guide-section" id="sec-tab-ai">
+              <div class="guide-section-header">
+                <h3>🧠 12. Yapay Zeka Danışmanı, Roller &amp; Kriz Senaryoları</h3>
+                <span class="guide-badge">DOĞAL DİL İŞLEME &amp; SİMÜLASYON</span>
+              </div>
+              <p class="guide-lead">
+                AgriTwin Pro, çiftlikteki herkesin kendi uzmanlık alanında çalışabilmesi için 4 profesyonel kullanıcı rolü ve 7 acil durum kriz senaryosu sunar.
+              </p>
+
+              <h4>12.1 Profesyonel Kullanıcı Rolleri</h4>
+              <ul class="guide-list">
+                <li><strong>Selim Aksoy (Çiftlik Müdürü):</strong> Finansal ROI, günlük süt geliri, yem maliyeti ve sürü karlılığına odaklanır.</li>
+                <li><strong>Dr. Mehmet Yılmaz (Sürü Veteriner Hekimi):</strong> Teşhis, antibiyotik reçetesi, ayırma kapısı ve klinik alarmlara odaklanır.</li>
+                <li><strong>Zooteknist Ayşe Kaya (Besleme Uzmanı):</strong> Rumen pH'sı, Wood laktasyon eğrisi, A:P oranı ve rasyon optimizasyonuna odaklanır.</li>
+                <li><strong>Müh. Emre Demir (Biyogaz &amp; Otomasyon Mühendisi):</strong> Robot filosu, kojenerasyon, elektrik öz yeterliliği ve karbon kredilerine odaklanır.</li>
+              </ul>
+
+              <h4>12.2 Anlık Kriz &amp; Test Senaryoları</h4>
+              <p>
+                Üst kısımdaki senaryo çubuğundaki butonlarla çiftlikte acil durumlar simüle edilebilir:
+              </p>
+              <div class="guide-grid-2">
+                <div class="guide-card">
+                  <div class="guide-card-title">🚨 Distosi / Güç Doğum Alarmı</div>
+                  <p>Nazlı (TR-34-106) için pre-partum ısı düşüşü (-0.8°C) ve doğum sancısı simüle edilir, acil veteriner bildirimi gönderilir.</p>
+                </div>
+                <div class="guide-card">
+                  <div class="guide-card-title">🦠 Subklinik Mastitis Olgusu</div>
+                  <p>Benekli (TR-34-102) için sağ ön lobda iletkenlik artışı (6.4 mS/cm) simüle edilir, süt atık hattına verilir.</p>
+                </div>
+                <div class="guide-card">
+                  <div class="guide-card-title">🧪 Rumen Asidozu (SARA)</div>
+                  <p>Papatya (TR-34-103) için rumen pH'sı 5.48'e düşürülür, tampon madde ihtiyacı uyarısı verilir.</p>
+                </div>
+                <div class="guide-card">
+                  <div class="guide-card-title">🔥 Barınakta Isı Dalgası</div>
+                  <p>Hava sıcaklığı artırılarak THI 81.5 seviyesine çıkarılır, fan ve duşlama otomasyonu devreye alınır.</p>
+                </div>
+              </div>
+            </article>
+
+            <!-- SECTION 13: Akademik Sözlük & Standartlar -->
+            <article class="guide-section" id="sec-tab-glossary">
+              <div class="guide-section-header">
+                <h3>🎓 13. Akademik Kısaltmalar &amp; Standartlar Sözlüğü</h3>
+                <span class="guide-badge">BİLİMSEL SÖZLÜK</span>
+              </div>
+              <p class="guide-lead">
+                Arayüzde kullanılan tüm bilimsel kısaltmalar ve uluslararası referans standartlarının özeti:
+              </p>
+
+              <table class="guide-table">
+                <thead>
+                  <tr><th>Kısaltma</th><th>Açılımı (İngilizce / Türkçe)</th><th>Referans Kurum / Standart</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>NASEM</strong></td><td>National Academies of Sciences, Engineering, and Medicine</td><td>NASEM Dairy NRC (2021) Besleme Standartları</td></tr>
+                  <tr><td><strong>ICAR</strong></td><td>International Committee for Animal Recording</td><td>ICAR ADE v2.0 Uluslararası Hayvan Kayıt Komitesi</td></tr>
+                  <tr><td><strong>IDF</strong></td><td>International Dairy Federation</td><td>IDF Standard 148A Somatik Hücre &amp; Süt Hijyeni</td></tr>
+                  <tr><td><strong>SARA</strong></td><td>Subacute Ruminal Acidosis (Subakut Rumen Asidozu)</td><td>Krause &amp; Oetzel (2006) Klinik Eşikleri</td></tr>
+                  <tr><td><strong>DIM</strong></td><td>Days in Milk (Laktasyon Günü)</td><td>Doğumdan sonraki laktasyon süresi</td></tr>
+                  <tr><td><strong>BCS</strong></td><td>Body Condition Score (Vücut Kondisyon Skoru)</td><td>Ferguson et al. (1994) 1-5 Skalası</td></tr>
+                  <tr><td><strong>THI</strong></td><td>Temperature-Humidity Index (Sıcaklık-Nem İndeksi)</td><td>NRC (1971) Isı Stresi İndeksi</td></tr>
+                  <tr><td><strong>GEBV</strong></td><td>Genomic Estimated Breeding Value (Genomik Islah Değeri)</td><td>Meuwissen et al. (2001) GBLUP Metodolojisi</td></tr>
+                  <tr><td><strong>NM$</strong></td><td>Net Merit Dollars (Net Merit Endeksi)</td><td>USDA-CDCB Ömür Boyu Kârlılık Formülasyonu</td></tr>
+                  <tr><td><strong>TPI</strong></td><td>Total Performance Index</td><td>Holstein Association USA Islah Kriteri</td></tr>
+                  <tr><td><strong>PBTD</strong></td><td>Pre-Partum Body Temperature Drop</td><td>Streyl et al. (2011) Doğum Öncesi Sıcaklık Düşüşü</td></tr>
+                  <tr><td><strong>FPT</strong></td><td>Failure of Passive Transfer (Pasif Transfer Yetmezliği)</td><td>Buczinski (2016) Kolostrum IgG &lt; 10 g/L Riski</td></tr>
+                  <tr><td><strong>IOFC</strong></td><td>Income Over Feed Cost (Yem Üzeri Gelir)</td><td>Penn State Extension Marjinal Süt Getirisi</td></tr>
+                  <tr><td><strong>CHP</strong></td><td>Combined Heat and Power (Kojenerasyon)</td><td>VDI 4630 Biyogaz Elektrik &amp; Isı Üretimi</td></tr>
+                  <tr><td><strong>RuFaS</strong></td><td>Ruminant Farm Systems Modeli</td><td>Çok amaçlı rasyon ve karbon optimizasyonu</td></tr>
+                  <tr><td><strong>SHAP</strong></td><td>SHapley Additive exPlanations</td><td>Lundberg &amp; Lee (2017) XAI Oyun Teorisi</td></tr>
+                </tbody>
+              </table>
+
+              <div class="guide-callout info" style="margin-top:1.5rem;">
+                <strong>💡 Mouseover Tooltip İpucu:</strong>
+                Arayüz üzerindeki noktalı altı çizili herhangi bir terimin (örneğin <u>DIM</u>, <u>BCS</u>, <u>pH</u>, <u>THI</u>, <u>F</u>) üzerine farenizi getirdiğinizde, bu akademik sözlük kartı doğrudan ekranınızda açılacaktır.
+              </div>
+            </article>
+
+          </main>
+        </div>
+      </div>
+
+      <div class="modal-footer guide-modal-footer">
+        <button class="btn btn-secondary" onclick="closeGuideModalDirect()">Kılavuzu Kapat</button>
+        <button class="btn btn-primary" onclick="startGuidedDemoTour(); closeGuideModalDirect();">🚀 Rehberli Tura Başla</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="./app.js"></script>
+</body>
+</html>
