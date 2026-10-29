@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
 // Sürüm 2.4.0 - AgriTwin Çoklu Dijital İkiz (Multi-Twin Precision Platform, 14 Modül, RTLS Isı Haritası) Entegrasyonu
-const CACHE_NAME = 'tosun-pasa-v2.4.3';
+const CACHE_NAME = 'tosun-pasa-v2.4.4';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -17,8 +17,8 @@ const ASSETS_TO_CACHE = [
   './icon-512.png',
   './noto-ox.svg',
   './sim3d/index.html',
-  './sim3d/assets/index-CMJ961K3.js',
-  './sim3d/assets/index-DJT7s3m3.css',
+  './sim3d/assets/index-Clcmv8Sz.js',
+  './sim3d/assets/index-D9LaHJ26.css',
   './digital-twin/index.html',
   './digital-twin/styles.css',
   './digital-twin/app.js'
