@@ -9,9 +9,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Tosun Paşa">
   <meta name="application-name" content="Tosun Paşa Çiftliği">
-  <meta name="description" content="Tosun Paşa Çiftliği: Bütünleşik Çiftlik & Hayvancılık Yönetim Sistemi - Çevrimdışı Öncelikli PWA">
+  <meta name="description" content="Tosun Paşa Çiftliği: Uluslararası Gerçekçi Süt Sığırcılığı Simülasyon Oyunu & Dijital İkiz Çiftlik Yönetim Portalı">
   
-  <title>Tosun Paşa Çiftliği | Bütünleşik Hayvancılık Portalı</title>
+  <title>Tosun Paşa Çiftliği | Gerçekçi Çiftlik Simülasyon Oyunu</title>
 
   <!-- PWA Web App Manifest -->
   <link rel="manifest" href="manifest.json">
@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.3.5">
+  <link rel="stylesheet" href="styles.css?v=2.3.6">
 </head>
 <body class="dark-mode">
 
@@ -127,15 +127,55 @@
         <div class="portal-logo-bubble">
           <img src="tosun-pasa-logo.png" alt="Tosun Paşa Logosu" width="68" height="68">
         </div>
+        <div style="margin-top: 10px; margin-bottom: 6px;">
+          <span class="badge" style="background:#ffdd00; color:#000000; font-weight:900; padding:5px 14px; border-radius:20px; font-size:0.78rem; letter-spacing:0.8px;">
+            🎮 ULUSLARARASI GERÇEKÇİ SÜT SIĞIRCILIĞI SİMÜLASYON OYUNU
+          </span>
+        </div>
         <h1 class="portal-title">TOSUN PAŞA ÇİFTLİĞİ</h1>
-        <p class="portal-subtitle">Akıllı Çiftlik, Sürü Yönetimi & Besleme Destek Sistemi</p>
+        <p class="portal-subtitle">Biyolojik Dijital İkiz, Sürü Yönetimi & Gerçekçi Çiftlik Dünyası</p>
+        <p style="max-width: 720px; margin: 10px auto 0 auto; font-size: 0.88rem; color: var(--text-muted); line-height: 1.55;">
+          Tosun Paşa; CIGR barınak mimarisi, NRC/CNCPS rasyon biyolojisi, ICAR süt analitiği ve canlı lojistik motoruyla çalışan <strong>uluslararası standartlarda gerçekçi bir çiftlik simülasyon oyunudur</strong>. Sahadaki sürü kararlarınızı test edebilir, hayvan sağlığını yönetebilir veya 3D açık dünyada çiftliğinizi bizzat idare edebilirsiniz.
+        </p>
 
         <div style="margin-top: 18px; font-weight: 800; color: var(--text); font-size: 1.05rem;">
-          👇 Devam etmek için lütfen giriş türünüzü seçiniz:
+          👇 Başlamak için lütfen oyun / yönetim modunuzu seçiniz:
         </div>
       </div>
 
-      <!-- Two Main Entry Cards -->
+      <!-- Uluslararası Gerçekçi Oyun Standartları Rozetleri -->
+      <div class="portal-game-standards-bar">
+        <div class="portal-standard-item">
+          <span class="portal-standard-icon">🧬</span>
+          <div>
+            <strong>NRC & CNCPS Biyolojisi</strong>
+            <p>Rumen fermantasyonu, Wood süt eğrisi & metabolik dengeler</p>
+          </div>
+        </div>
+        <div class="portal-standard-item">
+          <span class="portal-standard-icon">📐</span>
+          <div>
+            <strong>CIGR & Dairyland Standartları</strong>
+            <p>1.25×2.60m durak, 5m yem yolu & katlanır V-sıyırıcılar</p>
+          </div>
+        </div>
+        <div class="portal-standard-item">
+          <span class="portal-standard-icon">🛡️</span>
+          <div>
+            <strong>Biyogüvenlik & Lojistik</strong>
+            <p>Temizden kirliye hiyerarşi, Dr. Cook banyosu & 3D rotalar</p>
+          </div>
+        </div>
+        <div class="portal-standard-item">
+          <span class="portal-standard-icon">💰</span>
+          <div>
+            <strong>Dinamik Ekonomi & Yaşam</strong>
+            <p>Süt geliri vs rasyon maliyeti, sirkadiyen döngü ve canlı verim</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Three Main Entry Cards -->
       <div class="portal-cards-grid">
         
         <!-- 1. YETİŞTİRİCİ GİRİŞİ -->
@@ -143,10 +183,10 @@
           <div class="portal-card-header">
             <span class="portal-card-icon">🚜</span>
             <div style="margin-bottom: 8px;">
-              <span class="badge" style="background:#ffdd00; color:#000000; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">SADE & PRATİK</span>
+              <span class="badge" style="background:#ffdd00; color:#000000; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">🎮 PRATİK OYUN & SAHA</span>
             </div>
-            <h2 class="portal-card-title">🌾 Yetiştirici Girişi</h2>
-            <p class="portal-card-desc">Ahırda ve merada işini en hızlı, en sade ve pratik şekilde görmek isteyen üreticilerimiz için özel çiftçi sürümü.</p>
+            <h2 class="portal-card-title">🌾 Yetiştirici Modu</h2>
+            <p class="portal-card-desc">Sade ve pratik arayüzle ahır görevlerini yönetin; tek tıkla rasyon karın, İKAS ilaç arınma sayaçlarını kontrol edin ve verim hedeflerine ulaşın.</p>
           </div>
 
           <button type="button" class="portal-btn-yetistirici" onclick="event.stopPropagation(); setAppMode('yetistirici')">
@@ -159,10 +199,10 @@
           <div class="portal-card-header">
             <span class="portal-card-icon">🧬</span>
             <div style="margin-bottom: 8px;">
-              <span class="badge" style="background:#181b1e; color:#ffdd00; border:1px solid #ffdd00; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">BİLİMSEL & UZMAN</span>
+              <span class="badge" style="background:#181b1e; color:#ffdd00; border:1px solid #ffdd00; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">🔬 BİLİMSEL DERİN OYUN</span>
             </div>
-            <h2 class="portal-card-title">🔬 Zooteknist Girişi</h2>
-            <p class="portal-card-desc">Zooteknistler, veteriner hekimler ve işletme yöneticileri için rasyon optimizasyonu ve bilimsel sürü analiz çalışma alanı.</p>
+            <h2 class="portal-card-title">🔬 Zooteknist & Uzman Modu</h2>
+            <p class="portal-card-desc">NRC 2001/CNCPS rasyon optimizasyonu, ICAR ECM süt formülleri, genetik ıslah çarkı ve klinik karar ağaçlarıyla derin stratejik uzman simülasyonu.</p>
           </div>
 
           <button type="button" class="portal-btn-zooteknist" onclick="event.stopPropagation(); setAppMode('zooteknist')">
@@ -175,14 +215,14 @@
           <div class="portal-card-header">
             <span class="portal-card-icon">🎮</span>
             <div style="margin-bottom: 8px;">
-              <span class="badge" style="background:#10b981; color:#ffffff; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">CANLI 3D SÜRÜ</span>
+              <span class="badge" style="background:#10b981; color:#ffffff; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">🕹️ 3D GERÇEKÇİ AÇIK DÜNYA</span>
             </div>
-            <h2 class="portal-card-title">🐄 3D Çiftlik Simülasyonu</h2>
-            <p class="portal-card-desc">Three.js 3D serbest dolaşımlı barınak, biyolojik sürü, robotik sağım ve canlı veri köprüsüyle çiftlik simülatörü.</p>
+            <h2 class="portal-card-title">🐄 3D Canlı Çiftlik Dünyası</h2>
+            <p class="portal-card-desc">Three.js grafik motoru, 360° serbest kamera, inek fizyolojik davranışları, canlı seyreden TMR mikser vagonu ve dinamik ekonomi döngüsü.</p>
           </div>
 
           <button type="button" class="portal-btn-sim3d" onclick="event.stopPropagation(); launchSim3DFromPortal()">
-            🎮 3D Simülasyonu Başlat ➔
+            🎮 3D Gerçekçi Oyunu Başlat ➔
           </button>
         </div>
 
@@ -2023,16 +2063,28 @@
       </div>
       <div class="modal-body" style="font-size:0.92rem; line-height:1.65; max-height: 75vh; overflow-y: auto;">
         
+        <!-- Uluslararası Gerçekçi Oyun (Serious Game) Bildirgesi -->
+        <div style="background: linear-gradient(135deg, rgba(255, 221, 0, 0.12), rgba(16, 185, 129, 0.12)); border: 2px solid var(--primary); border-radius: 4px; padding: 14px 18px; margin-bottom: 16px;">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap;">
+            <span style="font-size:1.25rem;">🎮</span>
+            <span class="badge" style="background:#ffdd00; color:#000000; font-weight:900; padding:2px 8px; border-radius:3px; font-size:0.75rem;">SERIOUS GAME STANDARD</span>
+            <h4 style="margin:0; font-size:1.05rem; color:var(--text); font-weight:800;">Uluslararası Gerçekçi Çiftlik Simülasyon Oyunu Mimarisi</h4>
+          </div>
+          <p style="margin:0; font-size:0.86rem; color:var(--text); line-height:1.55;">
+            Tosun Paşa Çiftliği; sıradan bir çiftlik yazılımı değil, <strong>uluslararası ciddi oyun (serious game) ve biyolojik dijital ikiz standartlarında geliştirilmiş gerçekçi bir simülasyon oyunudur</strong>. Sistemdeki her bir mekanik; CIGR barınak mimarisi, NRC/CNCPS sindirim biyolojisi, ICAR süt kayıtları, IDF biyogüvenlik rotaları ve dinamik çiftlik ekonomisi döngüsüyle çalışır.
+          </p>
+        </div>
+
         <!-- Kılavuz Mod Seçici (Yetiştirici vs Zooteknist vs 3D Simülasyon) -->
         <div class="guide-mode-nav">
           <button type="button" id="btn-guide-tab-yet" class="guide-mode-btn active" onclick="switchGuideTab('yetistirici')">
-            🌾 Yetiştirici Kılavuzu (Pratik & Sade)
+            🌾 Yetiştirici Kılavuzu (Pratik Oyun)
           </button>
           <button type="button" id="btn-guide-tab-zoo" class="guide-mode-btn" onclick="switchGuideTab('zooteknist')">
-            🔬 Zooteknist Kılavuzu (Bilimsel & Teknik)
+            🔬 Zooteknist Kılavuzu (Bilimsel Derin Oyun)
           </button>
           <button type="button" id="btn-guide-tab-sim" class="guide-mode-btn" onclick="switchGuideTab('sim3d')">
-            🎮 3D Çiftlik & Biyogüvenlik (Simülasyon)
+            🎮 3D Çiftlik & Biyogüvenlik (3D Canlı Oyun)
           </button>
         </div>
 
@@ -2552,6 +2604,33 @@
             </div>
           </div>
 
+          <!-- 5. BÖLÜM: ULUSLARARASI GERÇEKÇİ OYUN STANDARTLARI -->
+          <div class="guide-step-card">
+            <div class="guide-step-title">
+              <span>5️⃣ 🏆 Uluslararası Gerçekçi Oyun (Serious Game) Standartları & Dinamikleri</span>
+            </div>
+            <div class="guide-step-desc">
+              <p style="margin: 0 0 8px 0;">Bu simülasyon oyunu, dünya çapındaki tarım/hayvancılık eğitim oyunları ve bilimsel dijital ikiz akreditasyonlarına tam uyumludur:</p>
+              <ul style="padding-left: 20px; margin: 6px 0;">
+                <li style="margin-bottom: 8px;">
+                  <strong>🧬 Biyolojik Gerçekçilik (Biological Digital Twin):</strong> Sürüdeki her ineğin genetik potansiyeli, Wood laktasyon eğrisi (DIM), ICAR Enerji Düzeltmeli Süt (ECM) hesaplaması, Yağ/Protein oranı (FPR), rumen pH riski ve İKAS ilaç arınma sayaçları matematiksel modellerle çalışır.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🚜 Fiziksel & Mekanik Simülasyon:</strong> 5.0 metrelik yem yolunda canlı seyreden, helezonları dönen TMR mikser vagonu; 3.4 metre V-kanat otomatik Doğu ➔ Batı gübre sıyırıcıları ve sirkülasyon fanları Three.js fizik ve render motoruyla gerçek zamanlı çalışır.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>🛡️ Biyogüvenlik Hiyerarşisi:</strong> IDF ve FAO kurallarına göre kurgulanmış "Temizden Kirliye Doğru Hareket" rotaları (Yeşil / Mavi / Kırmızı hatlar), Dr. Nigel Cook çıkış tırnak banyosu ve personel dezenfeksiyon protokolleri denetlenir.
+                </li>
+                <li style="margin-bottom: 8px;">
+                  <strong>💰 Dinamik Çiftlik Ekonomisi (Core Loop):</strong> Günlük brüt süt satışı geliri eksi TMR yem hammadde maliyetleri ve sağlık masrafları hesaplanarak net günlük kâr/zarar marjı ve işletme refah puanı üretilir.
+                </li>
+                <li>
+                  <strong>🕹️ Serbest Oyuncu Kontrolleri:</strong> 360° serbest yörünge kamera (Orbit), W-A-S-D veya Fare Sağ Tık yatay kaydırma (Pan), yakınlaştırma (Zoom), Q/E irtifa kontrolü, R sıfırlama, ineğe tıklayarak interaktif durum kartı ve "L" lojistik paneli kısayolu sunulur.
+                </li>
+              </ul>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -2711,7 +2790,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.3.5"></script>
+  <script src="app.js?v=2.3.6"></script>
 
   <script>
     // Initialize default dates in modals

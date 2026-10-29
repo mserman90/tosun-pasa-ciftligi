@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.3.5 - 3D Canlı TMR Yem Karma & Dağıtım Traktörü Yem Yolu Devri Devreye Alındı
-const CACHE_NAME = 'tosun-pasa-v2.3.5';
+// Sürüm 2.3.6 - Uluslararası Gerçekçi Oyun (Serious Game) Standartları & Kılavuz Vurgusu
+const CACHE_NAME = 'tosun-pasa-v2.3.6';
 
 const ASSETS_TO_CACHE = [
   './',

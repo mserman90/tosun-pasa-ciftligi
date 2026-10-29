@@ -3411,4 +3411,57 @@ body.dark-mode .yet-feed-summary-bar {
   }
 }
 
+/* =============================================================================
+   Uluslararası Gerçekçi Oyun (Serious Game) Standartları Rozetleri & Çubuğu
+   ============================================================================= */
+.portal-game-standards-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 22px 0 28px 0;
+}
+
+.portal-standard-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+body.dark-mode .portal-standard-item {
+  background: #161b22;
+  border-color: #30363d;
+}
+
+.portal-standard-item:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.portal-standard-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.portal-standard-item strong {
+  display: block;
+  font-size: 0.86rem;
+  color: var(--text);
+  margin-bottom: 3px;
+  font-weight: 800;
+}
+
+.portal-standard-item p {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+
 
