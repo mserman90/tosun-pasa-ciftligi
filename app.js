@@ -86,51 +86,306 @@ const DEFAULT_DB = {
   reproduction: {
     records: [
       {
-        id: "rep_001",
-        tagNo: "TR-34-889900",
-        species: "cattle",
-        name: "Sarıkız",
-        inseminationDate: "2026-03-01",
-        sire: "Simental Max 102",
-        check21Date: "2026-03-22",
-        ultrasoundDate: "2026-04-15",
-        dryOffDate: "2026-10-10",
-        vaccineDate: "2026-11-09",
-        expectedCalvingDate: "2026-12-09",
-        status: "kuru_donem",
-        notes: "Kuruya alındı, meme içi antibiyotik yapıldı."
+            "id": "rep_001",
+            "tagNo": "TR-34-101",
+            "species": "cattle",
+            "name": "Sarıkız (Bella)",
+            "inseminationDate": "2026-03-01",
+            "sire": "Simental Max 102",
+            "check21Date": "2026-03-22",
+            "ultrasoundDate": "2026-04-15",
+            "dryOffDate": "2026-10-10",
+            "vaccineDate": "2026-11-09",
+            "expectedCalvingDate": "2026-12-09",
+            "status": "kuru_donem",
+            "notes": "Kuruya alındı, Wisconsin Wisconsin tipi durakta dinlenmede."
       },
       {
-        id: "rep_002",
-        tagNo: "TR-06-445566",
-        species: "cattle",
-        name: "Benekli",
-        inseminationDate: "2026-09-20",
-        sire: "Holstein Boss",
-        check21Date: "2026-10-11",
-        ultrasoundDate: "2026-11-04",
-        dryOffDate: "2027-04-30",
-        vaccineDate: "2027-05-30",
-        expectedCalvingDate: "2027-06-30",
-        status: "gebe",
-        notes: "21. gün kızgınlık göstermedi, ultrason bekleniyor."
+            "id": "rep_002",
+            "tagNo": "TR-34-102",
+            "species": "cattle",
+            "name": "Luna",
+            "inseminationDate": "2026-09-20",
+            "sire": "Holstein Boss",
+            "check21Date": "2026-10-11",
+            "ultrasoundDate": "2026-11-04",
+            "dryOffDate": "2027-04-30",
+            "vaccineDate": "2027-05-30",
+            "expectedCalvingDate": "2027-06-30",
+            "status": "gebe",
+            "notes": "21. gün kızgınlık göstermedi, ultrason pozitif."
       },
       {
-        id: "rep_003",
-        tagNo: "TR-06-KOY-012",
-        species: "sheep",
-        name: "Sürmeli",
-        inseminationDate: "2026-06-15",
-        sire: "İvesi Koç 04",
-        check21Date: "2026-07-02",
-        ultrasoundDate: "2026-08-01",
-        dryOffDate: "2026-09-28",
-        vaccineDate: "2026-10-13",
-        expectedCalvingDate: "2026-11-12",
-        status: "dogumu_yakin",
-        notes: "İkiz kuzu bekleniyor. Enterotoksemi aşısı tamamlandı."
+            "id": "rep_003",
+            "tagNo": "TR-34-103",
+            "species": "cattle",
+            "name": "Kınalı (Daisy)",
+            "inseminationDate": "2026-05-10",
+            "sire": "Jersey Star",
+            "check21Date": "2026-05-31",
+            "ultrasoundDate": "2026-06-25",
+            "dryOffDate": "2026-12-20",
+            "vaccineDate": "2027-01-15",
+            "expectedCalvingDate": "2027-02-15",
+            "status": "sagilir",
+            "notes": "Jersey ırkı, yüksek yağ oranı (%4.85), sağmal grupta."
+      },
+      {
+            "id": "rep_004",
+            "tagNo": "TR-34-104",
+            "species": "cattle",
+            "name": "Benekli (Molly)",
+            "inseminationDate": "2026-04-05",
+            "sire": "Montofon Max",
+            "check21Date": "2026-04-26",
+            "ultrasoundDate": "2026-05-20",
+            "dryOffDate": "2026-11-15",
+            "vaccineDate": "2026-12-10",
+            "expectedCalvingDate": "2027-01-10",
+            "status": "gebe",
+            "notes": "Montofon melezi, dengeli kondisyon BCS 3.25."
+      },
+      {
+            "id": "rep_005",
+            "tagNo": "TR-34-105",
+            "species": "cattle",
+            "name": "Alageyik (Rosie)",
+            "inseminationDate": "2026-02-15",
+            "sire": "Simental Max 102",
+            "check21Date": "2026-03-08",
+            "ultrasoundDate": "2026-04-01",
+            "dryOffDate": "2026-09-25",
+            "vaccineDate": "2026-10-25",
+            "expectedCalvingDate": "2026-11-25",
+            "status": "dogumu_yakin",
+            "notes": "Doğumhane locasına sevk edildi, kolostrum hazırlığı yapıldı."
+      },
+      {
+            "id": "rep_006",
+            "tagNo": "TR-34-110",
+            "species": "cattle",
+            "name": "Alina",
+            "inseminationDate": "2026-08-15",
+            "sire": "AltaZarek ET",
+            "check21Date": "2026-09-05",
+            "ultrasoundDate": "2026-09-30",
+            "dryOffDate": "2027-03-25",
+            "vaccineDate": "2027-04-20",
+            "expectedCalvingDate": "2027-05-25",
+            "status": "gebe",
+            "notes": "Holstein 1. laktasyon, günlük 36 L süt verimi."
+      },
+      {
+            "id": "rep_007",
+            "tagNo": "TR-34-111",
+            "species": "cattle",
+            "name": "Clara",
+            "inseminationDate": "2026-07-12",
+            "sire": "Titan 304",
+            "check21Date": "2026-08-02",
+            "ultrasoundDate": "2026-08-28",
+            "dryOffDate": "2027-02-20",
+            "vaccineDate": "2027-03-15",
+            "expectedCalvingDate": "2027-04-20",
+            "status": "sagilir",
+            "notes": "Jersey ırkı, günlük 26 L yüksek kuru maddeli süt."
+      },
+      {
+            "id": "rep_008",
+            "tagNo": "TR-34-112",
+            "species": "cattle",
+            "name": "Dora",
+            "inseminationDate": "2026-06-18",
+            "sire": "Simental Max 102",
+            "check21Date": "2026-07-09",
+            "ultrasoundDate": "2026-08-05",
+            "dryOffDate": "2027-01-28",
+            "vaccineDate": "2027-02-20",
+            "expectedCalvingDate": "2027-03-28",
+            "status": "gebe",
+            "notes": "Kombine et/süt Simental, canlı ağırlık 710 kg."
+      },
+      {
+            "id": "rep_009",
+            "tagNo": "TR-34-113",
+            "species": "cattle",
+            "name": "Emma",
+            "inseminationDate": "2026-09-01",
+            "sire": "Montofon Max",
+            "check21Date": "2026-09-22",
+            "ultrasoundDate": "2026-10-18",
+            "dryOffDate": "2027-04-10",
+            "vaccineDate": "2027-05-05",
+            "expectedCalvingDate": "2027-06-10",
+            "status": "sagilir",
+            "notes": "İsviçre Esmeri (Brown Swiss), ayak yapısı çok güçlü."
+      },
+      {
+            "id": "rep_010",
+            "tagNo": "TR-34-114",
+            "species": "cattle",
+            "name": "Gemma",
+            "inseminationDate": "2026-08-05",
+            "sire": "Renegade",
+            "check21Date": "2026-08-26",
+            "ultrasoundDate": "2026-09-22",
+            "dryOffDate": "2027-03-15",
+            "vaccineDate": "2027-04-10",
+            "expectedCalvingDate": "2027-05-15",
+            "status": "sagilir",
+            "notes": "Genomik Net Merit $840 NM$, elit damızlık."
+      },
+      {
+            "id": "rep_011",
+            "tagNo": "TR-34-115",
+            "species": "cattle",
+            "name": "Klara",
+            "inseminationDate": "2026-05-25",
+            "sire": "Titan 304",
+            "check21Date": "2026-06-15",
+            "ultrasoundDate": "2026-07-10",
+            "dryOffDate": "2026-12-30",
+            "vaccineDate": "2027-01-25",
+            "expectedCalvingDate": "2027-03-01",
+            "status": "gebe",
+            "notes": "2. laktasyon, sağlıklı rumen pH ve geviş süresi."
+      },
+      {
+            "id": "rep_012",
+            "tagNo": "TR-34-116",
+            "species": "cattle",
+            "name": "Sindy",
+            "inseminationDate": "2026-07-30",
+            "sire": "Simental Max 102",
+            "check21Date": "2026-08-20",
+            "ultrasoundDate": "2026-09-15",
+            "dryOffDate": "2027-03-08",
+            "vaccineDate": "2027-04-02",
+            "expectedCalvingDate": "2027-05-08",
+            "status": "sagilir",
+            "notes": "Yüksek yem değerlendirme oranı, rasyon uyumu tam."
+      },
+      {
+            "id": "rep_013",
+            "tagNo": "TR-34-117",
+            "species": "cattle",
+            "name": "Narin",
+            "inseminationDate": "2026-03-15",
+            "sire": "Montofon Max",
+            "check21Date": "2026-04-05",
+            "ultrasoundDate": "2026-04-30",
+            "dryOffDate": "2026-10-20",
+            "vaccineDate": "2026-11-15",
+            "expectedCalvingDate": "2026-12-22",
+            "status": "kuru_donem",
+            "notes": "Kuru dönem meme içi sızdırmazlık mühürü yapıldı."
+      },
+      {
+            "id": "rep_014",
+            "tagNo": "TR-34-118",
+            "species": "cattle",
+            "name": "Ceren",
+            "inseminationDate": "2026-08-22",
+            "sire": "Einstein",
+            "check21Date": "2026-09-12",
+            "ultrasoundDate": "2026-10-08",
+            "dryOffDate": "2027-04-02",
+            "vaccineDate": "2027-04-28",
+            "expectedCalvingDate": "2027-06-02",
+            "status": "sagilir",
+            "notes": "Pik süt verimi 38 L, somatik hücre 85.000."
+      },
+      {
+            "id": "rep_015",
+            "tagNo": "TR-34-119",
+            "species": "cattle",
+            "name": "Bahar",
+            "inseminationDate": "2026-09-10",
+            "sire": "Titan 304",
+            "check21Date": "2026-10-01",
+            "ultrasoundDate": "2026-10-26",
+            "dryOffDate": "2027-04-20",
+            "vaccineDate": "2027-05-15",
+            "expectedCalvingDate": "2027-06-20",
+            "status": "sagilir",
+            "notes": "Genç sağmal, sabah sağımı 16 kg süt."
+      },
+      {
+            "id": "rep_016",
+            "tagNo": "TR-34-120",
+            "species": "cattle",
+            "name": "Gülizar",
+            "inseminationDate": "2026-06-05",
+            "sire": "Simental Max 102",
+            "check21Date": "2026-06-26",
+            "ultrasoundDate": "2026-07-22",
+            "dryOffDate": "2027-01-15",
+            "vaccineDate": "2027-02-10",
+            "expectedCalvingDate": "2027-03-15",
+            "status": "gebe",
+            "notes": "Sakin mizaçlı, Wisconsin durakta düzenli yatış süresi (12.4 saat/gün)."
+      },
+      {
+            "id": "rep_017",
+            "tagNo": "TR-34-121",
+            "species": "cattle",
+            "name": "Yıldız",
+            "inseminationDate": "2026-02-28",
+            "sire": "Montofon Max",
+            "check21Date": "2026-03-21",
+            "ultrasoundDate": "2026-04-14",
+            "dryOffDate": "2026-10-05",
+            "vaccineDate": "2026-11-01",
+            "expectedCalvingDate": "2026-12-05",
+            "status": "kuru_donem",
+            "notes": "Rotavirus/Coronavirus anne aşısı yapıldı."
+      },
+      {
+            "id": "rep_018",
+            "tagNo": "TR-34-122",
+            "species": "cattle",
+            "name": "Maral",
+            "inseminationDate": "2026-08-30",
+            "sire": "Renegade",
+            "check21Date": "2026-09-20",
+            "ultrasoundDate": "2026-10-15",
+            "dryOffDate": "2027-04-10",
+            "vaccineDate": "2027-05-05",
+            "expectedCalvingDate": "2027-06-10",
+            "status": "sagilir",
+            "notes": "Yüksek laktasyon persistensi, ICAR ECM 34.2 kg."
+      },
+      {
+            "id": "rep_019",
+            "tagNo": "TR-34-123",
+            "species": "cattle",
+            "name": "Defne",
+            "inseminationDate": "2026-07-20",
+            "sire": "Titan 304",
+            "check21Date": "2026-08-10",
+            "ultrasoundDate": "2026-09-05",
+            "dryOffDate": "2027-02-28",
+            "vaccineDate": "2027-03-25",
+            "expectedCalvingDate": "2027-04-28",
+            "status": "sagilir",
+            "notes": "Otomatik kaşıma fırçasını sık kullanan aktif inek."
+      },
+      {
+            "id": "rep_020",
+            "tagNo": "TR-34-124",
+            "species": "cattle",
+            "name": "Beste",
+            "inseminationDate": "2026-09-05",
+            "sire": "Simental Max 102",
+            "check21Date": "2026-09-26",
+            "ultrasoundDate": "2026-10-22",
+            "dryOffDate": "2027-04-15",
+            "vaccineDate": "2027-05-10",
+            "expectedCalvingDate": "2027-06-15",
+            "status": "sagilir",
+            "notes": "Dengeli TMR rasyon tüketimi, asidoz riski sıfır."
       }
-    ]
+]
   },
   forage: {
     fieldRecords: [
@@ -161,7 +416,7 @@ const DEFAULT_DB = {
       starchPct: 26.5,
       cpPct: 16.8,
       ambientTempC: 23,
-      herdSize: 60
+      herdSize: 20
     },
     sheddingGateHistory: [
       {
@@ -199,7 +454,17 @@ function loadDatabase() {
     // Ensure nested objects exist
     if (!parsed.doctor) parsed.doctor = { earTagRecords: [] };
     if (!parsed.ration) parsed.ration = { customFeeds: [], savedRecipes: [] };
-    if (!parsed.reproduction) parsed.reproduction = { records: [] };
+        if (!parsed.reproduction) parsed.reproduction = { records: [] };
+    if (parsed.reproduction.records.length < 20) {
+      const existingTags = new Set(parsed.reproduction.records.map(r => r.tagNo));
+      DEFAULT_DB.reproduction.records.forEach(defRec => {
+        if (!existingTags.has(defRec.tagNo) && parsed.reproduction.records.length < 20) {
+          parsed.reproduction.records.push(JSON.parse(JSON.stringify(defRec)));
+          existingTags.add(defRec.tagNo);
+        }
+      });
+      saveDatabase(parsed);
+    }
     if (!parsed.forage) parsed.forage = { fieldRecords: [] };
     if (!parsed.digitalTwin) parsed.digitalTwin = JSON.parse(JSON.stringify(DEFAULT_DB.digitalTwin));
     return parsed;
@@ -2838,8 +3103,8 @@ function renderYetistiriciDashboard() {
   reproRecords.forEach(r => uniqueTags.add(r.tagNo));
   docRecords.forEach(r => uniqueTags.add(r.tagNo));
   
-  const totalCount = uniqueTags.size || 5;
-  const milkingCount = reproRecords.filter(r => r.status !== 'kuru_donem').length || 3;
+  const totalCount = uniqueTags.size || 20;
+  const milkingCount = reproRecords.filter(r => r.status !== 'kuru_donem').length || 16;
   const estMilkLiters = milkingCount * 24;
 
   const now = Date.now();
