@@ -155,6 +155,34 @@ const DEFAULT_DB = {
         notes: "Süt çizgisi 1/2 iken biçildi, kuru madde %33."
       }
     ]
+  },
+  digitalTwin: {
+    whatIfParams: {
+      starchPct: 26.5,
+      cpPct: 16.8,
+      ambientTempC: 23,
+      herdSize: 60
+    },
+    sheddingGateHistory: [
+      {
+        id: "gate-hist-1",
+        timestamp: "07:15",
+        cowTag: "TR-34-001",
+        cowName: "Sarıkız",
+        condition: "Subklinik Mastitis (Sol Arka 6.8 mS/cm)",
+        targetPen: "Revir / Karantina Bölmesi (Pen B)",
+        status: "Ayrıldı"
+      },
+      {
+        id: "gate-hist-2",
+        timestamp: "06:40",
+        cowTag: "TR-34-002",
+        cowName: "Benekli",
+        condition: "Östrus Zirvesi (+240% İvmeölçer)",
+        targetPen: "Tohumlama Bölmesi (Pen A)",
+        status: "Ayrıldı"
+      }
+    ]
   }
 };
 
@@ -173,6 +201,7 @@ function loadDatabase() {
     if (!parsed.ration) parsed.ration = { customFeeds: [], savedRecipes: [] };
     if (!parsed.reproduction) parsed.reproduction = { records: [] };
     if (!parsed.forage) parsed.forage = { fieldRecords: [] };
+    if (!parsed.digitalTwin) parsed.digitalTwin = JSON.parse(JSON.stringify(DEFAULT_DB.digitalTwin));
     return parsed;
   } catch (e) {
     console.error("Veritabanı yüklenirken hata oluştu:", e);
@@ -3789,14 +3818,17 @@ function initLazyLoader() {
 // inSiliCow & RuFaS Fizyolojik Modelleri + TWIN4MILK XAI & ICAR ADE Entegrasyonu
 // =======================================================================
 
-let dtWhatIfParams = {
+let dtWhatIfParams = (DB.digitalTwin && DB.digitalTwin.whatIfParams) ? DB.digitalTwin.whatIfParams : {
   starchPct: 26.5,
   cpPct: 16.8,
   ambientTempC: 23,
   herdSize: 60
 };
 
-let dtSheddingGateHistory = JSON.parse(localStorage.getItem('tosun_dt_gate_history') || 'null');
+let dtSheddingGateHistory = (DB.digitalTwin && DB.digitalTwin.sheddingGateHistory && DB.digitalTwin.sheddingGateHistory.length)
+  ? DB.digitalTwin.sheddingGateHistory
+  : JSON.parse(localStorage.getItem('tosun_dt_gate_history') || 'null');
+
 if (!dtSheddingGateHistory || !dtSheddingGateHistory.length) {
   dtSheddingGateHistory = [
     {
@@ -3978,6 +4010,11 @@ function updateDtWhatIfSliders(mode = 'zooteknist') {
   }
   if (resCh4) resCh4.textContent = m.methaneGramsPerDay + ' g CH₄ / gün (' + m.co2EquivalentKg + ' kg CO₂e)';
   if (resProfit) resProfit.textContent = m.dailyProfitChangeTL + ' TL / gün';
+
+  // Persist to central DB
+  if (!DB.digitalTwin) DB.digitalTwin = {};
+  DB.digitalTwin.whatIfParams = dtWhatIfParams;
+  saveDatabase(DB);
 }
 
 function triggerPortalSheddingGate(cowTag, cowName, condition, targetPen) {
@@ -3995,6 +4032,11 @@ function triggerPortalSheddingGate(cowTag, cowName, condition, targetPen) {
   try {
     localStorage.setItem('tosun_dt_gate_history', JSON.stringify(dtSheddingGateHistory));
   } catch (e) {}
+
+  // Persist to central DB
+  if (!DB.digitalTwin) DB.digitalTwin = {};
+  DB.digitalTwin.sheddingGateHistory = dtSheddingGateHistory;
+  saveDatabase(DB);
 
   showToast(`🚪 Pnömatik Ayırma Kapısı Açıldı: [${cowTag} - ${cowName}] ➔ ${targetPen}`, 'toast-success');
 

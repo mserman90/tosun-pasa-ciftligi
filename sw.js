@@ -17,7 +17,7 @@ const ASSETS_TO_CACHE = [
   './icon-512.png',
   './noto-ox.svg',
   './sim3d/index.html',
-  './sim3d/assets/index-CUr1dsnq.js',
+  './sim3d/assets/index-BY0jxusy.js',
   './sim3d/assets/index-Cq206CGF.css',
   './digital-twin/index.html',
   './digital-twin/styles.css',
