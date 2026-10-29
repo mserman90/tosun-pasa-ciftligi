@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2.3.8">
+  <link rel="stylesheet" href="styles.css?v=2.3.9">
 </head>
 <body class="dark-mode">
 
@@ -110,6 +110,9 @@
       </button>
       <button type="button" class="tab-btn" data-tab="tab-sim3d" onclick="switchMasterTab('tab-sim3d')">
         🎮 3D Çiftlik
+      </button>
+      <button type="button" class="tab-btn" data-tab="tab-twin" onclick="switchMasterTab('tab-twin')">
+        🌐 Dijital İkiz
       </button>
     </div>
   </nav>
@@ -221,6 +224,22 @@
           </button>
         </div>
 
+        <!-- 4. DİJİTAL İKİZ (DIGITAL TWIN) GİRİŞİ -->
+        <div class="portal-card portal-card-digital-twin" onclick="launchDigitalTwinFromPortal()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') launchDigitalTwinFromPortal()">
+          <div class="portal-card-header">
+            <span class="portal-card-icon">🌐</span>
+            <div style="margin-bottom: 8px;">
+              <span class="badge" style="background:#0ea5e9; color:#ffffff; font-weight:800; padding:4px 10px; border-radius:4px; font-size:0.75rem;">🌐 SİBER-FİZİKSEL SİSTEM (CPS) & XAI</span>
+            </div>
+            <h2 class="portal-card-title">🌐 Dijital İkiz (Digital Twin)</h2>
+            <p class="portal-card-desc">Gerçek zamanlı IoT sensör telemetrisi, ICAR ADE standardı, TWIN4MILK açıklanabilir yapay zeka erken teşhis ve inSiliCow "eğer-ise" senaryo simülatörü.</p>
+          </div>
+
+          <button type="button" class="portal-btn-digital-twin" onclick="event.stopPropagation(); launchDigitalTwinFromPortal()">
+            🌐 Dijital İkizi Aç ➔
+          </button>
+        </div>
+
       </div>
 
       <!-- Yasal Bilgilendirme, KVKK & Sorumsuzluk Beyanı -->
@@ -263,6 +282,9 @@
           </button>
           <button type="button" class="yet-tab-btn" data-yettab="yet-view-sim3d" onclick="switchYetTab('yet-view-sim3d')">
             🎮 3D Çiftlik
+          </button>
+          <button type="button" class="yet-tab-btn" data-yettab="yet-view-twin" onclick="switchYetTab('yet-view-twin')">
+            🌐 Dijital İkiz
           </button>
         </div>
       </div>
@@ -631,6 +653,11 @@
           <span><span class="sim3d-kbd">1 - 5</span> Kamera Noktaları</span>
           <span><span class="sim3d-kbd">Tab</span> Sürü & Yönetim Paneli</span>
         </div>
+      </div>
+
+      <!-- 7. Yetiştirici Dijital İkiz (Digital Twin) Kokpiti -->
+      <div id="yet-view-twin" class="yet-section" style="padding: 16px 12px; max-width: 1200px; margin: 0 auto; display:none;">
+        <div id="dt-cockpit-yetistirici"></div>
       </div>
 
     </section>
@@ -1988,6 +2015,13 @@
 
     </section>
 
+    <!-- =======================================================================
+         7. MODÜL 6: DİJİTAL İKİZ (DIGITAL TWIN) VE SİBER-FİZİKSEL SİSTEM (CPS)
+         ======================================================================= -->
+    <section id="tab-twin" class="tab-panel">
+      <div id="dt-cockpit-zooteknist"></div>
+    </section>
+
   </main>
 
   <!-- =======================================================================
@@ -2785,7 +2819,7 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Application Logic -->
-  <script src="app.js?v=2.3.8"></script>
+  <script src="app.js?v=2.3.9"></script>
 
   <script>
     // Initialize default dates in modals

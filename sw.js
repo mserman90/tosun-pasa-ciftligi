@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.3.8 - Traktör ve TMR mikser vagon pürüzsüz Catmull-Rom seyri ve canlı döküm akışı
-const CACHE_NAME = 'tosun-pasa-v2.3.8';
+// Sürüm 2.3.9 - Dijital İkiz (Digital Twin), inSiliCow, RuFaS, TWIN4MILK XAI ve ICAR ADE Entegrasyonu
+const CACHE_NAME = 'tosun-pasa-v2.3.9';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -17,8 +17,8 @@ const ASSETS_TO_CACHE = [
   './icon-512.png',
   './noto-ox.svg',
   './sim3d/index.html',
-  './sim3d/assets/index-Zmfqr3UX.js',
-  './sim3d/assets/index-C0NYucbD.css'
+  './sim3d/assets/index-BUmAdpI6.js',
+  './sim3d/assets/index-CJR4vyXR.css'
 ];
 
 // Install Event: Cache assets and force activate
