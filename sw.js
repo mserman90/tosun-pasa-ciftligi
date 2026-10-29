@@ -1,6 +1,6 @@
 // Tosun Paşa Çiftliği - Service Worker (sw.js)
-// Sürüm 2.3.6 - Uluslararası Gerçekçi Oyun (Serious Game) Standartları & Kılavuz Vurgusu
-const CACHE_NAME = 'tosun-pasa-v2.3.6';
+// Sürüm 2.3.7 - Giriş ekranı başlık rozeti sadeleştirildi
+const CACHE_NAME = 'tosun-pasa-v2.3.7';
 
 const ASSETS_TO_CACHE = [
   './',
